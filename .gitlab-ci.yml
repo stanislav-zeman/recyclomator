@@ -1,4 +1,4 @@
-image: dart:3.5.4
+image: ghcr.io/cirruslabs/flutter:3.24.3
 variables:
   PUB_VARS: "--platform vm --timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded"
 .use-pub-cache-bin:
@@ -28,7 +28,7 @@ install-dependencies:
   tags:
     - shared-fi
   script:
-    - dart pub get --no-precompile
+    - flutter pub get --no-precompile
 build:
   stage: build
   needs:
@@ -39,7 +39,7 @@ build:
     - .use-pub-cache-bin
     - .upload-cache
   script:
-    - dart pub get --offline --precompile
+    - flutter pub get --offline --precompile
 unit:
   stage: test
   needs:
@@ -50,7 +50,7 @@ unit:
   tags:
     - shared-fi
   script:
-    - dart test $PUB_VARS
+    - flutter test $PUB_VARS
 lint:
   stage: test
   needs:
@@ -61,7 +61,7 @@ lint:
   tags:
     - shared-fi
   script:
-    - dart analyze .
+    - flutter analyze .
 format:
   stage: test
   needs:
