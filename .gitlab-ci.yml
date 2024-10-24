@@ -39,7 +39,7 @@ build:
     - .use-pub-cache-bin
     - .upload-cache
   script:
-    - flutter pub get --offline --precompile
+    - flutter pub get --precompile
 unit:
   stage: test
   needs:
