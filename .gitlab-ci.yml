@@ -1,6 +1,6 @@
 image: ghcr.io/cirruslabs/flutter:3.24.3
 variables:
-  PUB_VARS: "--platform vm --timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded"
+  PUB_VARS: "--timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded"
 .use-pub-cache-bin:
   before_script:
     - export PUB_CACHE=".pub-cache"
