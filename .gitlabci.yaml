@@ -1,0 +1,65 @@
+image: dart:2.17
+variables:
+  PUB_VARS: "--platform vm --timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded"
+.use-pub-cache-bin:
+  before_script:
+    - export PUB_CACHE=".pub-cache"
+    - export PATH="$PATH:$HOME/$PUB_CACHE/bin"
+.upload-cache:
+  cache:
+    when: 'on_success'
+    paths:
+      - .pub-cache/bin/
+      - .pub-cache/global_packages/
+      - .pub-cache/hosted/
+      - .dart_tool/
+      - .packages
+.download-cache:
+  cache:
+    paths:
+      - .dart_tool/
+      - .packages
+    policy: pull
+install-dependencies:
+  stage: .pre
+  extends:
+    - .use-pub-cache-bin
+    - .upload-cache
+  script:
+    - dart pub get --no-precompile
+build:
+  stage: build
+  needs:
+    - install-dependencies
+  extends:
+    - .use-pub-cache-bin
+    - .upload-cache
+  script:
+    - dart pub get --offline --precompile
+unit-test:
+  stage: test
+  needs:
+    - build
+  extends:
+    - .use-pub-cache-bin
+    - .download-cache
+  script:
+    - dart test $PUB_VARS
+lint-test:
+  stage: test
+  needs:
+    - install-dependencies
+  extends:
+    - .use-pub-cache-bin
+    - .download-cache
+  script:
+    - dart analyze .
+format-test:
+  stage: test
+  needs:
+    - install-dependencies
+  extends:
+    - .use-pub-cache-bin
+    - .download-cache
+  script:
+    - dart format --set-exit-if-changed bin/ lib/ test/
