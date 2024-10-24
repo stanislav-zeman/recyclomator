@@ -40,7 +40,7 @@ build:
     - .upload-cache
   script:
     - dart pub get --offline --precompile
-unit-test:
+unit:
   stage: test
   needs:
     - build
@@ -51,7 +51,7 @@ unit-test:
     - shared-fi
   script:
     - dart test $PUB_VARS
-lint-test:
+lint:
   stage: test
   needs:
     - install-dependencies
@@ -62,7 +62,7 @@ lint-test:
     - shared-fi
   script:
     - dart analyze .
-format-test:
+format:
   stage: test
   needs:
     - install-dependencies
