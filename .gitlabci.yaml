@@ -25,12 +25,16 @@ install-dependencies:
   extends:
     - .use-pub-cache-bin
     - .upload-cache
+  tags:
+    - shared-fi
   script:
     - dart pub get --no-precompile
 build:
   stage: build
   needs:
     - install-dependencies
+  tags:
+    - shared-fi
   extends:
     - .use-pub-cache-bin
     - .upload-cache
@@ -43,6 +47,8 @@ unit-test:
   extends:
     - .use-pub-cache-bin
     - .download-cache
+  tags:
+    - shared-fi
   script:
     - dart test $PUB_VARS
 lint-test:
@@ -52,6 +58,8 @@ lint-test:
   extends:
     - .use-pub-cache-bin
     - .download-cache
+  tags:
+    - shared-fi
   script:
     - dart analyze .
 format-test:
@@ -61,5 +69,7 @@ format-test:
   extends:
     - .use-pub-cache-bin
     - .download-cache
+  tags:
+    - shared-fi
   script:
     - dart format --set-exit-if-changed bin/ lib/ test/
