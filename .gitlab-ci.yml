@@ -1,4 +1,4 @@
-image: dart:2.17
+image: dart:3.5.4
 variables:
   PUB_VARS: "--platform vm --timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded"
 .use-pub-cache-bin:
