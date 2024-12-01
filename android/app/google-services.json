@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "899155168948",
+    "project_id": "recyclomator",
+    "storage_bucket": "recyclomator.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899155168948:android:1bf51d55f6ec1ffead51e1",
+        "android_client_info": {
+          "package_name": "com.example.recyclomator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMIEIMANT36RoqZs-dLLCnhaD2Tg-POe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

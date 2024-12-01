@@ -1,0 +1,31 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "recyclomator",
+                    "appId": "1:899155168948:android:1bf51d55f6ec1ffead51e1",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "recyclomator",
+                    "appId": "1:899155168948:ios:c534de50036d13a6ad51e1",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "recyclomator",
+                    "configurations": {
+                        "android": "1:899155168948:android:1bf51d55f6ec1ffead51e1",
+                        "ios": "1:899155168948:ios:c534de50036d13a6ad51e1",
+                        "web": "1:899155168948:web:7969db6b72f2c404ad51e1"
+                    }
+                }
+            }
+        }
+    }
+}
