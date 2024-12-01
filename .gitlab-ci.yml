@@ -23,7 +23,7 @@ default:
     policy: pull
 
 install-dependencies:
-  stage: init
+  stage: .pre
   extends:
     - .upload-cache
   tags:
