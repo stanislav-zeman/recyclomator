@@ -10,11 +10,9 @@ class NewOfferPage extends StatelessWidget {
       title: Text("Nová nabídka"),
       child: Center(
         child: Column(
-          children: [
-          ],
+          children: [],
         ),
       ),
     );
   }
-
 }

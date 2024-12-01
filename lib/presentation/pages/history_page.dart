@@ -7,8 +7,8 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageTemplate(
-        title: Text('History'),
-        child: Text('This is the history page'),
+      title: Text('History'),
+      child: Text('This is the history page'),
     );
   }
 }
