@@ -72,5 +72,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'recyclomator.firebasestorage.app',
     iosBundleId: 'com.example.recyclomator',
   );
-
 }

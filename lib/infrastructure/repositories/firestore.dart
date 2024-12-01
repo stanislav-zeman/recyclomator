@@ -8,8 +8,11 @@ class FirestoreRepository<T> {
     String collectionName, {
     required DocumentDeserializer<T> fromJson,
     required DocumentSerializer<T> toJson,
-  }) : _reference = FirebaseFirestore.instance.collection(collectionName).withConverter(
-              fromFirestore: (snapshot, _) => deserializeJsonDocument(snapshot, fromJson),
+  }) : _reference = FirebaseFirestore.instance
+            .collection(collectionName)
+            .withConverter(
+              fromFirestore: (snapshot, _) =>
+                  deserializeJsonDocument(snapshot, fromJson),
               toFirestore: (value, _) => serializeJsonDocument(value, toJson),
             );
 
@@ -30,7 +33,10 @@ class FirestoreRepository<T> {
 
   /// Observes a single document in collection with specific ID
   Stream<T?> observeDocument(String id) {
-    return _reference.doc(id).snapshots().map((documentSnapshot) => documentSnapshot.data());
+    return _reference
+        .doc(id)
+        .snapshots()
+        .map((documentSnapshot) => documentSnapshot.data());
   }
 
   /// Observes all documents, whose ID is in the set of [ids].
@@ -39,7 +45,10 @@ class FirestoreRepository<T> {
       return Stream.value([]);
     }
 
-    return _reference.where(FieldPath.documentId, whereIn: ids).snapshots().map(_mapQuerySnapshotToData);
+    return _reference
+        .where(FieldPath.documentId, whereIn: ids)
+        .snapshots()
+        .map(_mapQuerySnapshotToData);
   }
 
   /// Returns a list of all documents in collection
@@ -60,11 +69,14 @@ class FirestoreRepository<T> {
       return [];
     }
 
-    final documentsSnapshot = await _reference.where(FieldPath.documentId, whereIn: ids).get();
+    final documentsSnapshot =
+        await _reference.where(FieldPath.documentId, whereIn: ids).get();
     return _mapQuerySnapshotToData(documentsSnapshot);
   }
 
   List<T> _mapQuerySnapshotToData(QuerySnapshot<T> snapshot) {
-    return snapshot.docs.map((documentSnapshot) => documentSnapshot.data()).toList();
+    return snapshot.docs
+        .map((documentSnapshot) => documentSnapshot.data())
+        .toList();
   }
 }
