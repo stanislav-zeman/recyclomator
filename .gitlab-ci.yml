@@ -1,10 +1,10 @@
 image: ghcr.io/cirruslabs/flutter:3.24.3
-variables:
-  PUB_VARS: "--timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded"
-.use-pub-cache-bin:
+
+default:
   before_script:
     - export PUB_CACHE=".pub-cache"
     - export PATH="$PATH:$HOME/$PUB_CACHE/bin"
+
 .upload-cache:
   cache:
     when: 'on_success'
@@ -14,21 +14,23 @@ variables:
       - .pub-cache/hosted/
       - .dart_tool/
       - .packages
+
 .download-cache:
   cache:
     paths:
       - .dart_tool/
       - .packages
     policy: pull
+
 install-dependencies:
-  stage: .pre
+  stage: init
   extends:
-    - .use-pub-cache-bin
     - .upload-cache
   tags:
     - shared-fi
   script:
     - flutter pub get --no-precompile
+
 build:
   stage: build
   needs:
@@ -36,38 +38,37 @@ build:
   tags:
     - shared-fi
   extends:
-    - .use-pub-cache-bin
     - .upload-cache
   script:
     - flutter pub get --precompile
-unit:
+
+test:
   stage: test
   needs:
     - build
   extends:
-    - .use-pub-cache-bin
     - .download-cache
   tags:
     - shared-fi
   script:
-    - flutter test $PUB_VARS
+    - flutter test --timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded
+
 lint:
   stage: test
   needs:
     - install-dependencies
   extends:
-    - .use-pub-cache-bin
     - .download-cache
   tags:
     - shared-fi
   script:
     - flutter analyze .
+
 format:
   stage: test
   needs:
     - install-dependencies
   extends:
-    - .use-pub-cache-bin
     - .download-cache
   tags:
     - shared-fi
