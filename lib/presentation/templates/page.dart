@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recyclomator/presentation/widgets/common/common_drawer.dart';
 
 class PageTemplate extends StatelessWidget {
   final Widget title;
@@ -12,6 +13,7 @@ class PageTemplate extends StatelessWidget {
       appBar: AppBar(
         title: title,
       ),
+      endDrawer: CommonDrawer(),
       body: child,
     );
   }
