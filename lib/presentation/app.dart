@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recyclomator/presentation/pages/homepage.dart';
+import 'package:recyclomator/presentation/theme/provider.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -8,11 +9,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Recyclomator',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       home: Homepage(),
+      theme: ThemeProvider.lightTheme,
+      darkTheme: ThemeProvider.darkTheme,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
