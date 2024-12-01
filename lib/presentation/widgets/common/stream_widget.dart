@@ -27,6 +27,7 @@ class StreamWidget<T> extends StatelessWidget {
           );
         }
 
+        // ignore: null_check_on_nullable_type_parameter
         return onData(snapshot.data!);
       },
     );
