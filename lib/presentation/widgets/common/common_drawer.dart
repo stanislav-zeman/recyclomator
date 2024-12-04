@@ -7,6 +7,7 @@ import 'package:recyclomator/presentation/pages/addresses_page.dart';
 import 'package:recyclomator/presentation/pages/history_page.dart';
 import 'package:recyclomator/presentation/pages/profile_page.dart';
 import 'package:recyclomator/presentation/pages/statistics_page.dart';
+import 'package:recyclomator/presentation/widgets/common/common_drawer_header.dart';
 
 class CommonDrawer extends StatelessWidget {
   const CommonDrawer({super.key});
@@ -17,32 +18,27 @@ class CommonDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-            child: Text("emai/username"),
-          ),
-          buildDrawerTile(
+          CommonDrawerHeader(userRepository: GetIt.I<FirestoreRepository<User>>()),
+          _buildDrawerTile(
               context,
-              'Profil',
+              'Profile',
               ProfilePage(
                 userRepository: GetIt.I<FirestoreRepository<User>>(),
               )),
-          buildDrawerTile(
+          _buildDrawerTile(
               context,
               'Addresses',
               AddressesPage(
                 addressRepository: GetIt.I<FirestoreRepository<Address>>(),
               )),
-          buildDrawerTile(context, 'Statistics', StatisticsPage()),
-          buildDrawerTile(context, 'History', HistoryPage()),
+          _buildDrawerTile(context, 'Statistics', StatisticsPage()),
+          _buildDrawerTile(context, 'History', HistoryPage()),
         ],
       ),
     );
   }
 
-  Widget buildDrawerTile(BuildContext context, String text, Widget page) {
+  Widget _buildDrawerTile(BuildContext context, String text, Widget page) {
     return ListTile(
       title: Text(text),
       onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => page)),
