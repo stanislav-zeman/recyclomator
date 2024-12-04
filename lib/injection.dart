@@ -13,11 +13,11 @@ class Injection {
   static void initialize() {
     get.registerSingleton(MockUserService());
     get.registerSingleton(MockOfferService());
-    get.registerSingleton(
-        OfferController(get<MockOfferService>(), get<MockUserService>()));
+    get.registerSingleton(OfferController(get<MockOfferService>(), get<MockUserService>()));
     get.registerSingleton(OfferService());
-        _registerRepositories();
-    }
+
+    _registerRepositories();
+  }
 
   static void _registerRepositories() {
     get.registerSingleton<FirestoreRepository<Address>>(FirestoreRepository<Address>(
