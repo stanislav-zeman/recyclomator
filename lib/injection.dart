@@ -11,13 +11,12 @@ final get = GetIt.instance;
 
 class Injection {
   static void initialize() {
-    get.registerSingleton(MockUserService());
-    get.registerSingleton(MockOfferService());
-    get.registerSingleton(
-        OfferController(get<MockOfferService>(), get<MockUserService>()));
-    get.registerSingleton(OfferService());
-
     _registerRepositories();
+
+    get.registerSingleton(MockUserService());
+    get.registerSingleton(OfferService(get<FirestoreRepository<Offer>>()));
+    get.registerSingleton(
+        OfferController(get<OfferService>(), get<MockUserService>()));
   }
 
   static void _registerRepositories() {
@@ -29,7 +28,7 @@ class Injection {
     ));
     get.registerSingleton<FirestoreRepository<Offer>>(
         FirestoreRepository<Offer>(
-      "addresses",
+      "offers",
       fromJson: Offer.fromJson,
       toJson: (offer) => offer.toJson(),
     ));

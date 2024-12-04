@@ -18,7 +18,7 @@ class NewOfferPage extends StatefulWidget {
 }
 
 class _NewOfferPageState extends State<NewOfferPage> {
-  final _offerService = get<MockOfferService>();
+  final _offerService = get<OfferService>();
   final _userService = get<MockUserService>();
   final ValueNotifier<int> _glassCount = ValueNotifier<int>(0);
   final ValueNotifier<int> _plasticCount = ValueNotifier<int>(0);

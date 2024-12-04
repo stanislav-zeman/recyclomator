@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
 class OfferController {
-  final MockOfferService _offerService;
+  final OfferService _offerService;
   final MockUserService _userService;
 
   OfferController(this._offerService, this._userService);
