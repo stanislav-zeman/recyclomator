@@ -8,7 +8,27 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageTemplate(
       title: Text('Statistics'),
-      child: Text('Statistics Page Content'),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _buildText("Turtles saved: 2"),
+            _buildText("CO2: 2kg"),
+            _buildText("Money given away: \$20"),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildText(String text) {
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 32),
+      ),
     );
   }
 }
