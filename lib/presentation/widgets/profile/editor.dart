@@ -6,7 +6,8 @@ class ProfileEditor extends StatefulWidget {
   final FirestoreRepository<User> userRepository;
   final User profile;
 
-  const ProfileEditor({super.key, required this.userRepository, required this.profile});
+  const ProfileEditor(
+      {super.key, required this.userRepository, required this.profile});
 
   @override
   State<ProfileEditor> createState() => _ProfileEditorState();
