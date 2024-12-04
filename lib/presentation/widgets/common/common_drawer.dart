@@ -22,15 +22,15 @@ class CommonDrawer extends StatelessWidget {
             ),
             child: Text("emai/username"),
           ),
-          buildDrawerTile(context, 'Profil', ProfilePage()),
+          buildDrawerTile(context, 'Profile', ProfilePage()),
           buildDrawerTile(
               context,
               'Adresy',
               AddressesPage(
                 addressRepository: GetIt.I<FirestoreRepository<Address>>(),
               )),
-          buildDrawerTile(context, 'Statistiky', StatisticsPage()),
-          buildDrawerTile(context, 'Historie', HistoryPage()),
+          buildDrawerTile(context, 'Statistics', StatisticsPage()),
+          buildDrawerTile(context, 'History', HistoryPage()),
         ],
       ),
     );
