@@ -5,7 +5,7 @@ import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
 import 'package:recyclomator/injection.dart';
 import 'package:recyclomator/presentation/templates/page.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
-import 'package:recyclomator/presentation/widgets/offer_list_buttons.dart';
+import 'package:recyclomator/presentation/widgets/offers/offer_list_buttons.dart';
 import 'package:tuple/tuple.dart';
 
 class HistoryPage extends StatelessWidget {

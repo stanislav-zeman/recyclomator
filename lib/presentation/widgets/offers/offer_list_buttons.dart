@@ -3,7 +3,7 @@ import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/value_objects/offer_type.dart';
 import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
 import 'package:recyclomator/injection.dart';
-import 'package:recyclomator/presentation/widgets/offer_list.dart';
+import 'package:recyclomator/presentation/widgets/offers/offer_list.dart';
 
 class OfferListWithButtons extends StatelessWidget {
   final List<Offer> offers;

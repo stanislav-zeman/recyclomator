@@ -10,7 +10,7 @@ import 'package:recyclomator/infrastructure/services/user_service.dart';
 import 'package:recyclomator/injection.dart';
 import 'package:recyclomator/presentation/pages/addresses_page.dart';
 import 'package:recyclomator/presentation/templates/page.dart';
-import 'package:recyclomator/presentation/widgets/item_button.dart';
+import 'package:recyclomator/presentation/widgets/offers/item_button.dart';
 
 class NewOfferPage extends StatefulWidget {
   const NewOfferPage({super.key});
