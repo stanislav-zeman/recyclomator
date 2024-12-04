@@ -21,6 +21,11 @@ class FirestoreRepository<T> {
     await _reference.add(data);
   }
 
+  /// Deletes a document from collection
+  Future<void> delete(String id) async {
+    await _reference.doc(id).delete();
+  }
+
   /// Replaces all data of a specific document. If it does not exist, new document (with the specified ID) is created
   Future<void> setOrAdd(String id, T data) async {
     await _reference.doc(id).set(data);
