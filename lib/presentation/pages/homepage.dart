@@ -10,14 +10,14 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageTemplate(
-      title: Text("Recyclomátor"),
+      title: Text("Recyclomator"),
       child: Center(
         child: Column(
           children: [
             SizedBox(height: 100),
-            buildButton(context, "Vytvořit novou nabídku", NewOfferPage()),
-            buildButton(context, "Mé nabídky", UserOffersPage()),
-            buildButton(context, "Zobrazit nové nabídky", AllOffersPage()),
+            buildButton(context, "Create new offer", NewOfferPage()),
+            buildButton(context, "My offers", UserOffersPage()),
+            buildButton(context, "Show available offers", AllOffersPage()),
           ],
         ),
       ),
