@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
-import 'package:recyclomator/infrastructure/services/offer_service.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
 import 'package:recyclomator/domain/entities/address.dart';
 import 'package:recyclomator/domain/entities/offer.dart';
@@ -14,9 +13,8 @@ class Injection {
     _registerRepositories();
 
     get.registerSingleton(MockUserService());
-    get.registerSingleton(OfferService(get<FirestoreRepository<Offer>>()));
     get.registerSingleton(
-        OfferController(get<OfferService>(), get<MockUserService>()));
+        OfferController(get<FirestoreRepository<Offer>>(), get<MockUserService>()));
   }
 
   static void _registerRepositories() {

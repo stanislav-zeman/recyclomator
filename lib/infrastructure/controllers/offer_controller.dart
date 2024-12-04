@@ -1,15 +1,15 @@
 import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/value_objects/offer_type.dart';
-import 'package:recyclomator/infrastructure/services/offer_service.dart';
+import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
 class OfferController {
-  final OfferService _offerService;
+  final FirestoreRepository<Offer> _offerRepository;
   final MockUserService _userService;
 
-  OfferController(this._offerService, this._userService);
+  OfferController(this._offerRepository, this._userService);
 
   final _historyState = BehaviorSubject<OfferType>.seeded(OfferType.offered);
 
@@ -18,7 +18,7 @@ class OfferController {
   Stream<Tuple2<OfferType, List<Offer>>> get historyOffersStream =>
       Rx.combineLatest2(
         historyStateStream,
-        _offerService.offersStream,
+        _offerRepository.observeDocuments(),
         (OfferType state, List<Offer> offers) {
           switch (state) {
             case OfferType.offered:

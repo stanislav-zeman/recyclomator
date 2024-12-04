@@ -4,7 +4,7 @@ import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/value_objects/item.dart';
 import 'package:recyclomator/domain/value_objects/item_type.dart';
 import 'package:recyclomator/domain/value_objects/offer_state.dart';
-import 'package:recyclomator/infrastructure/services/offer_service.dart';
+import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
 import 'package:recyclomator/injection.dart';
 import 'package:recyclomator/presentation/templates/page.dart';
@@ -18,7 +18,7 @@ class NewOfferPage extends StatefulWidget {
 }
 
 class _NewOfferPageState extends State<NewOfferPage> {
-  final _offerService = get<OfferService>();
+  final _offerRepository = get<FirestoreRepository<Offer>>();
   final _userService = get<MockUserService>();
   final ValueNotifier<int> _glassCount = ValueNotifier<int>(0);
   final ValueNotifier<int> _plasticCount = ValueNotifier<int>(0);
@@ -62,7 +62,7 @@ class _NewOfferPageState extends State<NewOfferPage> {
             _buildButton(
               "Submit offer",
               () {
-                _offerService.createOffer(
+                _offerRepository.add(
                   Offer(
                     authorId: user.id,
                     recyclatorId: recycler.id,
