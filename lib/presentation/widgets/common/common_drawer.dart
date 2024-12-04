@@ -25,7 +25,7 @@ class CommonDrawer extends StatelessWidget {
           buildDrawerTile(context, 'Profile', ProfilePage()),
           buildDrawerTile(
               context,
-              'Adresy',
+              'Addresses',
               AddressesPage(
                 addressRepository: GetIt.I<FirestoreRepository<Address>>(),
               )),
