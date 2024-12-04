@@ -13,19 +13,22 @@ class Injection {
   static void initialize() {
     get.registerSingleton(MockUserService());
     get.registerSingleton(MockOfferService());
-    get.registerSingleton(OfferController(get<MockOfferService>(), get<MockUserService>()));
+    get.registerSingleton(
+        OfferController(get<MockOfferService>(), get<MockUserService>()));
     get.registerSingleton(OfferService());
 
     _registerRepositories();
   }
 
   static void _registerRepositories() {
-    get.registerSingleton<FirestoreRepository<Address>>(FirestoreRepository<Address>(
+    get.registerSingleton<FirestoreRepository<Address>>(
+        FirestoreRepository<Address>(
       "addresses",
       fromJson: Address.fromJson,
       toJson: (address) => address.toJson(),
     ));
-    get.registerSingleton<FirestoreRepository<Offer>>(FirestoreRepository<Offer>(
+    get.registerSingleton<FirestoreRepository<Offer>>(
+        FirestoreRepository<Offer>(
       "addresses",
       fromJson: Offer.fromJson,
       toJson: (offer) => offer.toJson(),
