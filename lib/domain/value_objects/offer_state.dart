@@ -1,1 +1,6 @@
-enum OfferState { free, reserved, unconfirmed }
+enum OfferState {
+  free,
+  reserved,
+  unconfirmed,
+  done,
+}

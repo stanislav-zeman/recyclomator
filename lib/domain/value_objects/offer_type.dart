@@ -1,0 +1,4 @@
+enum OfferType {
+  offered,
+  recycled,
+}

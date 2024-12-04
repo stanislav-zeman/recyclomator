@@ -15,6 +15,12 @@ Offer _$OfferFromJson(Map<String, dynamic> json) => Offer(
           .map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
       state: $enumDecode(_$OfferStateEnumMap, json['state']),
+      offerDate: json['offerDate'] == null
+          ? null
+          : DateTime.parse(json['offerDate'] as String),
+      recycleDate: json['recycleDate'] == null
+          ? null
+          : DateTime.parse(json['recycleDate'] as String),
     );
 
 Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
@@ -24,6 +30,9 @@ Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
       'addressId': instance.addressId,
       'items': instance.items.map((e) => e.toJson()).toList(),
       'state': _$OfferStateEnumMap[instance.state]!,
+      'offerDate': instance.offerDate.toIso8601String(),
+      if (instance.recycleDate?.toIso8601String() case final value?)
+        'recycleDate': value,
     };
 
 const _$OfferStateEnumMap = {
