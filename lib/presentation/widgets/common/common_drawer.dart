@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/presentation/pages/addresses_page.dart';
 import 'package:recyclomator/presentation/pages/history_page.dart';
 import 'package:recyclomator/presentation/pages/profile_page.dart';
@@ -20,7 +23,12 @@ class CommonDrawer extends StatelessWidget {
             child: Text("emai/username"),
           ),
           buildDrawerTile(context, 'Profil', ProfilePage()),
-          buildDrawerTile(context, 'Adresy', AddressesPage()),
+          buildDrawerTile(
+              context,
+              'Adresy',
+              AddressesPage(
+                addressRepository: GetIt.I<FirestoreRepository<Address>>(),
+              )),
           buildDrawerTile(context, 'Statistiky', StatisticsPage()),
           buildDrawerTile(context, 'Historie', HistoryPage()),
         ],
