@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/presentation/widgets/common/common_drawer.dart';
+import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer.dart' as navigation;
 
 class PageTemplate extends StatelessWidget {
   final Widget title;
@@ -11,7 +11,7 @@ class PageTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: title),
-      endDrawer: CommonDrawer(),
+      endDrawer: navigation.NavigationDrawer(),
       body: child,
     );
   }

@@ -3,10 +3,10 @@ import 'package:recyclomator/domain/entities/user.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
 
-class CommonDrawerHeader extends StatelessWidget {
+class NavigationDrawerHeader extends StatelessWidget {
   final FirestoreRepository<User> userRepository;
 
-  const CommonDrawerHeader({super.key, required this.userRepository});
+  const NavigationDrawerHeader({super.key, required this.userRepository});
 
   @override
   Widget build(BuildContext context) {

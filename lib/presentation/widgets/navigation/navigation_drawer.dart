@@ -7,10 +7,10 @@ import 'package:recyclomator/presentation/pages/addresses_page.dart';
 import 'package:recyclomator/presentation/pages/history_page.dart';
 import 'package:recyclomator/presentation/pages/profile_page.dart';
 import 'package:recyclomator/presentation/pages/statistics_page.dart';
-import 'package:recyclomator/presentation/widgets/common/common_drawer_header.dart';
+import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer_header.dart';
 
-class CommonDrawer extends StatelessWidget {
-  const CommonDrawer({super.key});
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,7 @@ class CommonDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          CommonDrawerHeader(
-              userRepository: GetIt.I<FirestoreRepository<User>>()),
+          NavigationDrawerHeader(userRepository: GetIt.I<FirestoreRepository<User>>()),
           _buildDrawerTile(
               context,
               'Profile',
@@ -32,8 +31,16 @@ class CommonDrawer extends StatelessWidget {
               AddressesPage(
                 addressRepository: GetIt.I<FirestoreRepository<Address>>(),
               )),
-          _buildDrawerTile(context, 'Statistics', StatisticsPage()),
-          _buildDrawerTile(context, 'History', HistoryPage()),
+          _buildDrawerTile(
+            context,
+            'Statistics',
+            StatisticsPage(),
+          ),
+          _buildDrawerTile(
+            context,
+            'History',
+            HistoryPage(),
+          ),
         ],
       ),
     );
@@ -42,8 +49,7 @@ class CommonDrawer extends StatelessWidget {
   Widget _buildDrawerTile(BuildContext context, String text, Widget page) {
     return ListTile(
       title: Text(text),
-      onTap: () =>
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => page)),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => page)),
     );
   }
 }
