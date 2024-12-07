@@ -10,9 +10,7 @@ class PageTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: title,
-      ),
+      appBar: AppBar(title: title),
       endDrawer: CommonDrawer(),
       body: child,
     );
