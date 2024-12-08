@@ -2,8 +2,7 @@ import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/value_objects/offer_type.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:tuple/tuple.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OfferController {
   final FirestoreRepository<Offer> _offerRepository;
@@ -11,37 +10,35 @@ class OfferController {
 
   OfferController(this._offerRepository, this._userService);
 
-  final _historyState = BehaviorSubject<OfferType>.seeded(OfferType.offered);
+  Stream<List<Offer>> get historyOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (offers) => offers
+                .where((offer) => offer.authorId == _userService.getUser().id)
+                .toList(),
+          );
 
-  Stream<OfferType> get historyStateStream => _historyState.stream;
-
-  Stream<Tuple2<OfferType, List<Offer>>> get historyOffersStream =>
-      Rx.combineLatest2(
-        historyStateStream,
-        _offerRepository.observeDocuments(),
-        (OfferType state, List<Offer> offers) {
-          switch (state) {
-            case OfferType.offered:
-              return Tuple2(
-                state,
-                offers
-                    .where(
-                        (offer) => offer.authorId == _userService.getUser().id)
-                    .toList(),
-              );
-            case OfferType.recycled:
-              return Tuple2(
-                state,
-                offers
-                    .where((offer) =>
-                        offer.recyclatorId == _userService.getUser().id)
-                    .toList(),
-              );
-          }
-        },
+  Stream<List<Offer>> get historyRecycleStream => _offerRepository
+      .observeDocuments()
+      .map(
+        (offers) => offers
+            .where((offer) => offer.recyclatorId == _userService.getUser().id)
+            .toList(),
       );
 
-  changeState(OfferType offered) {
-    _historyState.add(offered);
+  Future<OfferType> loadState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final offerState = prefs.getString('offer_state');
+    if (offerState == null) {
+      return OfferType.offered;
+    }
+    return OfferType.values.firstWhere(
+      (type) => type.name == offerState,
+      orElse: () => OfferType.offered,
+    );
+  }
+
+  Future<void> saveState(OfferType offered) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('offer_state', offered.name);
   }
 }

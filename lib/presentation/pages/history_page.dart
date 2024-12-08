@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recyclomator/domain/entities/offer.dart';
-import 'package:recyclomator/domain/value_objects/offer_type.dart';
 import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
 import 'package:recyclomator/injection.dart';
-import 'package:recyclomator/presentation/templates/page.dart';
+import 'package:recyclomator/presentation/templates/tab_page_template.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
-import 'package:recyclomator/presentation/widgets/offers/offer_list_buttons.dart';
-import 'package:tuple/tuple.dart';
+import 'package:recyclomator/presentation/widgets/offers/offer_list.dart';
 
 class HistoryPage extends StatelessWidget {
   HistoryPage({super.key});
@@ -15,15 +13,22 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageTemplate(
+    return TabPageTemplate(
       title: Text('History'),
-      child: StreamWidget<Tuple2<OfferType, List<Offer>>>(
-        stream: _historyController.historyOffersStream,
-        onData: (snapshot) => OfferListWithButtons(
-          offers: snapshot.item2,
-          state: snapshot.item1,
+      children: [
+        StreamWidget<List<Offer>>(
+          stream: _historyController.historyOffersStream,
+          onData: (snapshot) => OfferList(
+            offers: snapshot,
+          ),
         ),
-      ),
+        StreamWidget<List<Offer>>(
+          stream: _historyController.historyRecycleStream,
+          onData: (snapshot) => OfferList(
+            offers: snapshot,
+          ),
+        ),
+      ],
     );
   }
 }
