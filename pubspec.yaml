@@ -43,6 +43,7 @@ dependencies:
   tuple: ^2.0.2
   font_awesome_flutter: ^10.8.0
   shared_preferences: ^2.3.3
+  google_maps_flutter: ^2.10.0
 
 dev_dependencies:
   flutter_test:
