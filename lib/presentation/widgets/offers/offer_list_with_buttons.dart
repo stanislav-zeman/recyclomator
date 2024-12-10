@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/value_objects/offer_type.dart';
 import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
-import 'package:recyclomator/injection.dart';
 import 'package:recyclomator/presentation/widgets/offers/offer_list.dart';
 
 class OfferListWithButtons extends StatelessWidget {
@@ -11,7 +11,7 @@ class OfferListWithButtons extends StatelessWidget {
 
   OfferListWithButtons({super.key, required this.offers, required this.state});
 
-  final _historyController = get<OfferController>();
+  final _historyController = GetIt.I<OfferController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +30,11 @@ class OfferListWithButtons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ElevatedButton(
-            onPressed: () => _historyController.changeState(OfferType.offered),
+            onPressed: () => _historyController.saveState(OfferType.offered),
             child: Text('Offers'),
           ),
           ElevatedButton(
-            onPressed: () => _historyController.changeState(OfferType.recycled),
+            onPressed: () => _historyController.saveState(OfferType.recycled),
             child: Text('Recycles'),
           ),
         ],
