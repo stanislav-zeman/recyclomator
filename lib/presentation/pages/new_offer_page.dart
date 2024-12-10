@@ -50,7 +50,9 @@ class _NewOfferPageState extends State<NewOfferPage> {
                 _buildButton("Change address", () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => AddressesPage(addressRepository: GetIt.I<FirestoreRepository<Address>>()),
+                      builder: (_) => AddressesPage(
+                          addressRepository:
+                              GetIt.I<FirestoreRepository<Address>>()),
                     ),
                   );
                 }),
@@ -59,8 +61,12 @@ class _NewOfferPageState extends State<NewOfferPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ItemButton(icon: FontAwesomeIcons.beerMugEmpty, countNotifier: _glassCount),
-                ItemButton(icon: FontAwesomeIcons.bottleWater, countNotifier: _plasticCount),
+                ItemButton(
+                    icon: FontAwesomeIcons.beerMugEmpty,
+                    countNotifier: _glassCount),
+                ItemButton(
+                    icon: FontAwesomeIcons.bottleWater,
+                    countNotifier: _plasticCount),
               ],
             ),
             _buildButton(

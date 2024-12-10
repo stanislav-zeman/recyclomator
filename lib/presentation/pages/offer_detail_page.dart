@@ -26,27 +26,37 @@ class OfferDetailPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('State:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('State:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     Text('State: ${offer.state}'),
                     Text('Offered at: ${offer.offerDate}'),
                     Text('Recycled at: ${offer.recycleDate ?? "N/A"}'),
                     SizedBox(height: 16),
-                    Text('Address:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Address:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     Text('Address ID: ${offer.addressId}'),
                     SizedBox(height: 16),
-                    Text('Details:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Details:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     Text('ID: ${offer.id}'),
                     Text('Author ID: ${offer.authorId}'),
                     Text('Recyclator ID: ${offer.recyclatorId ?? 'N/A'}'),
                     SizedBox(height: 16),
-                    Text('Content:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Content:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text('- Pet bottles: ${_getNumberOfBottles(ItemType.pet)}'),
+                      child: Text(
+                          '- Pet bottles: ${_getNumberOfBottles(ItemType.pet)}'),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text('- Glass bottles: ${_getNumberOfBottles(ItemType.glass)}'),
+                      child: Text(
+                          '- Glass bottles: ${_getNumberOfBottles(ItemType.glass)}'),
                     ),
                   ],
                 ),
@@ -115,6 +125,10 @@ class OfferDetailPage extends StatelessWidget {
   }
 
   int _getNumberOfBottles(ItemType type) {
-    return offer.items.where((item) => item.type == ItemType.pet).firstOrNull?.count ?? 0;
+    return offer.items
+            .where((item) => item.type == ItemType.pet)
+            .firstOrNull
+            ?.count ??
+        0;
   }
 }

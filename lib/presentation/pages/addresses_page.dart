@@ -14,7 +14,9 @@ class AddressesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageTemplate(
       title: Text("Addresses"),
-      child: StreamWidget(stream: addressRepository.observeDocuments(), onData: _buildAddressPage),
+      child: StreamWidget(
+          stream: addressRepository.observeDocuments(),
+          onData: _buildAddressPage),
     );
   }
 
@@ -75,7 +77,9 @@ class AddressesPage extends StatelessWidget {
         Text(address.zipCode),
         Text(address.country),
         SizedBox(width: 16),
-        ElevatedButton(onPressed: () => addressRepository.delete(address.id), child: Text("Delete"))
+        ElevatedButton(
+            onPressed: () => addressRepository.delete(address.id),
+            child: Text("Delete"))
       ],
     );
   }
