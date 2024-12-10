@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:recyclomator/domain/entities/address.dart';
 import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/value_objects/item.dart';
@@ -7,7 +8,6 @@ import 'package:recyclomator/domain/value_objects/item_type.dart';
 import 'package:recyclomator/domain/value_objects/offer_state.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
-import 'package:recyclomator/injection.dart';
 import 'package:recyclomator/presentation/pages/addresses_page.dart';
 import 'package:recyclomator/presentation/widgets/offers/item_button.dart';
 
@@ -19,8 +19,8 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
-  final _offerRepository = get<FirestoreRepository<Offer>>();
-  final _userService = get<MockUserService>();
+  final _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
+  final _userService = GetIt.I<MockUserService>();
   final ValueNotifier<int> _glassCount = ValueNotifier<int>(0);
   final ValueNotifier<int> _plasticCount = ValueNotifier<int>(0);
 
@@ -47,9 +47,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
               _buildButton("Change address", () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (_) => AddressesPage(
-                          addressRepository:
-                              get<FirestoreRepository<Address>>())),
+                      builder: (_) => AddressesPage(addressRepository: GetIt.I<FirestoreRepository<Address>>())),
                 );
               }),
             ],
@@ -57,12 +55,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ItemButton(
-                  icon: FontAwesomeIcons.beerMugEmpty,
-                  countNotifier: _glassCount),
-              ItemButton(
-                  icon: FontAwesomeIcons.bottleWater,
-                  countNotifier: _plasticCount),
+              ItemButton(icon: FontAwesomeIcons.beerMugEmpty, countNotifier: _glassCount),
+              ItemButton(icon: FontAwesomeIcons.bottleWater, countNotifier: _plasticCount),
             ],
           ),
           _buildButton(
