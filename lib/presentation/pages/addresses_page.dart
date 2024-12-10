@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recyclomator/domain/entities/address.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
-import 'package:recyclomator/presentation/templates/page.dart';
+import 'package:recyclomator/presentation/templates/page_template.dart';
 import 'package:recyclomator/presentation/widgets/addresses/creator.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
 
@@ -14,9 +14,7 @@ class AddressesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageTemplate(
       title: Text("Addresses"),
-      child: StreamWidget(
-          stream: addressRepository.observeDocuments(),
-          onData: _buildAddressPage),
+      child: StreamWidget(stream: addressRepository.observeDocuments(), onData: _buildAddressPage),
     );
   }
 
@@ -77,9 +75,7 @@ class AddressesPage extends StatelessWidget {
         Text(address.zipCode),
         Text(address.country),
         SizedBox(width: 16),
-        ElevatedButton(
-            onPressed: () => addressRepository.delete(address.id),
-            child: Text("Delete"))
+        ElevatedButton(onPressed: () => addressRepository.delete(address.id), child: Text("Delete"))
       ],
     );
   }

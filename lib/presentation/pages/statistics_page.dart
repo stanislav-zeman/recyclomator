@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/presentation/templates/page.dart';
+import 'package:recyclomator/presentation/templates/page_template.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key});

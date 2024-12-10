@@ -9,7 +9,7 @@ import 'package:recyclomator/domain/value_objects/offer_state.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
 import 'package:recyclomator/presentation/pages/addresses_page.dart';
-import 'package:recyclomator/presentation/templates/page.dart';
+import 'package:recyclomator/presentation/templates/page_template.dart';
 import 'package:recyclomator/presentation/widgets/offers/item_button.dart';
 
 class NewOfferPage extends StatefulWidget {

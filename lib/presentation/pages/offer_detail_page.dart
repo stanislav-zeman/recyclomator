@@ -4,7 +4,7 @@ import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/value_objects/item_type.dart';
 import 'package:recyclomator/domain/value_objects/offer_state.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
-import 'package:recyclomator/presentation/templates/page.dart';
+import 'package:recyclomator/presentation/templates/page_template.dart';
 
 class OfferDetailPage extends StatelessWidget {
   final Offer offer;
