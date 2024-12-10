@@ -3,7 +3,7 @@ import 'package:recyclomator/domain/entities/user.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/presentation/templates/page.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
-import 'package:recyclomator/presentation/widgets/profile/editor.dart';
+import 'package:recyclomator/presentation/widgets/profile/profile_editor.dart';
 
 class ProfilePage extends StatelessWidget {
   final FirestoreRepository<User> userRepository;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer.dart' as navigation;
+import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer.dart'
+    as navigation;
 
 class PageTemplate extends StatelessWidget {
   final Widget title;

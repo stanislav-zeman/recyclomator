@@ -18,7 +18,8 @@ class NavigationDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          NavigationDrawerHeader(userRepository: GetIt.I<FirestoreRepository<User>>()),
+          NavigationDrawerHeader(
+              userRepository: GetIt.I<FirestoreRepository<User>>()),
           _buildDrawerTile(
               context,
               'Profile',
@@ -49,7 +50,8 @@ class NavigationDrawer extends StatelessWidget {
   Widget _buildDrawerTile(BuildContext context, String text, Widget page) {
     return ListTile(
       title: Text(text),
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => page)),
+      onTap: () =>
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => page)),
     );
   }
 }
