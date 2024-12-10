@@ -6,31 +6,31 @@ import 'package:recyclomator/domain/entities/offer.dart';
 import 'package:recyclomator/domain/entities/user.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 
-final get = GetIt.instance;
+final _get = GetIt.instance;
 
 class Injection {
   static void initialize() {
     _registerRepositories();
 
-    get.registerSingleton(MockUserService());
-    get.registerSingleton(OfferController(
-        get<FirestoreRepository<Offer>>(), get<MockUserService>()));
+    _get.registerSingleton(MockUserService());
+    _get.registerSingleton(OfferController(
+        _get<FirestoreRepository<Offer>>(), _get<MockUserService>()));
   }
 
   static void _registerRepositories() {
-    get.registerSingleton<FirestoreRepository<Address>>(
+    _get.registerSingleton<FirestoreRepository<Address>>(
         FirestoreRepository<Address>(
       "addresses",
       fromJson: Address.fromJson,
       toJson: (address) => address.toJson(),
     ));
-    get.registerSingleton<FirestoreRepository<Offer>>(
+    _get.registerSingleton<FirestoreRepository<Offer>>(
         FirestoreRepository<Offer>(
       "offers",
       fromJson: Offer.fromJson,
       toJson: (offer) => offer.toJson(),
     ));
-    get.registerSingleton<FirestoreRepository<User>>(FirestoreRepository<User>(
+    _get.registerSingleton<FirestoreRepository<User>>(FirestoreRepository<User>(
       "users",
       fromJson: User.fromJson,
       toJson: (user) => user.toJson(),
