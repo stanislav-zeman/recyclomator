@@ -4,15 +4,6 @@ part 'address.g.dart';
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Address {
-  final String id;
-  final String userId;
-  final String name;
-  final String street;
-  final String houseNo;
-  final String city;
-  final String country;
-  final String zipCode;
-
   const Address({
     required this.id,
     required this.userId,
@@ -26,5 +17,15 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
+
+  final String id;
+  final String userId;
+  final String name;
+  final String street;
+  final String houseNo;
+  final String city;
+  final String country;
+  final String zipCode;
+
   Map<String, dynamic> toJson() => _$AddressToJson(this);
 }

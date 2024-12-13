@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:recyclomator/domain/entities/offer.dart';
-import 'package:recyclomator/domain/value_objects/item_type.dart';
-import 'package:recyclomator/domain/value_objects/offer_state.dart';
-import 'package:recyclomator/infrastructure/services/user_service.dart';
-import 'package:recyclomator/presentation/templates/page_template.dart';
+
+import '../../domain/entities/offer.dart';
+import '../../domain/value_objects/item.dart';
+import '../../domain/value_objects/item_type.dart';
+import '../../domain/value_objects/offer_state.dart';
+import '../../infrastructure/services/user_service.dart';
+import '../templates/page_template.dart';
 
 class OfferDetailPage extends StatelessWidget {
-  final Offer offer;
   OfferDetailPage({super.key, required this.offer});
 
-  final _userService = GetIt.I<MockUserService>();
+  final Offer offer;
+
+  final MockUserService _userService = GetIt.I<MockUserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,43 +23,61 @@ class OfferDetailPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('State:',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                  children: <Widget>[
+                    Text(
+                      'State:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Text('State: ${offer.state}'),
                     Text('Offered at: ${offer.offerDate}'),
                     Text('Recycled at: ${offer.recycleDate ?? "N/A"}'),
                     SizedBox(height: 16),
-                    Text('Address:',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(
+                      'Address:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Text('Address ID: ${offer.addressId}'),
                     SizedBox(height: 16),
-                    Text('Details:',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(
+                      'Details:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Text('ID: ${offer.id}'),
                     Text('Author ID: ${offer.authorId}'),
                     Text('Recyclator ID: ${offer.recyclatorId ?? 'N/A'}'),
                     SizedBox(height: 16),
-                    Text('Content:',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                          '- Pet bottles: ${_getNumberOfBottles(ItemType.pet)}'),
+                    Text(
+                      'Content:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
-                          '- Glass bottles: ${_getNumberOfBottles(ItemType.glass)}'),
+                        '- Pet bottles: ${_getNumberOfBottles(ItemType.pet)}',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(
+                        '- Glass bottles: ${_getNumberOfBottles(ItemType.glass)}',
+                      ),
                     ),
                   ],
                 ),
@@ -74,7 +95,7 @@ class OfferDetailPage extends StatelessWidget {
     if (offer.state == OfferState.done) {
       return Container();
     }
-    final userId = _userService.getUser().id;
+    final String userId = _userService.getUser().id;
     if (userId == offer.authorId) {
       return _buildCreatorButtons();
     } else if (null == offer.recyclatorId) {
@@ -89,7 +110,7 @@ class OfferDetailPage extends StatelessWidget {
   Widget _buildCreatorButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
+      children: <Widget>[
         _buildButton('Picked up', () => {}),
         _buildButton('Cancel reservation', () => {}),
       ],
@@ -99,7 +120,7 @@ class OfferDetailPage extends StatelessWidget {
   Widget _buildNotRecyclatorButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
+      children: <Widget>[
         _buildButton('Picked up', () => {}),
         _buildButton('Reserve', () => {}),
       ],
@@ -109,7 +130,7 @@ class OfferDetailPage extends StatelessWidget {
   Widget _buildRecyclatorButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
+      children: <Widget>[
         _buildButton('Confirm pickup', () => {}),
         _buildButton('Still valid', () => {}),
         _buildButton('Cancel', () => {}),
@@ -126,7 +147,7 @@ class OfferDetailPage extends StatelessWidget {
 
   int _getNumberOfBottles(ItemType type) {
     return offer.items
-            .where((item) => item.type == ItemType.pet)
+            .where((Item item) => item.type == ItemType.pet)
             .firstOrNull
             ?.count ??
         0;

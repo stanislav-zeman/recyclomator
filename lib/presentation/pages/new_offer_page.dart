@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:recyclomator/domain/entities/address.dart';
-import 'package:recyclomator/domain/entities/offer.dart';
-import 'package:recyclomator/domain/value_objects/item.dart';
-import 'package:recyclomator/domain/value_objects/item_type.dart';
-import 'package:recyclomator/domain/value_objects/offer_state.dart';
-import 'package:recyclomator/infrastructure/repositories/firestore.dart';
-import 'package:recyclomator/infrastructure/services/user_service.dart';
-import 'package:recyclomator/presentation/pages/addresses_page.dart';
-import 'package:recyclomator/presentation/templates/page_template.dart';
-import 'package:recyclomator/presentation/widgets/offers/item_button.dart';
+
+import '../../domain/entities/address.dart';
+import '../../domain/entities/offer.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/value_objects/item.dart';
+import '../../domain/value_objects/item_type.dart';
+import '../../domain/value_objects/offer_state.dart';
+import '../../infrastructure/repositories/firestore.dart';
+import '../../infrastructure/services/user_service.dart';
+import '../templates/page_template.dart';
+import '../widgets/offers/item_button.dart';
+import 'addresses_page.dart';
 
 class NewOfferPage extends StatefulWidget {
   const NewOfferPage({super.key});
@@ -20,25 +22,26 @@ class NewOfferPage extends StatefulWidget {
 }
 
 class _NewOfferPageState extends State<NewOfferPage> {
-  final _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
-  final _userService = GetIt.I<MockUserService>();
+  final FirestoreRepository<Offer> _offerRepository =
+      GetIt.I<FirestoreRepository<Offer>>();
+  final MockUserService _userService = GetIt.I<MockUserService>();
   final ValueNotifier<int> _glassCount = ValueNotifier<int>(0);
   final ValueNotifier<int> _plasticCount = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
-    final user = _userService.getUser();
-    final recycler = _userService.getRecycler();
+    final User user = _userService.getUser();
+    final User recycler = _userService.getRecycler();
 
     return PageTemplate(
-      title: Text("New offer"),
+      title: Text('New offer'),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Column(
-              children: [
+              children: <Widget>[
                 Text(
                   'Address:',
                   style: TextStyle(
@@ -46,13 +49,14 @@ class _NewOfferPageState extends State<NewOfferPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text("address data"),
-                _buildButton("Change address", () {
+                Text('address data'),
+                _buildButton('Change address', () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
+                    MaterialPageRoute<void>(
                       builder: (_) => AddressesPage(
-                          addressRepository:
-                              GetIt.I<FirestoreRepository<Address>>()),
+                        addressRepository:
+                            GetIt.I<FirestoreRepository<Address>>(),
+                      ),
                     ),
                   );
                 }),
@@ -60,24 +64,26 @@ class _NewOfferPageState extends State<NewOfferPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 ItemButton(
-                    icon: FontAwesomeIcons.beerMugEmpty,
-                    countNotifier: _glassCount),
+                  icon: FontAwesomeIcons.beerMugEmpty,
+                  countNotifier: _glassCount,
+                ),
                 ItemButton(
-                    icon: FontAwesomeIcons.bottleWater,
-                    countNotifier: _plasticCount),
+                  icon: FontAwesomeIcons.bottleWater,
+                  countNotifier: _plasticCount,
+                ),
               ],
             ),
             _buildButton(
-              "Submit offer",
+              'Submit offer',
               () {
                 _offerRepository.add(
                   Offer(
                     authorId: user.id,
                     recyclatorId: recycler.id,
-                    addressId: "1",
-                    items: [
+                    addressId: '1',
+                    items: <Item>[
                       Item(type: ItemType.glass, count: _glassCount.value),
                       Item(type: ItemType.pet, count: _glassCount.value),
                     ],
@@ -86,7 +92,7 @@ class _NewOfferPageState extends State<NewOfferPage> {
                 );
                 Navigator.of(context).pop();
               },
-            )
+            ),
           ],
         ),
       ),
@@ -95,7 +101,7 @@ class _NewOfferPageState extends State<NewOfferPage> {
 
   Widget _buildButton(String text, VoidCallback call) {
     return Row(
-      children: [
+      children: <Widget>[
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(8.0),

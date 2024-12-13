@@ -12,11 +12,11 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
     );
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
-      'type': _$ItemTypeEnumMap[instance.type]!,
+      'type': _$ItemTypeEnumMap[instance.type],
       'count': instance.count,
     };
 
-const _$ItemTypeEnumMap = {
+const Map<ItemType, String> _$ItemTypeEnumMap = <ItemType, String>{
   ItemType.pet: 'pet',
   ItemType.glass: 'glass',
 };

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class FutureWidget<T> extends StatelessWidget {
-  final Future<T> future;
-  final Widget Function(T) onData;
-
   const FutureWidget({
     super.key,
     required this.future,
     required this.onData,
   });
+
+  final Future<T> future;
+  final Widget Function(T) onData;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class FutureWidget<T> extends StatelessWidget {
 
         if (snapshot.hasError) {
           return Center(
-            child: Text("An error occured!"),
+            child: Text('An error occurred!'),
           );
         }
 

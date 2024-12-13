@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/domain/entities/user.dart';
-import 'package:recyclomator/infrastructure/repositories/firestore.dart';
-import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
+import '../../../domain/entities/user.dart';
+import '../../../infrastructure/repositories/firestore.dart';
+import '../common/stream_widget.dart';
 
 class NavigationDrawerHeader extends StatelessWidget {
-  final FirestoreRepository<User> userRepository;
-
   const NavigationDrawerHeader({super.key, required this.userRepository});
+  final FirestoreRepository<User> userRepository;
 
   @override
   Widget build(BuildContext context) {
     return StreamWidget(
-      stream: userRepository.observeDocument("FN6UP0zZc3OrWDjPFJ52"),
-      onData: (user) => _buildDrawerHeader(context, user),
+      stream: userRepository.observeDocument('FN6UP0zZc3OrWDjPFJ52'),
+      onData: (User? user) => _buildDrawerHeader(context, user),
     );
   }
 
@@ -29,11 +28,11 @@ class NavigationDrawerHeader extends StatelessWidget {
 
   Widget _buildDrawerHeaderText(User? profile) {
     if (profile == null) {
-      return Text("Anonymous");
+      return Text('Anonymous');
     }
 
     return Column(
-      children: [
+      children: <Widget>[
         Text(profile.username),
         Text(profile.email),
       ],

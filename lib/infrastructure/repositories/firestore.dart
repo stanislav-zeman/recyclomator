@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recyclomator/infrastructure/utils/firestore_documents.dart';
+import '../utils/firestore_documents.dart';
 
 class FirestoreRepository<T> {
-  final CollectionReference<T> _reference;
-
   FirestoreRepository(
     String collectionName, {
     required DocumentDeserializer<T> fromJson,
@@ -11,10 +9,13 @@ class FirestoreRepository<T> {
   }) : _reference = FirebaseFirestore.instance
             .collection(collectionName)
             .withConverter(
-              fromFirestore: (snapshot, _) =>
-                  deserializeJsonDocument(snapshot, fromJson),
+              fromFirestore:
+                  (DocumentSnapshot<Map<String, dynamic>> snapshot, _) =>
+                      deserializeJsonDocument(snapshot, fromJson),
               toFirestore: (value, _) => serializeJsonDocument(value, toJson),
             );
+
+  final CollectionReference<T> _reference;
 
   /// Creates a new document in collection with random ID
   Future<void> add(T data) async {
@@ -41,13 +42,13 @@ class FirestoreRepository<T> {
     return _reference
         .doc(id)
         .snapshots()
-        .map((documentSnapshot) => documentSnapshot.data());
+        .map((DocumentSnapshot<T> documentSnapshot) => documentSnapshot.data());
   }
 
   /// Observes all documents, whose ID is in the set of [ids].
   Stream<List<T>> observeDocumentsByIds(Set<String> ids) {
     if (ids.isEmpty) {
-      return Stream.value([]);
+      return Stream.value(<T>[]);
     }
 
     return _reference
@@ -58,30 +59,33 @@ class FirestoreRepository<T> {
 
   /// Returns a list of all documents in collection
   Future<List<T>> getDocuments() async {
-    final documentsSnapshot = await _reference.get();
+    final QuerySnapshot<T> documentsSnapshot = await _reference.get();
     return _mapQuerySnapshotToData(documentsSnapshot);
   }
 
   /// Returns a single document in collection with specific ID
   Future<T?> getDocument(String id) async {
-    final documentData = await _reference.doc(id).get();
+    final DocumentSnapshot<T> documentData = await _reference.doc(id).get();
     return documentData.data();
   }
 
   /// Observes all documents, whose ID is in the set of [ids].
   Future<List<T>> getDocumentsByIds(Set<String> ids) async {
     if (ids.isEmpty) {
-      return [];
+      return <T>[];
     }
 
-    final documentsSnapshot =
+    final QuerySnapshot<T> documentsSnapshot =
         await _reference.where(FieldPath.documentId, whereIn: ids).get();
     return _mapQuerySnapshotToData(documentsSnapshot);
   }
 
   List<T> _mapQuerySnapshotToData(QuerySnapshot<T> snapshot) {
     return snapshot.docs
-        .map((documentSnapshot) => documentSnapshot.data())
+        .map(
+          (QueryDocumentSnapshot<T> documentSnapshot) =>
+              documentSnapshot.data(),
+        )
         .toList();
   }
 }

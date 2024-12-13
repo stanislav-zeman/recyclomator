@@ -6,12 +6,7 @@ class ThemeProvider {
         colorScheme: ColorScheme.light(
           primary: Colors.green[700]!,
           secondary: Colors.green[400]!,
-          surface: Colors.white,
           error: Colors.red,
-          onPrimary: Colors.white,
-          onSecondary: Colors.black,
-          onSurface: Colors.black,
-          onError: Colors.white,
         ),
         scaffoldBackgroundColor: Colors.grey[100],
         appBarTheme: AppBarTheme(
@@ -58,9 +53,6 @@ class ThemeProvider {
           surface: Colors.grey[800]!,
           error: Colors.red,
           onPrimary: Colors.white,
-          onSecondary: Colors.black,
-          onSurface: Colors.white,
-          onError: Colors.black,
         ),
         scaffoldBackgroundColor: Colors.black,
         appBarTheme: AppBarTheme(

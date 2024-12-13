@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/domain/entities/address.dart';
-import 'package:recyclomator/infrastructure/repositories/firestore.dart';
+import '../../../domain/entities/address.dart';
+import '../../../infrastructure/repositories/firestore.dart';
 
 class AddressCreator extends StatefulWidget {
-  final FirestoreRepository<Address> addressRepository;
-
   const AddressCreator({super.key, required this.addressRepository});
+
+  final FirestoreRepository<Address> addressRepository;
 
   @override
   State<AddressCreator> createState() => _AddressCreatorState();
 }
 
 class _AddressCreatorState extends State<AddressCreator> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _streetController = TextEditingController();
-  final _houseNoController = TextEditingController();
-  final _countryController = TextEditingController();
-  final _cityController = TextEditingController();
-  final _zipCodeController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _houseNoController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _zipCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        Text("Create new address"),
+      children: <Widget>[
+        Text('Create new address'),
         Form(
           key: _formKey,
           child: Padding(
@@ -32,30 +32,30 @@ class _AddressCreatorState extends State<AddressCreator> {
             child: Wrap(
               spacing: 20,
               runSpacing: 20,
-              children: [
+              children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(hintText: "Name"),
+                  decoration: InputDecoration(hintText: 'Name'),
                 ),
                 TextFormField(
                   controller: _streetController,
-                  decoration: InputDecoration(hintText: "Street"),
+                  decoration: InputDecoration(hintText: 'Street'),
                 ),
                 TextFormField(
                   controller: _houseNoController,
-                  decoration: InputDecoration(hintText: "House No"),
+                  decoration: InputDecoration(hintText: 'House No'),
                 ),
                 TextFormField(
                   controller: _countryController,
-                  decoration: InputDecoration(hintText: "Country"),
+                  decoration: InputDecoration(hintText: 'Country'),
                 ),
                 TextFormField(
                   controller: _cityController,
-                  decoration: InputDecoration(hintText: "City"),
+                  decoration: InputDecoration(hintText: 'City'),
                 ),
                 TextFormField(
                   controller: _zipCodeController,
-                  decoration: InputDecoration(hintText: "Zip Code"),
+                  decoration: InputDecoration(hintText: 'Zip Code'),
                 ),
               ],
             ),
@@ -64,10 +64,10 @@ class _AddressCreatorState extends State<AddressCreator> {
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final name = _nameController.text;
-              final address = Address(
-                id: "xd",
-                userId: "xy",
+              final String name = _nameController.text;
+              final Address address = Address(
+                id: 'xd',
+                userId: 'xy',
                 name: name,
                 street: _streetController.text,
                 houseNo: _houseNoController.text,

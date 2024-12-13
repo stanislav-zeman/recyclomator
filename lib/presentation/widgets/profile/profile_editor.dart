@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/domain/entities/user.dart';
-import 'package:recyclomator/infrastructure/repositories/firestore.dart';
+import '../../../domain/entities/user.dart';
+import '../../../infrastructure/repositories/firestore.dart';
 
 class ProfileEditor extends StatefulWidget {
+  const ProfileEditor({
+    super.key,
+    required this.userRepository,
+    required this.profile,
+  });
+
   final FirestoreRepository<User> userRepository;
   final User profile;
-
-  const ProfileEditor(
-      {super.key, required this.userRepository, required this.profile});
 
   @override
   State<ProfileEditor> createState() => _ProfileEditorState();
 }
 
 class _ProfileEditorState extends State<ProfileEditor> {
-  final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,8 @@ class _ProfileEditorState extends State<ProfileEditor> {
     _emailController.text = widget.profile.email;
 
     return Column(
-      children: [
-        Text("Edit profile"),
+      children: <Widget>[
+        Text('Edit profile'),
         Form(
           key: _formKey,
           child: Padding(
@@ -33,14 +36,14 @@ class _ProfileEditorState extends State<ProfileEditor> {
             child: Wrap(
               spacing: 20,
               runSpacing: 20,
-              children: [
+              children: <Widget>[
                 TextFormField(
                   controller: _usernameController,
-                  decoration: InputDecoration(hintText: "Username"),
+                  decoration: InputDecoration(hintText: 'Username'),
                 ),
                 TextFormField(
                   controller: _emailController,
-                  decoration: InputDecoration(hintText: "Email"),
+                  decoration: InputDecoration(hintText: 'Email'),
                 ),
               ],
             ),
@@ -49,12 +52,12 @@ class _ProfileEditorState extends State<ProfileEditor> {
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final profile = User(
+              final User profile = User(
                 id: widget.profile.id,
                 username: _usernameController.text,
                 email: _emailController.text,
               );
-              widget.userRepository.setOrAdd("FN6UP0zZc3OrWDjPFJ52", profile);
+              widget.userRepository.setOrAdd('FN6UP0zZc3OrWDjPFJ52', profile);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Saved profile!')),
               );

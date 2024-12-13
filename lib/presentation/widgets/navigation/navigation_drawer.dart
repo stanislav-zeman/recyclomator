@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:recyclomator/domain/entities/address.dart';
-import 'package:recyclomator/domain/entities/user.dart';
-import 'package:recyclomator/infrastructure/repositories/firestore.dart';
-import 'package:recyclomator/presentation/pages/addresses_page.dart';
-import 'package:recyclomator/presentation/pages/history_page.dart';
-import 'package:recyclomator/presentation/pages/profile_page.dart';
-import 'package:recyclomator/presentation/pages/statistics_page.dart';
-import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer_header.dart';
+import '../../../domain/entities/address.dart';
+import '../../../domain/entities/user.dart';
+import '../../../infrastructure/repositories/firestore.dart';
+import '../../pages/addresses_page.dart';
+import '../../pages/history_page.dart';
+import '../../pages/profile_page.dart';
+import '../../pages/statistics_page.dart';
+import 'navigation_drawer_header.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({super.key});
@@ -17,21 +17,24 @@ class NavigationDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: [
+        children: <Widget>[
           NavigationDrawerHeader(
-              userRepository: GetIt.I<FirestoreRepository<User>>()),
+            userRepository: GetIt.I<FirestoreRepository<User>>(),
+          ),
           _buildDrawerTile(
-              context,
-              'Profile',
-              ProfilePage(
-                userRepository: GetIt.I<FirestoreRepository<User>>(),
-              )),
+            context,
+            'Profile',
+            ProfilePage(
+              userRepository: GetIt.I<FirestoreRepository<User>>(),
+            ),
+          ),
           _buildDrawerTile(
-              context,
-              'Addresses',
-              AddressesPage(
-                addressRepository: GetIt.I<FirestoreRepository<Address>>(),
-              )),
+            context,
+            'Addresses',
+            AddressesPage(
+              addressRepository: GetIt.I<FirestoreRepository<Address>>(),
+            ),
+          ),
           _buildDrawerTile(
             context,
             'Statistics',
@@ -50,8 +53,8 @@ class NavigationDrawer extends StatelessWidget {
   Widget _buildDrawerTile(BuildContext context, String text, Widget page) {
     return ListTile(
       title: Text(text),
-      onTap: () =>
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => page)),
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute<void>(builder: (_) => page)),
     );
   }
 }

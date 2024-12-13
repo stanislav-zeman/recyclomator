@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class StreamWidget<T> extends StatelessWidget {
-  final Stream<T> stream;
-  final Widget Function(T) onData;
-
   const StreamWidget({
     super.key,
     required this.stream,
     required this.onData,
   });
+
+  final Stream<T> stream;
+  final Widget Function(T) onData;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class StreamWidget<T> extends StatelessWidget {
 
         if (snapshot.hasError) {
           return Center(
-            child: Text("An error occured!"),
+            child: Text('An error occurred!'),
           );
         }
 

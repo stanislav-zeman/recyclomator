@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/presentation/widgets/places/places.dart';
+import '../places/places.dart';
 
 class DisplayOffersWidget extends StatelessWidget {
   const DisplayOffersWidget({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/presentation/templates/page_template.dart';
+import '../templates/page_template.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key});
@@ -11,11 +11,10 @@ class StatisticsPage extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildText("Turtles saved: 2"),
-            _buildText("CO2: 2kg"),
-            _buildText("Money given away: \$20"),
+          children: <Widget>[
+            _buildText('Turtles saved: 2'),
+            _buildText('CO2: 2kg'),
+            _buildText(r'Money given away: $20'),
           ],
         ),
       ),

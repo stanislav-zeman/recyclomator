@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class ItemButton extends StatelessWidget {
-  final IconData icon;
-  final ValueNotifier<int> countNotifier;
-
   const ItemButton({
     super.key,
     required this.icon,
     required this.countNotifier,
   });
 
+  final IconData icon;
+  final ValueNotifier<int> countNotifier;
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
       valueListenable: countNotifier,
-      builder: (context, count, _) {
+      builder: (BuildContext context, int count, _) {
         return Container(
           width: 200,
           padding: EdgeInsets.all(16),
@@ -24,7 +24,7 @@ class ItemButton extends StatelessWidget {
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               Icon(
                 icon,
                 size: 100,
@@ -37,10 +37,12 @@ class ItemButton extends StatelessWidget {
               SizedBox(height: 10),
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   IconButton(
                     onPressed: () {
-                      if (count > 0) countNotifier.value--;
+                      if (count > 0) {
+                        countNotifier.value--;
+                      }
                     },
                     icon: Icon(Icons.remove),
                     color: Colors.red,

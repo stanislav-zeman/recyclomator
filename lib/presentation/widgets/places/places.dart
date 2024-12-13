@@ -1,17 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
+
+// ignore_for_file: avoid_dynamic_calls
 
 class Places extends StatefulWidget {
   const Places({super.key});
 
   @override
-  _PlacesState createState() => _PlacesState();
+  State<Places> createState() => _PlacesState();
 }
 
 class _PlacesState extends State<Places> {
-  final _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   String? _sessionToken;
   List<dynamic> _placeList = [];
 
@@ -23,7 +26,7 @@ class _PlacesState extends State<Places> {
     });
   }
 
-  _onChanged() {
+  void _onChanged() {
     if (_sessionToken == null) {
       setState(() {
         _sessionToken = Uuid().v4();
@@ -32,20 +35,20 @@ class _PlacesState extends State<Places> {
     getSuggestion(_controller.text);
   }
 
-  void getSuggestion(String input) async {
-    var uri = Uri.https(
-      "maps.googleapis.com",
-      "maps/api/place/autocomplete/json",
+  Future<void> getSuggestion(String input) async {
+    final Uri uri = Uri.https(
+      'maps.googleapis.com',
+      'maps/api/place/autocomplete/json',
       {
-        "input": input,
-        "key": "AIzaSyB9iHgKBCKo5iHttDPO_ZcB6GXPabX-CFQ",
-        "sessiontoken": _sessionToken,
+        'input': input,
+        'key': 'AIzaSyB9iHgKBCKo5iHttDPO_ZcB6GXPabX-CFQ',
+        'sessiontoken': _sessionToken,
       },
     );
-    var response = await http.get(uri);
+    final http.Response response = await http.get(uri);
     if (response.statusCode == 200) {
       setState(() {
-        _placeList = json.decode(response.body)['predictions'];
+        _placeList = json.decode(response.body)['predictions'] as List<dynamic>;
       });
     } else {
       throw Exception('Failed to load predictions');
@@ -63,12 +66,13 @@ class _PlacesState extends State<Places> {
             child: TextField(
               controller: _controller,
               decoration: InputDecoration(
-                hintText: "Seek your location here",
+                hintText: 'Seek your location here',
                 focusColor: Colors.white,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 prefixIcon: Icon(Icons.map),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.cancel), onPressed: () => setState(() => _controller.clear()),
+                  icon: Icon(Icons.cancel),
+                  onPressed: () => setState(() => _controller.clear()),
                 ),
               ),
             ),
@@ -77,12 +81,12 @@ class _PlacesState extends State<Places> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: _placeList.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(_placeList[index]["description"]),
+                title: Text(_placeList[index]['description'] as String),
               );
             },
-          )
+          ),
         ],
       ),
     );

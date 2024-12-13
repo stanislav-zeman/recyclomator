@@ -26,16 +26,16 @@ Offer _$OfferFromJson(Map<String, dynamic> json) => Offer(
 Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
       'id': instance.id,
       'authorId': instance.authorId,
-      if (instance.recyclatorId case final value?) 'recyclatorId': value,
+      if (instance.recyclatorId case final String value?) 'recyclatorId': value,
       'addressId': instance.addressId,
-      'items': instance.items.map((e) => e.toJson()).toList(),
-      'state': _$OfferStateEnumMap[instance.state]!,
+      'items': instance.items.map((Item e) => e.toJson()).toList(),
+      'state': _$OfferStateEnumMap[instance.state],
       'offerDate': instance.offerDate.toIso8601String(),
-      if (instance.recycleDate?.toIso8601String() case final value?)
+      if (instance.recycleDate?.toIso8601String() case final String value?)
         'recycleDate': value,
     };
 
-const _$OfferStateEnumMap = {
+const Map<OfferState, String> _$OfferStateEnumMap = <OfferState, String>{
   OfferState.free: 'free',
   OfferState.reserved: 'reserved',
   OfferState.unconfirmed: 'unconfirmed',

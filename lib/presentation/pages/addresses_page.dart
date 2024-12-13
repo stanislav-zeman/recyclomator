@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:recyclomator/domain/entities/address.dart';
-import 'package:recyclomator/infrastructure/repositories/firestore.dart';
-import 'package:recyclomator/presentation/templates/page_template.dart';
-import 'package:recyclomator/presentation/widgets/addresses/creator.dart';
-import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
+import '../../domain/entities/address.dart';
+import '../../infrastructure/repositories/firestore.dart';
+import '../templates/page_template.dart';
+import '../widgets/addresses/creator.dart';
+import '../widgets/common/stream_widget.dart';
 
 class AddressesPage extends StatelessWidget {
-  final FirestoreRepository<Address> addressRepository;
-
   const AddressesPage({super.key, required this.addressRepository});
+
+  final FirestoreRepository<Address> addressRepository;
 
   @override
   Widget build(BuildContext context) {
     return PageTemplate(
-      title: Text("Addresses"),
+      title: Text('Addresses'),
       child: StreamWidget(
-          stream: addressRepository.observeDocuments(),
-          onData: _buildAddressPage),
+        stream: addressRepository.observeDocuments(),
+        onData: _buildAddressPage,
+      ),
     );
   }
 
@@ -24,7 +25,7 @@ class AddressesPage extends StatelessWidget {
     return Wrap(
       spacing: 20,
       runSpacing: 20,
-      children: [
+      children: <Widget>[
         SizedBox(height: 20),
         _buildAddressList(addresses),
         Divider(),
@@ -38,18 +39,18 @@ class AddressesPage extends StatelessWidget {
 
   Widget _buildAddressList(List<Address> addresses) {
     if (addresses.isEmpty) {
-      return Center(child: Text("You do not have any addresses"));
+      return Center(child: Text('You do not have any addresses'));
     }
 
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Column(
-        children: [
+        children: <Widget>[
           ListView.builder(
             shrinkWrap: true,
             itemCount: addresses.length,
-            itemBuilder: (context, index) {
-              final address = addresses[index];
+            itemBuilder: (BuildContext context, int index) {
+              final Address address = addresses[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: _buildAddressItem(address),
@@ -63,9 +64,8 @@ class AddressesPage extends StatelessWidget {
 
   Widget _buildAddressItem(Address address) {
     return Wrap(
-      direction: Axis.horizontal,
       spacing: 5,
-      children: [
+      children: <Widget>[
         Text(
           address.name,
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -78,8 +78,9 @@ class AddressesPage extends StatelessWidget {
         Text(address.country),
         SizedBox(width: 16),
         ElevatedButton(
-            onPressed: () => addressRepository.delete(address.id),
-            child: Text("Delete"))
+          onPressed: () => addressRepository.delete(address.id),
+          child: Text('Delete'),
+        ),
       ],
     );
   }
