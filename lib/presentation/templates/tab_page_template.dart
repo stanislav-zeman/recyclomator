@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../domain/value_objects/offer_type.dart';
 import '../../infrastructure/controllers/offer_controller.dart';
-import '../widgets/common/future_widger.dart';
+import '../widgets/common/future_widget.dart';
 import '../widgets/navigation/navigation_drawer.dart' as navigation;
 
 class TabPageTemplate extends StatelessWidget {
@@ -24,8 +24,7 @@ class TabPageTemplate extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
-              onTap: (int value) =>
-                  _offerController.saveState(OfferType.values[value]),
+              onTap: (int value) => _offerController.saveState(OfferType.values[value]),
               tabs: const <Widget>[
                 Tab(icon: Icon(Icons.directions_car)),
                 Tab(icon: Icon(Icons.directions_transit)),
