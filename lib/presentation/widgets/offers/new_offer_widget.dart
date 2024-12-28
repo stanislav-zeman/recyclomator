@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:recyclomator/presentation/widgets/common/sliding_panel_offers_widget.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../domain/entities/address.dart';
 import '../../../domain/entities/offer.dart';
@@ -11,7 +13,9 @@ import '../../../domain/value_objects/offer_state.dart';
 import '../../../infrastructure/repositories/firestore.dart';
 import '../../../infrastructure/services/user_service.dart';
 import '../../pages/addresses_page.dart';
+import '../common/stream_widget.dart';
 import 'item_button.dart';
+import 'offer_list.dart';
 
 class NewOfferWidget extends StatefulWidget {
   const NewOfferWidget({super.key});
@@ -32,66 +36,76 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
     final User user = _userService.getUser();
     final User recycler = _userService.getRecycler();
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                'Address:',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text('address data'),
-              _buildButton('Change address', () {
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => AddressesPage(
-                      addressRepository:
-                          GetIt.I<FirestoreRepository<Address>>(),
+              Column(
+                children: <Widget>[
+                  Text(
+                    'Address:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                );
-              }),
+                  Text('address data'),
+                  _buildButton('Change address', () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => AddressesPage(
+                          addressRepository:
+                              GetIt.I<FirestoreRepository<Address>>(),
+                        ),
+                      ),
+                    );
+                  }),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ItemButton(
+                    icon: FontAwesomeIcons.beerMugEmpty,
+                    countNotifier: _glassCount,
+                  ),
+                  ItemButton(
+                    icon: FontAwesomeIcons.bottleWater,
+                    countNotifier: _plasticCount,
+                  ),
+                ],
+              ),
+              _buildButton(
+                'Submit offer',
+                () {
+                  _offerRepository.add(
+                    Offer(
+                      authorId: user.id,
+                      recyclatorId: recycler.id,
+                      addressId: '1',
+                      items: <Item>[
+                        Item(type: ItemType.glass, count: _glassCount.value),
+                        Item(type: ItemType.pet, count: _glassCount.value),
+                      ],
+                      state: OfferState.free,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+              ),
+              SizedBox(
+                height: 50,
+              ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              ItemButton(
-                icon: FontAwesomeIcons.beerMugEmpty,
-                countNotifier: _glassCount,
-              ),
-              ItemButton(
-                icon: FontAwesomeIcons.bottleWater,
-                countNotifier: _plasticCount,
-              ),
-            ],
-          ),
-          _buildButton(
-            'Submit offer',
-            () {
-              _offerRepository.add(
-                Offer(
-                  authorId: user.id,
-                  recyclatorId: recycler.id,
-                  addressId: '1',
-                  items: <Item>[
-                    Item(type: ItemType.glass, count: _glassCount.value),
-                    Item(type: ItemType.pet, count: _glassCount.value),
-                  ],
-                  state: OfferState.free,
-                ),
-              );
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
+        ),
+        SlidingPanelOffersWidget(
+          stream: _offerRepository.observeDocuments(),
+        ),
+      ],
     );
   }
 

@@ -6,13 +6,15 @@ import '../../../domain/value_objects/item_type.dart';
 import '../../pages/offer_detail_page.dart';
 
 class OfferList extends StatelessWidget {
-  const OfferList({super.key, required this.offers});
+  const OfferList({super.key, required this.offers, this.scrollController});
 
   final List<Offer> offers;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      controller: scrollController,
       itemCount: offers.length,
       separatorBuilder: (_, __) => Divider(),
       itemBuilder: (BuildContext context, int index) {

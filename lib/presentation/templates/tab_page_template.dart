@@ -26,8 +26,8 @@ class TabPageTemplate extends StatelessWidget {
             bottom: TabBar(
               onTap: (int value) => _offerController.saveState(OfferType.values[value]),
               tabs: const <Widget>[
-                Tab(icon: Icon(Icons.directions_car)),
-                Tab(icon: Icon(Icons.directions_transit)),
+                Tab(icon: Icon(Icons.local_offer, color: Colors.white)),
+                Tab(icon: Icon(Icons.map, color: Colors.white)),
               ],
             ),
             title: title,
