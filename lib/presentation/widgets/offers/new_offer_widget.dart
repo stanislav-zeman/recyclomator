@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:recyclomator/presentation/widgets/common/sliding_panel_offers_widget.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../domain/entities/address.dart';
 import '../../../domain/entities/offer.dart';
@@ -13,9 +11,8 @@ import '../../../domain/value_objects/offer_state.dart';
 import '../../../infrastructure/repositories/firestore.dart';
 import '../../../infrastructure/services/user_service.dart';
 import '../../pages/addresses_page.dart';
-import '../common/stream_widget.dart';
+import '../common/sliding_panel_offers_widget.dart';
 import 'item_button.dart';
-import 'offer_list.dart';
 
 class NewOfferWidget extends StatefulWidget {
   const NewOfferWidget({super.key});

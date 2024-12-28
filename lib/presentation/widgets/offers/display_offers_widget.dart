@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:recyclomator/domain/entities/offer.dart';
-import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 
+import '../../../domain/entities/offer.dart';
+import '../../../infrastructure/repositories/firestore.dart';
 import '../common/sliding_panel_offers_widget.dart';
 
 class DisplayOffersWidget extends StatefulWidget {
