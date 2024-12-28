@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 
 import '../../domain/entities/offer.dart';
 import '../../domain/value_objects/item.dart';
@@ -14,98 +16,6 @@ class OfferDetailPage extends StatelessWidget {
   final Offer offer;
 
   final MockUserService _userService = GetIt.I<MockUserService>();
-
-  @override
-  Widget build(BuildContext context) {
-    return PageTemplate(
-      title: Text('Offer'),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'State:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text('State: ${offer.state}'),
-                    Text('Offered at: ${offer.offerDate}'),
-                    Text('Recycled at: ${offer.recycleDate ?? "N/A"}'),
-                    SizedBox(height: 16),
-                    Text(
-                      'Address:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text('Address ID: ${offer.addressId}'),
-                    SizedBox(height: 16),
-                    Text(
-                      'Details:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text('ID: ${offer.id}'),
-                    Text('Author ID: ${offer.authorId}'),
-                    Text('Recyclator ID: ${offer.recyclatorId ?? 'N/A'}'),
-                    SizedBox(height: 16),
-                    Text(
-                      'Content:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                        '- Pet bottles: ${_getNumberOfBottles(ItemType.pet)}',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                        '- Glass bottles: ${_getNumberOfBottles(ItemType.glass)}',
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            _buildButtons(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildButtons() {
-    if (offer.state == OfferState.done) {
-      return Container();
-    }
-    final String userId = _userService.getUser().id;
-    if (userId == offer.authorId) {
-      return _buildCreatorButtons();
-    } else if (null == offer.recyclatorId) {
-      return _buildNotRecyclatorButtons();
-    } else if (userId == offer.recyclatorId) {
-      return _buildRecyclatorButtons();
-    } else {
-      return Container();
-    }
-  }
 
   Widget _buildCreatorButtons() {
     return Row(
@@ -147,9 +57,88 @@ class OfferDetailPage extends StatelessWidget {
 
   int _getNumberOfBottles(ItemType type) {
     return offer.items
-            .where((Item item) => item.type == ItemType.pet)
+            .where((Item item) => item.type == type)
             .firstOrNull
             ?.count ??
         0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageTemplate(
+      title: Text('Offer'),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: Text(
+              'Offer status: ${offer.state.name}',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              ),
+            ),
+            SizedBox(height: 5,),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2, // Number of columns
+                crossAxisSpacing: 8.0, // Spacing between columns
+                mainAxisSpacing: 8.0, // Spacing between rows
+                childAspectRatio: 2, // Aspect ratio for each card
+                children: [
+                  _buildCard(Icons.home, '${offer.addressId}'),
+                  _buildCard(
+                    Icons.calendar_month,
+                    'Offer date: ${DateFormat('dd/MM/yyyy').format(offer.offerDate)}\nRecycle date: ${offer.recycleDate != null ? DateFormat('dd/MM/yyyy').format(offer.recycleDate!) : "N/A"}',
+                  ),
+                  _buildCard(
+                    FontAwesomeIcons.beerMugEmpty,
+                    _getNumberOfBottles(ItemType.glass).toString(),
+                  ),
+                  _buildCard(
+                    FontAwesomeIcons.bottleWater,
+                    _getNumberOfBottles(ItemType.pet).toString(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(IconData icon, String label) {
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 40.0,
+          ),
+          SizedBox(height: 10.0),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
