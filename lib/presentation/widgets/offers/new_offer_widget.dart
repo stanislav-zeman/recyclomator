@@ -62,18 +62,23 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   }),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ItemButton(
-                    icon: FontAwesomeIcons.beerMugEmpty,
-                    countNotifier: _glassCount,
-                  ),
-                  ItemButton(
-                    icon: FontAwesomeIcons.bottleWater,
-                    countNotifier: _plasticCount,
-                  ),
-                ],
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2, // Number of columns
+                  crossAxisSpacing: 8.0, // Spacing between columns
+                  mainAxisSpacing: 8.0, // Spacing between rows
+                  childAspectRatio: 0.8, // Aspect ratio for each card
+                  children: [
+                    ItemButton(
+                      icon: FontAwesomeIcons.beerMugEmpty,
+                      countNotifier: _glassCount,
+                    ),
+                    ItemButton(
+                      icon: FontAwesomeIcons.bottleWater,
+                      countNotifier: _plasticCount,
+                    ),
+                  ],
+                ),
               ),
               _buildButton(
                 'Submit offer',
@@ -94,7 +99,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 },
               ),
               SizedBox(
-                height: 50,
+                height: 150,
               ),
             ],
           ),

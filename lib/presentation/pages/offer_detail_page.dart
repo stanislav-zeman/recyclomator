@@ -74,25 +74,27 @@ class OfferDetailPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(12.0),
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(12.0),
               ),
               child: Text(
-              'Offer status: ${offer.state.name}',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+                'Status: ${offer.state.name}',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
-            SizedBox(height: 5,),
+            SizedBox(
+              height: 5,
+            ),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2, // Number of columns
                 crossAxisSpacing: 8.0, // Spacing between columns
                 mainAxisSpacing: 8.0, // Spacing between rows
-                childAspectRatio: 2, // Aspect ratio for each card
+                childAspectRatio: 1, // Aspect ratio for each card
                 children: [
                   _buildCard(Icons.home, '${offer.addressId}'),
                   _buildCard(
@@ -101,11 +103,11 @@ class OfferDetailPage extends StatelessWidget {
                   ),
                   _buildCard(
                     FontAwesomeIcons.beerMugEmpty,
-                    _getNumberOfBottles(ItemType.glass).toString(),
+                    'Ammount: ${_getNumberOfBottles(ItemType.glass)}',
                   ),
                   _buildCard(
                     FontAwesomeIcons.bottleWater,
-                    _getNumberOfBottles(ItemType.pet).toString(),
+                    'Ammount: ${_getNumberOfBottles(ItemType.pet)}',
                   ),
                 ],
               ),
@@ -127,13 +129,13 @@ class OfferDetailPage extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 40.0,
+            size: 60.0,
           ),
           SizedBox(height: 10.0),
           Text(
             label,
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),
           ),
