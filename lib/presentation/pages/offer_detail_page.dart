@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import '../../domain/entities/offer.dart';
 import '../../domain/value_objects/item.dart';
 import '../../domain/value_objects/item_type.dart';
-import '../../domain/value_objects/offer_state.dart';
 import '../../infrastructure/services/user_service.dart';
 import '../templates/page_template.dart';
 

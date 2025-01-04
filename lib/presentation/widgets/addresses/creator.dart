@@ -74,6 +74,8 @@ class _AddressCreatorState extends State<AddressCreator> {
                 city: _cityController.text,
                 country: _countryController.text,
                 zipCode: _zipCodeController.text,
+                lat: 12,
+                lng: 12,
               );
               widget.addressRepository.add(address);
               ScaffoldMessenger.of(context).showSnackBar(

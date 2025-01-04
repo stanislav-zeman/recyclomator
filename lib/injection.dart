@@ -18,6 +18,7 @@ class Injection {
       OfferController(
         _get<FirestoreRepository<Offer>>(),
         _get<MockUserService>(),
+        _get<FirestoreRepository<Address>>(),
       ),
     );
   }

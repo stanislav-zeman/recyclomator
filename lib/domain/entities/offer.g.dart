@@ -7,7 +7,7 @@ part of 'offer.dart';
 // **************************************************************************
 
 Offer _$OfferFromJson(Map<String, dynamic> json) => Offer(
-      id: json['id'] as String,
+      id: json['id'] as String?,
       authorId: json['authorId'] as String,
       recyclatorId: json['recyclatorId'] as String?,
       addressId: json['addressId'] as String,
@@ -24,19 +24,20 @@ Offer _$OfferFromJson(Map<String, dynamic> json) => Offer(
     );
 
 Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
-      'id': instance.id,
+      if (instance.id case final value?) 'id': value,
       'authorId': instance.authorId,
-      if (instance.recyclatorId case final String value?) 'recyclatorId': value,
+      if (instance.recyclatorId case final value?) 'recyclatorId': value,
       'addressId': instance.addressId,
-      'items': instance.items.map((Item e) => e.toJson()).toList(),
-      'state': _$OfferStateEnumMap[instance.state],
+      'items': instance.items.map((e) => e.toJson()).toList(),
+      'state': _$OfferStateEnumMap[instance.state]!,
       'offerDate': instance.offerDate.toIso8601String(),
-      if (instance.recycleDate?.toIso8601String() case final String value?)
+      if (instance.recycleDate?.toIso8601String() case final value?)
         'recycleDate': value,
     };
 
-const Map<OfferState, String> _$OfferStateEnumMap = <OfferState, String>{
+const _$OfferStateEnumMap = {
   OfferState.free: 'free',
   OfferState.reserved: 'reserved',
   OfferState.unconfirmed: 'unconfirmed',
+  OfferState.done: 'done',
 };

@@ -13,6 +13,8 @@ class Address {
     required this.city,
     required this.country,
     required this.zipCode,
+    required this.lat,
+    required this.lng,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) =>
@@ -26,6 +28,8 @@ class Address {
   final String city;
   final String country;
   final String zipCode;
+  final double lat;
+  final double lng;
 
   Map<String, dynamic> toJson() => _$AddressToJson(this);
 }
