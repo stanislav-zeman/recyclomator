@@ -29,4 +29,26 @@ class Offer {
   final DateTime? recycleDate;
 
   Map<String, dynamic> toJson() => _$OfferToJson(this);
+
+  Offer copyWith({
+    String? id,
+    String? authorId,
+    String? recyclatorId,
+    String? addressId,
+    List<Item>? items,
+    OfferState? state,
+    DateTime? offerDate,
+    DateTime? recycleDate,
+  }) {
+    return Offer(
+      id: id ?? this.id,
+      authorId: authorId ?? this.authorId,
+      recyclatorId: recyclatorId?.isEmpty ?? true ? null : recyclatorId,
+      addressId: addressId ?? this.addressId,
+      items: items ?? this.items,
+      state: state ?? this.state,
+      offerDate: offerDate ?? this.offerDate,
+      recycleDate: recycleDate ?? this.recycleDate,
+    );
+  }
 }

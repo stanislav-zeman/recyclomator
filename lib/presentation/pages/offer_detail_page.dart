@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import '../../domain/entities/offer.dart';
 import '../../domain/value_objects/item.dart';
 import '../../domain/value_objects/item_type.dart';
+import '../../domain/value_objects/offer_state.dart';
+import '../../infrastructure/repositories/firestore.dart';
 import '../../infrastructure/services/user_service.dart';
 import '../templates/page_template.dart';
 
@@ -16,12 +18,41 @@ class OfferDetailPage extends StatelessWidget {
 
   final MockUserService _userService = GetIt.I<MockUserService>();
 
+  final FirestoreRepository<Offer> _offerRepository =
+      GetIt.I<FirestoreRepository<Offer>>();
+
   Widget _buildCreatorButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildButton('Picked up', () => {}),
-        _buildButton('Cancel reservation', () => {}),
+        _buildButton(
+          'Picked up',
+          () => _offerRepository.setOrAdd(
+            offer.id!,
+            offer.copyWith(state: OfferState.done),
+          ),
+          Colors.green,
+        ),
+        _buildButton(
+          'Still valid',
+          () => _offerRepository.setOrAdd(
+            offer.id!,
+            offer.copyWith(
+              state: OfferState.free,
+            ),
+          ),
+          Colors.orange,
+        ),
+        _buildButton(
+          'Cancel reservation',
+          () => _offerRepository.setOrAdd(
+            offer.id!,
+            offer.copyWith(
+              state: OfferState.canceled,
+            ),
+          ),
+          Colors.red,
+        ),
       ],
     );
   }
@@ -30,8 +61,22 @@ class OfferDetailPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildButton('Picked up', () => {}),
-        _buildButton('Reserve', () => {}),
+        _buildButton(
+          'Picked up',
+          () => _offerRepository.setOrAdd(
+            offer.id!,
+            offer.copyWith(state: OfferState.done),
+          ),
+          Colors.orange,
+        ),
+        _buildButton(
+          'Reserve',
+          () => _offerRepository.setOrAdd(
+            offer.id!,
+            offer.copyWith(state: OfferState.reserved),
+          ),
+          Colors.green,
+        ),
       ],
     );
   }
@@ -40,16 +85,54 @@ class OfferDetailPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildButton('Confirm pickup', () => {}),
-        _buildButton('Still valid', () => {}),
-        _buildButton('Cancel', () => {}),
+        _buildButton(
+          'Confirm pickup',
+          () => _offerRepository.setOrAdd(
+            offer.id!,
+            offer.copyWith(
+              state: OfferState.unconfirmed,
+              recycleDate: DateTime.now(),
+            ),
+          ),
+          Colors.green,
+        ),
+        _buildButton(
+          'Cancel',
+          () {
+            _offerRepository.setOrAdd(
+              offer.id!,
+              offer.copyWith(
+                state: OfferState.free,
+                recyclatorId: '',
+              ),
+            );
+          },
+          Colors.red,
+        ),
       ],
     );
   }
 
-  Widget _buildButton(String text, VoidCallback onPressed) {
+  Widget _buildCorrectButton() {
+    final userId = _userService.getUser().id;
+    if (offer.authorId == userId) {
+      return _buildCreatorButtons();
+    }
+    if (offer.recyclatorId == userId) {
+      return _buildRecyclatorButtons();
+    }
+    if (offer.recyclatorId == null) {
+      return _buildNotRecyclatorButtons();
+    }
+    return SizedBox();
+  }
+
+  Widget _buildButton(String text, VoidCallback onPressed, Color color) {
     return ElevatedButton(
       onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+      ),
       child: Text(text),
     );
   }
@@ -90,10 +173,9 @@ class OfferDetailPage extends StatelessWidget {
             ),
             Expanded(
               child: GridView.count(
-                crossAxisCount: 2, // Number of columns
-                crossAxisSpacing: 8.0, // Spacing between columns
-                mainAxisSpacing: 8.0, // Spacing between rows
-                childAspectRatio: 1, // Aspect ratio for each card
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
                 children: [
                   _buildCard(Icons.home, '${offer.addressId}'),
                   _buildCard(
@@ -111,6 +193,7 @@ class OfferDetailPage extends StatelessWidget {
                 ],
               ),
             ),
+            _buildCorrectButton(),
           ],
         ),
       ),
@@ -123,22 +206,25 @@ class OfferDetailPage extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 60.0,
-          ),
-          SizedBox(height: 10.0),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 60.0,
             ),
-          ),
-        ],
+            SizedBox(height: 10.0),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -3,4 +3,5 @@ enum OfferState {
   reserved,
   unconfirmed,
   done,
+  canceled,
 }
