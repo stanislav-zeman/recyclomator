@@ -64,6 +64,24 @@ class OfferController {
                 .toList(),
           );
 
+  Future<int> getNumberOfGlassBottles() async {
+    final List<Offer> offers = await _offerRepository.observeDocuments().first;
+    return offers
+        .where((offer) => offer.authorId == _userService.getUser().id)
+        .expand((offer) => offer.items)
+        .where((item) => item.type == ItemType.glass)
+        .fold<int>(0, (sum, item) => sum + item.count);
+  }
+
+  Future<int> getNumberOfPlasticBottles() async {
+    final List<Offer> offers = await _offerRepository.observeDocuments().first;
+    return offers
+        .where((offer) => offer.authorId == _userService.getUser().id)
+        .expand((offer) => offer.items)
+        .where((item) => item.type == ItemType.pet)
+        .fold<int>(0, (int sum, item) => sum + item.count);
+  }
+
   void addOffer(int glassCount, int plasticCount) {
     _offerRepository.add(
       Offer(
