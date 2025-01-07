@@ -8,7 +8,6 @@ import '../../../domain/entities/offer.dart';
 import '../../../domain/value_objects/item.dart';
 import '../../../domain/value_objects/item_type.dart';
 import '../../../infrastructure/controllers/offer_controller.dart';
-import '../../../infrastructure/repositories/firestore.dart';
 import '../../pages/offer_detail_page.dart';
 import '../common/sliding_panel_offers_widget.dart';
 import '../common/stream_widget.dart';
@@ -24,11 +23,12 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
   late GoogleMapController mapController;
   final Map<String, Marker> _markers = {};
   final LatLng _center = const LatLng(49.1951, 16.6068);
-  final FirestoreRepository<Offer> _offerRepository =
-      GetIt.I<FirestoreRepository<Offer>>();
   final OfferController _offerController = GetIt.I<OfferController>();
 
-  Future<void> _onMapCreated(GoogleMapController controller, List<Tuple2<Offer, Address>> offersMarkers) async {
+  Future<void> _onMapCreated(
+    GoogleMapController controller,
+    List<Tuple2<Offer, Address>> offersMarkers,
+  ) async {
     mapController = controller;
     setState(() {
       _markers.clear();
@@ -56,6 +56,12 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
   }
 
   @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -71,7 +77,7 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
           ),
         ),
         SlidingPanelOffersWidget(
-          stream: _offerRepository.observeDocuments(),
+          stream: _offerController.takenOffersStream,
         ),
       ],
     );

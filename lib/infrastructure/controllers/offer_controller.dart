@@ -12,28 +12,72 @@ import '../services/user_service.dart';
 
 class OfferController {
   OfferController(
-      this._offerRepository, this._userService, this._addressRepository);
+    this._offerRepository,
+    this._userService,
+    this._addressRepository,
+  );
   final FirestoreRepository<Offer> _offerRepository;
   final FirestoreRepository<Address> _addressRepository;
   final MockUserService _userService;
 
-  Stream<List<Offer>> get historyOffersStream => _offerRepository
-      .observeDocuments()
-      .map(
-        (List<Offer> offers) => offers
-            .where((Offer offer) => offer.authorId == _userService.getUser().id)
-            .toList(),
-      );
+  Stream<List<Offer>> get historyOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.authorId == _userService.getUser().id &&
+                      offer.state == OfferState.done,
+                )
+                .toList(),
+          );
 
   Stream<List<Offer>> get historyRecycleStream =>
       _offerRepository.observeDocuments().map(
             (List<Offer> offers) => offers
                 .where(
                   (Offer offer) =>
-                      offer.recyclatorId == _userService.getUser().id,
+                      offer.recyclatorId == _userService.getUser().id &&
+                      offer.state == OfferState.done,
                 )
                 .toList(),
           );
+
+  Stream<List<Offer>> get takenOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.recyclatorId == _userService.getUser().id &&
+                      offer.state != OfferState.done,
+                )
+                .toList(),
+          );
+
+  Stream<List<Offer>> get providedOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.authorId == _userService.getUser().id &&
+                      offer.state != OfferState.done,
+                )
+                .toList(),
+          );
+
+  void addOffer(int glassCount, int plasticCount) {
+    _offerRepository.add(
+      Offer(
+        authorId: _userService.getUser().id,
+        recyclatorId: null,
+        addressId: '1',
+        items: <Item>[
+          Item(type: ItemType.glass, count: glassCount),
+          Item(type: ItemType.pet, count: plasticCount),
+        ],
+        state: OfferState.free,
+      ),
+    );
+  }
 
   Future<List<Tuple2<Offer, Address>>> get offersMarkers async {
     final List<Offer> offers = await _offerRepository.observeDocuments().first;
@@ -49,6 +93,7 @@ class OfferController {
 
     return tuples;
   }
+
   Stream<List<Tuple2<Offer, Address>>> get offersMarkersStream {
     return _offerRepository.observeDocuments().asyncMap((offers) async {
       final List<Tuple2<Offer, Address>> tuples = [];
@@ -124,6 +169,7 @@ class OfferController {
     }
     return tuples;
   }
+
   Stream<List<Tuple2<Offer, Address>>> get mockOffersMarkersStream {
     return Stream.value([
       Tuple2(

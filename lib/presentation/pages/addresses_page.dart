@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/address.dart';
 import '../../infrastructure/repositories/firestore.dart';
 import '../templates/page_template.dart';
-import '../widgets/addresses/creator.dart';
+import '../widgets/addresses/address_creator.dart';
 import '../widgets/common/stream_widget.dart';
 
 class AddressesPage extends StatelessWidget {

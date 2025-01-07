@@ -3,13 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../domain/entities/address.dart';
-import '../../../domain/entities/offer.dart';
-import '../../../domain/entities/user.dart';
-import '../../../domain/value_objects/item.dart';
-import '../../../domain/value_objects/item_type.dart';
-import '../../../domain/value_objects/offer_state.dart';
+import '../../../infrastructure/controllers/offer_controller.dart';
 import '../../../infrastructure/repositories/firestore.dart';
-import '../../../infrastructure/services/user_service.dart';
 import '../../pages/addresses_page.dart';
 import '../common/sliding_panel_offers_widget.dart';
 import 'item_button.dart';
@@ -22,17 +17,19 @@ class NewOfferWidget extends StatefulWidget {
 }
 
 class _NewOfferWidgetState extends State<NewOfferWidget> {
-  final FirestoreRepository<Offer> _offerRepository =
-      GetIt.I<FirestoreRepository<Offer>>();
-  final MockUserService _userService = GetIt.I<MockUserService>();
+  final OfferController _offerController = GetIt.I<OfferController>();
   final ValueNotifier<int> _glassCount = ValueNotifier<int>(0);
   final ValueNotifier<int> _plasticCount = ValueNotifier<int>(0);
 
   @override
-  Widget build(BuildContext context) {
-    final User user = _userService.getUser();
-    final User recycler = _userService.getRecycler();
+  void dispose() {
+    _glassCount.dispose();
+    _plasticCount.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         Padding(
@@ -83,17 +80,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
               _buildButton(
                 'Submit offer',
                 () {
-                  _offerRepository.add(
-                    Offer(
-                      authorId: user.id,
-                      recyclatorId: recycler.id,
-                      addressId: '1',
-                      items: <Item>[
-                        Item(type: ItemType.glass, count: _glassCount.value),
-                        Item(type: ItemType.pet, count: _glassCount.value),
-                      ],
-                      state: OfferState.free,
-                    ),
+                  _offerController.addOffer(
+                    _glassCount.value,
+                    _plasticCount.value,
                   );
                   Navigator.of(context).pop();
                 },
@@ -105,7 +94,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
           ),
         ),
         SlidingPanelOffersWidget(
-          stream: _offerRepository.observeDocuments(),
+          stream: _offerController.providedOffersStream,
         ),
       ],
     );
