@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tuple/tuple.dart';
 
+import '../../../domain/entities/address.dart';
 import '../../../domain/entities/offer.dart';
 import '../../../domain/value_objects/item.dart';
 import '../../../domain/value_objects/item_type.dart';
@@ -9,6 +11,7 @@ import '../../../infrastructure/controllers/offer_controller.dart';
 import '../../../infrastructure/repositories/firestore.dart';
 import '../../pages/offer_detail_page.dart';
 import '../common/sliding_panel_offers_widget.dart';
+import '../common/stream_widget.dart';
 
 class DisplayOffersWidget extends StatefulWidget {
   const DisplayOffersWidget({super.key});
@@ -25,9 +28,8 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
       GetIt.I<FirestoreRepository<Offer>>();
   final OfferController _offerController = GetIt.I<OfferController>();
 
-  Future<void> _onMapCreated(GoogleMapController controller) async {
+  Future<void> _onMapCreated(GoogleMapController controller, List<Tuple2<Offer, Address>> offersMarkers) async {
     mapController = controller;
-    final offersMarkers = await _offerController.mockoffersMarkers;
     setState(() {
       _markers.clear();
       for (final offerMarker in offersMarkers) {
@@ -39,7 +41,8 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
           position: LatLng(address.lat, address.lng),
           infoWindow: InfoWindow(
             title: '${address.street} ${address.houseNo}',
-            snippet: 'Glass: ${_getNumberOfBottles(ItemType.glass, offer)} Plastic: ${_getNumberOfBottles(ItemType.pet, offer)}',
+            snippet:
+                'Glass: ${_getNumberOfBottles(ItemType.glass, offer)} Plastic: ${_getNumberOfBottles(ItemType.pet, offer)}',
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => OfferDetailPage(offer: offer),
@@ -56,13 +59,16 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
+        StreamWidget(
+          stream: _offerController.mockOffersMarkersStream,
+          onData: (snapshot) => GoogleMap(
+            onMapCreated: (controller) => _onMapCreated(controller, snapshot),
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 11.0,
+            ),
+            markers: _markers.values.toSet(),
           ),
-          markers: _markers.values.toSet(),
         ),
         SlidingPanelOffersWidget(
           stream: _offerRepository.observeDocuments(),
