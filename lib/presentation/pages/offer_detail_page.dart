@@ -18,8 +18,7 @@ class OfferDetailPage extends StatelessWidget {
 
   final MockUserService _userService = GetIt.I<MockUserService>();
 
-  final FirestoreRepository<Offer> _offerRepository =
-      GetIt.I<FirestoreRepository<Offer>>();
+  final FirestoreRepository<Offer> _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
 
   Widget _buildCreatorButtons() {
     return Row(
@@ -138,11 +137,7 @@ class OfferDetailPage extends StatelessWidget {
   }
 
   int _getNumberOfBottles(ItemType type) {
-    return offer.items
-            .where((Item item) => item.type == type)
-            .firstOrNull
-            ?.count ??
-        0;
+    return offer.items.where((Item item) => item.type == type).firstOrNull?.count ?? 0;
   }
 
   @override
@@ -184,11 +179,11 @@ class OfferDetailPage extends StatelessWidget {
                   ),
                   _buildCard(
                     FontAwesomeIcons.beerMugEmpty,
-                    'Ammount: ${_getNumberOfBottles(ItemType.glass)}',
+                    'Amount: ${_getNumberOfBottles(ItemType.glass)}',
                   ),
                   _buildCard(
                     FontAwesomeIcons.bottleWater,
-                    'Ammount: ${_getNumberOfBottles(ItemType.pet)}',
+                    'Amount: ${_getNumberOfBottles(ItemType.pet)}',
                   ),
                 ],
               ),
