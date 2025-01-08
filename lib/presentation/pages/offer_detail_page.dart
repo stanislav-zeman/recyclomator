@@ -16,7 +16,7 @@ class OfferDetailPage extends StatelessWidget {
 
   final Offer offer;
 
-  final MockUserService _userService = GetIt.I<MockUserService>();
+  final UserService _userService = GetIt.I<UserService>();
 
   final FirestoreRepository<Offer> _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
 
@@ -113,7 +113,7 @@ class OfferDetailPage extends StatelessWidget {
   }
 
   Widget _buildCorrectButton() {
-    final userId = _userService.getUser().id;
+    final userId = _userService.currentUserId;
     if (offer.authorId == userId) {
       return _buildCreatorButtons();
     }

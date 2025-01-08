@@ -18,14 +18,14 @@ class OfferController {
   );
   final FirestoreRepository<Offer> _offerRepository;
   final FirestoreRepository<Address> _addressRepository;
-  final MockUserService _userService;
+  final UserService _userService;
 
   Stream<List<Offer>> get historyOffersStream =>
       _offerRepository.observeDocuments().map(
             (List<Offer> offers) => offers
                 .where(
                   (Offer offer) =>
-                      offer.authorId == _userService.getUser().id &&
+                      offer.authorId == _userService.currentUserId &&
                       offer.state == OfferState.done,
                 )
                 .toList(),
@@ -36,7 +36,7 @@ class OfferController {
             (List<Offer> offers) => offers
                 .where(
                   (Offer offer) =>
-                      offer.recyclatorId == _userService.getUser().id &&
+                      offer.recyclatorId == _userService.currentUserId &&
                       offer.state == OfferState.done,
                 )
                 .toList(),
@@ -47,7 +47,7 @@ class OfferController {
             (List<Offer> offers) => offers
                 .where(
                   (Offer offer) =>
-                      offer.recyclatorId == _userService.getUser().id &&
+                      offer.recyclatorId == _userService.currentUserId &&
                       offer.state != OfferState.done,
                 )
                 .toList(),
@@ -58,7 +58,7 @@ class OfferController {
             (List<Offer> offers) => offers
                 .where(
                   (Offer offer) =>
-                      offer.authorId == _userService.getUser().id &&
+                      offer.authorId == _userService.currentUserId &&
                       offer.state != OfferState.done,
                 )
                 .toList(),
@@ -67,7 +67,7 @@ class OfferController {
   Future<int> getNumberOfGlassBottles() async {
     final List<Offer> offers = await _offerRepository.observeDocuments().first;
     return offers
-        .where((offer) => offer.authorId == _userService.getUser().id)
+        .where((offer) => offer.authorId == _userService.currentUserId)
         .expand((offer) => offer.items)
         .where((item) => item.type == ItemType.glass)
         .fold<int>(0, (sum, item) => sum + item.count);
@@ -76,7 +76,7 @@ class OfferController {
   Future<int> getNumberOfPlasticBottles() async {
     final List<Offer> offers = await _offerRepository.observeDocuments().first;
     return offers
-        .where((offer) => offer.authorId == _userService.getUser().id)
+        .where((offer) => offer.authorId == _userService.currentUserId)
         .expand((offer) => offer.items)
         .where((item) => item.type == ItemType.pet)
         .fold<int>(0, (int sum, item) => sum + item.count);
@@ -85,7 +85,7 @@ class OfferController {
   void addOffer(int glassCount, int plasticCount) {
     _offerRepository.add(
       Offer(
-        authorId: _userService.getUser().id,
+        authorId: _userService.currentUserId,
         recyclatorId: null,
         addressId: '1',
         items: <Item>[

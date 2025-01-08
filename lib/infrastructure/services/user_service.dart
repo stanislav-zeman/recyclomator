@@ -1,11 +1,5 @@
-import '../../domain/entities/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class MockUserService {
-  User getUser() {
-    return User(id: 'cpiYF4Jxk6d4egtN9dc0ABzKs3E2', username: 'John Doe', email: 'john@mail.com');
-  }
-
-  User getRecycler() {
-    return User(id: '2', username: 'Jan Novak', email: 'novak@mail.com');
-  }
+class UserService {
+  String get currentUserId => FirebaseAuth.instance.currentUser!.uid;
 }
