@@ -15,6 +15,12 @@ class OfferList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (offers.isEmpty) {
+      return Center(
+        child: Text("No offers found"),
+      );
+    }
+
     return ListView.separated(
       controller: scrollController,
       itemCount: offers.length,
@@ -57,11 +63,6 @@ class OfferList extends StatelessWidget {
   }
 
   int _getNumberOfBottles(ItemType type, int index) {
-    return offers[index]
-            .items
-            .where((Item x) => x.type == type)
-            .firstOrNull
-            ?.count ??
-        0;
+    return offers[index].items.where((Item x) => x.type == type).firstOrNull?.count ?? 0;
   }
 }
