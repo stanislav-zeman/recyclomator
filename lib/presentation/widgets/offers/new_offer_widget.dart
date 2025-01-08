@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:recyclomator/presentation/pages/offer_detail_page.dart';
 
 import '../../../domain/entities/address.dart';
 import '../../../infrastructure/controllers/offer_controller.dart';
@@ -80,9 +81,14 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
               _buildButton(
                 'Submit offer',
                 () {
-                  _offerController.addOffer(
+                  final offer = _offerController.addOffer(
                     _glassCount.value,
                     _plasticCount.value,
+                  );
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => OfferDetailPage(offer: offer),
+                    ),
                   );
                 },
               ),

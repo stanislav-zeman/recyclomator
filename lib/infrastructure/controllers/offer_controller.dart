@@ -82,19 +82,21 @@ class OfferController {
         .fold<int>(0, (int sum, item) => sum + item.count);
   }
 
-  void addOffer(int glassCount, int plasticCount) {
-    _offerRepository.add(
-      Offer(
-        authorId: _userService.currentUserId,
-        recyclatorId: null,
-        addressId: '1',
-        items: <Item>[
-          Item(type: ItemType.glass, count: glassCount),
-          Item(type: ItemType.pet, count: plasticCount),
-        ],
-        state: OfferState.free,
-      ),
+  Offer addOffer(int glassCount, int plasticCount) {
+    final offer = Offer(
+      authorId: _userService.currentUserId,
+      recyclatorId: null,
+      addressId: '1',
+      items: <Item>[
+        Item(type: ItemType.glass, count: glassCount),
+        Item(type: ItemType.pet, count: plasticCount),
+      ],
+      state: OfferState.free,
     );
+    _offerRepository.add(
+      offer,
+    );
+    return offer;
   }
 
   Future<List<Tuple2<Offer, Address>>> get offersMarkers async {
