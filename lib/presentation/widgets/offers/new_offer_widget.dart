@@ -84,7 +84,6 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     _glassCount.value,
                     _plasticCount.value,
                   );
-                  Navigator.of(context).pop();
                 },
               ),
               SizedBox(
