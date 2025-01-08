@@ -1,16 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../domain/entities/user.dart';
-import '../../../infrastructure/repositories/firestore.dart';
 
 class ProfileEditor extends StatefulWidget {
-  const ProfileEditor({
-    super.key,
-    required this.userRepository,
-    required this.profile,
-  });
+  const ProfileEditor({super.key, required this.user});
 
-  final FirestoreRepository<User> userRepository;
-  final User profile;
+  final User user;
 
   @override
   State<ProfileEditor> createState() => _ProfileEditorState();
@@ -18,13 +12,15 @@ class ProfileEditor extends StatefulWidget {
 
 class _ProfileEditorState extends State<ProfileEditor> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    _usernameController.text = widget.profile.username;
-    _emailController.text = widget.profile.email;
+    final user = widget.user;
+    _nameController.text = user.displayName ?? "";
+    _emailController.text = user.email ?? "";
 
     return Column(
       children: <Widget>[
@@ -38,12 +34,19 @@ class _ProfileEditorState extends State<ProfileEditor> {
               runSpacing: 20,
               children: <Widget>[
                 TextFormField(
-                  controller: _usernameController,
+                  controller: _nameController,
                   decoration: InputDecoration(hintText: 'Username'),
                 ),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(hintText: 'Email'),
+                ),
+                TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  controller: _passwordController,
+                  decoration: InputDecoration(hintText: 'Password'),
                 ),
               ],
             ),
@@ -52,12 +55,18 @@ class _ProfileEditorState extends State<ProfileEditor> {
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final User profile = User(
-                id: widget.profile.id,
-                username: _usernameController.text,
-                email: _emailController.text,
-              );
-              widget.userRepository.setOrAdd('FN6UP0zZc3OrWDjPFJ52', profile);
+              if (_nameController.text != "") {
+                user.updateProfile(displayName: _nameController.text);
+              }
+
+              if (_emailController.text != "") {
+                user.updateEmail(_emailController.text);
+              }
+
+              if (_passwordController.text != "") {
+                user.updatePassword(_passwordController.text);
+              }
+
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Saved profile!')),
               );
@@ -77,8 +86,9 @@ class _ProfileEditorState extends State<ProfileEditor> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _nameController.dispose();
     _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 }

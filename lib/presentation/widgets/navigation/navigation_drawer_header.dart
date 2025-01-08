@@ -1,40 +1,40 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../domain/entities/user.dart';
-import '../../../infrastructure/repositories/firestore.dart';
-import '../common/stream_widget.dart';
 
 class NavigationDrawerHeader extends StatelessWidget {
-  const NavigationDrawerHeader({super.key, required this.userRepository});
-  final FirestoreRepository<User> userRepository;
+  const NavigationDrawerHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StreamWidget(
-      stream: userRepository.observeDocument('FN6UP0zZc3OrWDjPFJ52'),
-      onData: (User? user) => _buildDrawerHeader(context, user),
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.userChanges(),
+      builder: (context, snapshot) {
+        final user = snapshot.data;
+        return _buildDrawerHeader(context, user);
+      },
     );
   }
 
-  Widget _buildDrawerHeader(BuildContext context, User? profile) {
+  Widget _buildDrawerHeader(BuildContext context, User? user) {
     return DrawerHeader(
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
       ),
       child: Center(
-        child: _buildDrawerHeaderText(profile),
+        child: _buildDrawerHeaderText(user),
       ),
     );
   }
 
-  Widget _buildDrawerHeaderText(User? profile) {
-    if (profile == null) {
+  Widget _buildDrawerHeaderText(User? user) {
+    if (user == null) {
       return Text('Anonymous');
     }
 
     return Column(
       children: <Widget>[
-        Text(profile.username),
-        Text(profile.email),
+        if (user.displayName != null) Text(user.displayName!),
+        if (user.email != null) Text(user.email!),
       ],
     );
   }

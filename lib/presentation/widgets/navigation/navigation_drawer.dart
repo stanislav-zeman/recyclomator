@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import '../../../domain/entities/address.dart';
-import '../../../domain/entities/user.dart';
 import '../../../infrastructure/repositories/firestore.dart';
 import '../../pages/addresses_page.dart';
 import '../../pages/history_page.dart';
@@ -19,15 +18,11 @@ class NavigationDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          NavigationDrawerHeader(
-            userRepository: GetIt.I<FirestoreRepository<User>>(),
-          ),
+          NavigationDrawerHeader(),
           _buildDrawerTile(
             context,
             'Profile',
-            ProfilePage(
-              userRepository: GetIt.I<FirestoreRepository<User>>(),
-            ),
+            ProfilePage(),
           ),
           _buildDrawerTile(
             context,
