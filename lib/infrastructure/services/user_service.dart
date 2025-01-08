@@ -2,7 +2,7 @@ import '../../domain/entities/user.dart';
 
 class MockUserService {
   User getUser() {
-    return User(id: '1', username: 'John Doe', email: 'john@mail.com');
+    return User(id: 'cpiYF4Jxk6d4egtN9dc0ABzKs3E2', username: 'John Doe', email: 'john@mail.com');
   }
 
   User getRecycler() {
