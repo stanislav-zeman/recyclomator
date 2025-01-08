@@ -7,6 +7,7 @@ import '../../pages/addresses_page.dart';
 import '../../pages/history_page.dart';
 import '../../pages/profile_page.dart';
 import '../../pages/statistics_page.dart';
+import 'navigation_drawer_footer.dart';
 import 'navigation_drawer_header.dart';
 
 class NavigationDrawer extends StatelessWidget {
@@ -45,6 +46,7 @@ class NavigationDrawer extends StatelessWidget {
             'History',
             HistoryPage(),
           ),
+          NavigationDrawerFooter(),
         ],
       ),
     );
@@ -53,8 +55,7 @@ class NavigationDrawer extends StatelessWidget {
   Widget _buildDrawerTile(BuildContext context, String text, Widget page) {
     return ListTile(
       title: Text(text),
-      onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute<void>(builder: (_) => page)),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page)),
     );
   }
 }

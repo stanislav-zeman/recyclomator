@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/homepage.dart';
+import 'auth/auth_gate.dart';
 import 'theme/theme_provider.dart';
 
 class App extends StatelessWidget {
@@ -9,7 +9,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Recyclomator',
-      home: Homepage(),
+      home: AuthGate(),
       theme: ThemeProvider.lightTheme,
       darkTheme: ThemeProvider.darkTheme,
       debugShowCheckedModeBanner: false,
