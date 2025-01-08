@@ -25,6 +25,7 @@ class ItemButton extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SizedBox(height: 10),
                 Icon(
                   icon,
                   size: 100,
@@ -34,30 +35,31 @@ class ItemButton extends StatelessWidget {
                   '$count',
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: () {
-                        if (count > 0) {
-                          countNotifier.value--;
-                        }
-                      },
-                      icon: Icon(Icons.remove),
-                      color: Colors.red,
-                      iconSize: 32,
-                    ),
-                    SizedBox(width: 20),
-                    IconButton(
-                      onPressed: () {
-                        countNotifier.value++;
-                      },
-                      icon: Icon(Icons.add),
-                      color: Colors.green,
-                      iconSize: 32,
-                    ),
-                  ],
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          if (count > 0) {
+                            countNotifier.value--;
+                          }
+                        },
+                        icon: Icon(Icons.remove),
+                        color: Colors.red,
+                        iconSize: 32,
+                      ),
+                      SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () {
+                          countNotifier.value++;
+                        },
+                        icon: Icon(Icons.add),
+                        color: Colors.green,
+                        iconSize: 32,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
