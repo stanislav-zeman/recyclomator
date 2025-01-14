@@ -20,7 +20,6 @@ class DisplayOffersWidget extends StatefulWidget {
 }
 
 class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
-  late GoogleMapController mapController;
   final Map<String, Marker> _markers = {};
   final LatLng _center = const LatLng(49.1951, 16.6068);
   final OfferController _offerController = GetIt.I<OfferController>();
@@ -29,7 +28,6 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
     GoogleMapController controller,
     List<Tuple2<Offer, Address>> offersMarkers,
   ) async {
-    mapController = controller;
     setState(() {
       _markers.clear();
       for (final offerMarker in offersMarkers) {
@@ -53,12 +51,6 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
         _markers[address.name] = marker;
       }
     });
-  }
-
-  @override
-  void dispose() {
-    mapController.dispose();
-    super.dispose();
   }
 
   @override
