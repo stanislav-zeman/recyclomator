@@ -50,7 +50,8 @@ class OfferController {
                       offer.recyclatorId == _userService.currentUserId &&
                       offer.state != OfferState.done,
                 )
-                .toList(),
+                .toList()
+              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
           );
 
   Stream<List<Offer>> get providedOffersStream =>
@@ -61,7 +62,8 @@ class OfferController {
                       offer.authorId == _userService.currentUserId &&
                       offer.state != OfferState.done,
                 )
-                .toList(),
+                .toList()
+              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
           );
 
   Future<int> getNumberOfGlassBottles() async {

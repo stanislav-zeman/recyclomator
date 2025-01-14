@@ -28,7 +28,7 @@ class OfferList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           title: Text(
-            'Offer: ${DateFormat('yyyy-MM-dd hh:mm:ss').format(offers[index].offerDate)}',
+            'Offer: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(offers[index].offerDate)}',
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
