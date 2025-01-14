@@ -11,6 +11,7 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabPageTemplate(
       title: Text('Recyclomator'),
+      showSideMenu: true,
       children: const <Widget>[
         NewOfferWidget(),
         DisplayOffersWidget(),

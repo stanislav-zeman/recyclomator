@@ -7,10 +7,11 @@ import '../widgets/common/future_widget.dart';
 import '../widgets/navigation/navigation_drawer.dart' as navigation;
 
 class TabPageTemplate extends StatelessWidget {
-  TabPageTemplate({super.key, required this.title, required this.children});
+  TabPageTemplate({super.key, required this.title, required this.children, this.showSideMenu = false});
 
   final Widget title;
   final List<Widget> children;
+  final bool showSideMenu;
 
   final OfferController _offerController = GetIt.I<OfferController>();
 
@@ -32,7 +33,7 @@ class TabPageTemplate extends StatelessWidget {
             ),
             title: title,
           ),
-          endDrawer: navigation.NavigationDrawer(),
+          endDrawer: showSideMenu ? navigation.NavigationDrawer() : null,
           body: TabBarView(
             children: children,
           ),
