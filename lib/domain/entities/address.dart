@@ -28,8 +28,8 @@ class Address {
   final String city;
   final String country;
   final String zipCode;
-  final double lat;
-  final double lng;
+  final double? lat;
+  final double? lng;
 
   Map<String, dynamic> toJson() => _$AddressToJson(this);
 }

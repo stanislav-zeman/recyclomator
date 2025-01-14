@@ -36,7 +36,7 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
 
         final marker = Marker(
           markerId: MarkerId(address.name),
-          position: LatLng(address.lat, address.lng),
+          position: LatLng(address.lat!, address.lng!),
           infoWindow: InfoWindow(
             title: '${address.street} ${address.houseNo}',
             snippet:

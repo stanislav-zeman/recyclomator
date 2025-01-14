@@ -40,4 +40,5 @@ const _$OfferStateEnumMap = {
   OfferState.reserved: 'reserved',
   OfferState.unconfirmed: 'unconfirmed',
   OfferState.done: 'done',
+  OfferState.canceled: 'canceled',
 };
