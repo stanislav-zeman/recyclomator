@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:recyclomator/presentation/widgets/offers/offer_on_map.dart';
 
 import '../../domain/entities/offer.dart';
 import '../../domain/value_objects/item.dart';
@@ -20,6 +21,9 @@ class OfferDetailPage extends StatelessWidget {
 
   final FirestoreRepository<Offer> _offerRepository =
       GetIt.I<FirestoreRepository<Offer>>();
+
+  static const double buttonWidth = 100.0;
+  static const double buttonHeight = 50.0;
 
   Widget _buildCreatorButtons(void Function(String) onPressedPop) {
     return Row(
@@ -151,12 +155,19 @@ class OfferDetailPage extends StatelessWidget {
   }
 
   Widget _buildButton(String text, VoidCallback onPressed, Color color) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
+    return SizedBox(
+      width: buttonWidth,
+      height: buttonHeight,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+        ),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
       ),
-      child: Text(text),
     );
   }
 
@@ -200,7 +211,8 @@ class OfferDetailPage extends StatelessWidget {
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
                 children: [
-                  _buildCard(Icons.home, '${offer.addressId}'), // TODO: Show address
+                  _buildCard(
+                      Icons.home, '${offer.addressId}'), // TODO: Show address
                   _buildCard(
                     Icons.calendar_month,
                     'Offer date: ${DateFormat('dd/MM/yyyy').format(offer.offerDate)}\nRecycle date: ${offer.recycleDate != null ? DateFormat('dd/MM/yyyy').format(offer.recycleDate!) : "N/A"}',
@@ -215,6 +227,22 @@ class OfferDetailPage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            _buildButton(
+              'Open Map',
+              () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => OfferOnMap(
+                      addressId: offer.addressId,
+                    ),
+                  ),
+                );
+              },
+              Colors.blue,
+            ),
+            SizedBox(
+              height: 10,
             ),
             _buildCorrectButton((message) {
               ScaffoldMessenger.of(context).showSnackBar(
