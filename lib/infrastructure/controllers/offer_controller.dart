@@ -1,3 +1,4 @@
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 
@@ -101,14 +102,29 @@ class OfferController {
     return offer;
   }
 
+  final _filterMarkers = BehaviorSubject<bool>.seeded(false);
+  late final Stream<bool> filterMarkers = _filterMarkers.stream;
+
+  void setFilterMarkers(bool value) {
+    _filterMarkers.add(value);
+  }
+
   Stream<List<Tuple2<Offer, Address>>> get offersMarkersStream {
-    return _offerRepository.observeDocuments().asyncMap((offers) async {
+    return Rx.combineLatest2(_offerRepository.observeDocuments(), filterMarkers,
+        (offers, filter) {
+      return offers.where((offer) {
+        if (filter) {
+          return offer.recyclatorId == _userService.currentUserId;
+        }
+        return true;
+      }).toList();
+    }).asyncMap((offers) async {
       final List<Tuple2<Offer, Address>> tuples = [];
       for (final offer in offers) {
         if (offer.state.isFinished) {
           continue;
         }
-        final address = await _addressRepository.getDocument(offer.addressId);
+        final address = await _addressRepository.getDocument(offer.addressId); // TODO: Should use some address controller function
         if (address == null || address.lat == null || address.lng == null) {
           continue;
         }
@@ -118,63 +134,8 @@ class OfferController {
     });
   }
 
-  Stream<List<Tuple2<Offer, Address>>> get mockOffersMarkersStream {
-    return Stream.value([
-      Tuple2(
-        Offer(
-          id: '1',
-          authorId: 'author1',
-          recyclatorId: 'recyclator1',
-          addressId: 'address1',
-          items: [
-            Item(type: ItemType.pet, count: 10),
-            Item(type: ItemType.glass, count: 5),
-          ],
-          state: OfferState.done,
-          offerDate: DateTime.now(),
-          recycleDate: DateTime.now().add(Duration(days: 7)),
-        ),
-        Address(
-          id: 'address1',
-          name: 'Home',
-          street: '123 Main St',
-          houseNo: '1A',
-          city: 'Brno',
-          zipCode: '60200',
-          country: 'Czech Republic',
-          lat: 49.1951,
-          lng: 16.6068,
-          userId: 'user1',
-        ),
-      ),
-      Tuple2(
-        Offer(
-          id: '2',
-          authorId: 'author2',
-          recyclatorId: 'recyclator2',
-          addressId: 'address2',
-          items: [
-            Item(type: ItemType.pet, count: 20),
-            Item(type: ItemType.glass, count: 15),
-          ],
-          state: OfferState.done,
-          offerDate: DateTime.now().subtract(Duration(days: 1)),
-          recycleDate: DateTime.now().add(Duration(days: 6)),
-        ),
-        Address(
-          id: 'address2',
-          name: 'Office',
-          street: '456 Office Rd',
-          houseNo: '2B',
-          city: 'Brno',
-          zipCode: '60200',
-          country: 'Czech Republic',
-          lat: 49.2000,
-          lng: 16.6090,
-          userId: 'user2',
-        ),
-      ),
-    ]);
+  void dispose() {
+    _filterMarkers.close();
   }
 
   Future<OfferType> loadState() async {
