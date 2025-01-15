@@ -81,6 +81,9 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
               _buildButton(
                 'Submit offer',
                 () {
+                  if (_glassCount.value == 0 && _plasticCount.value == 0) {
+                    return;
+                  }
                   final offer = _offerController.addOffer(
                     _glassCount.value,
                     _plasticCount.value,
