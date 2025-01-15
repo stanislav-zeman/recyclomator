@@ -75,13 +75,14 @@ class StatisticsPage extends StatelessWidget {
       ),
     );
   }
-}
-Widget _buildImage() {
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Image.asset(
-      'assets/images/turtle.png',
-      fit: BoxFit.cover,
-    ),
-  );
+  
+  Widget _buildImage() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Image.asset(
+        'assets/images/turtle.png',
+        fit: BoxFit.cover,
+      ),
+    );
+  }
 }
