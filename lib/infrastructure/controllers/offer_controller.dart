@@ -26,7 +26,7 @@ class OfferController {
                 .where(
                   (Offer offer) =>
                       offer.authorId == _userService.currentUserId &&
-                      offer.state == OfferState.done,
+                      offer.state.isFinished,
                 )
                 .toList(),
           );
@@ -37,7 +37,7 @@ class OfferController {
                 .where(
                   (Offer offer) =>
                       offer.recyclatorId == _userService.currentUserId &&
-                      offer.state == OfferState.done,
+                      offer.state.isFinished,
                 )
                 .toList(),
           );
@@ -48,7 +48,7 @@ class OfferController {
                 .where(
                   (Offer offer) =>
                       offer.recyclatorId == _userService.currentUserId &&
-                      offer.state != OfferState.done,
+                      !offer.state.isFinished,
                 )
                 .toList()
               ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
@@ -60,7 +60,7 @@ class OfferController {
                 .where(
                   (Offer offer) =>
                       offer.authorId == _userService.currentUserId &&
-                      offer.state != OfferState.done,
+                      !offer.state.isFinished,
                 )
                 .toList()
               ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
@@ -88,7 +88,7 @@ class OfferController {
     final offer = Offer(
       authorId: _userService.currentUserId,
       recyclatorId: null,
-      addressId: '1',
+      addressId: 'xHYjhsySulEyFqGsgf4a', // TODO: Add selected address
       items: <Item>[
         Item(type: ItemType.glass, count: glassCount),
         Item(type: ItemType.pet, count: plasticCount),
@@ -101,95 +101,21 @@ class OfferController {
     return offer;
   }
 
-  Future<List<Tuple2<Offer, Address>>> get offersMarkers async {
-    final List<Offer> offers = await _offerRepository.observeDocuments().first;
-    final List<Tuple2<Offer, Address>> tuples = [];
-
-    for (final offer in offers) {
-      final address = await _addressRepository.getDocument(offer.addressId);
-      if (address == null) {
-        continue;
-      }
-      tuples.add(Tuple2(offer, address));
-    }
-
-    return tuples;
-  }
-
   Stream<List<Tuple2<Offer, Address>>> get offersMarkersStream {
     return _offerRepository.observeDocuments().asyncMap((offers) async {
       final List<Tuple2<Offer, Address>> tuples = [];
       for (final offer in offers) {
+        if (offer.state.isFinished) {
+          continue;
+        }
         final address = await _addressRepository.getDocument(offer.addressId);
-        if (address == null) {
+        if (address == null || address.lat == null || address.lng == null) {
           continue;
         }
         tuples.add(Tuple2(offer, address));
       }
       return tuples;
     });
-  }
-
-  Future<List<Tuple2<Offer, Address>>> get mockoffersMarkers async {
-    final List<Tuple2<Offer, Address>> tuples = [];
-    final mockOffers = [
-      Offer(
-        id: '1',
-        authorId: 'author1',
-        recyclatorId: 'recyclator1',
-        addressId: 'address1',
-        items: [
-          Item(type: ItemType.pet, count: 10),
-          Item(type: ItemType.glass, count: 5),
-        ],
-        state: OfferState.done,
-        offerDate: DateTime.now(),
-        recycleDate: DateTime.now().add(Duration(days: 7)),
-      ),
-      Offer(
-        id: '2',
-        authorId: 'author2',
-        recyclatorId: 'recyclator2',
-        addressId: 'address2',
-        items: [
-          Item(type: ItemType.pet, count: 20),
-          Item(type: ItemType.glass, count: 15),
-        ],
-        state: OfferState.done,
-        offerDate: DateTime.now().subtract(Duration(days: 1)),
-        recycleDate: DateTime.now().add(Duration(days: 6)),
-      ),
-    ];
-    final mockAddresses = [
-      Address(
-        id: 'address1',
-        name: 'Home',
-        street: '123 Main St',
-        houseNo: '1A',
-        city: 'Brno',
-        zipCode: '60200',
-        country: 'Czech Republic',
-        lat: 49.1951,
-        lng: 16.6068,
-        userId: 'user1',
-      ),
-      Address(
-        id: 'address2',
-        name: 'Office',
-        street: '456 Office Rd',
-        houseNo: '2B',
-        city: 'Brno',
-        zipCode: '60200',
-        country: 'Czech Republic',
-        lat: 49.2000,
-        lng: 16.6090,
-        userId: 'user2',
-      ),
-    ];
-    for (int i = 0; i < mockOffers.length; i++) {
-      tuples.add(Tuple2(mockOffers[i], mockAddresses[i]));
-    }
-    return tuples;
   }
 
   Stream<List<Tuple2<Offer, Address>>> get mockOffersMarkersStream {

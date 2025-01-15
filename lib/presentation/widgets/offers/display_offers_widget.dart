@@ -58,7 +58,7 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
     return Stack(
       children: [
         StreamWidget(
-          stream: _offerController.mockOffersMarkersStream,
+          stream: _offerController.offersMarkersStream,
           onData: (snapshot) => GoogleMap(
             onMapCreated: (controller) => _onMapCreated(controller, snapshot),
             initialCameraPosition: CameraPosition(

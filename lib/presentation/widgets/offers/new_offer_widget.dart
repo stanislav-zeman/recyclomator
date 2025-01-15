@@ -47,7 +47,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text('address data'),
+                  Text('address data'), // TODO: Add current address data
                   _buildButton('Change address', () {
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(

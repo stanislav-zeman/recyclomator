@@ -18,81 +18,100 @@ class OfferDetailPage extends StatelessWidget {
 
   final UserService _userService = GetIt.I<UserService>();
 
-  final FirestoreRepository<Offer> _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
+  final FirestoreRepository<Offer> _offerRepository =
+      GetIt.I<FirestoreRepository<Offer>>();
 
-  Widget _buildCreatorButtons() {
+  Widget _buildCreatorButtons(void Function(String) onPressedPop) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _buildButton(
           'Picked up',
-          () => _offerRepository.setOrAdd(
-            offer.id!,
-            offer.copyWith(state: OfferState.done),
-          ),
+          () {
+            _offerRepository.setOrAdd(
+              offer.id!,
+              offer.copyWith(state: OfferState.done),
+            );
+            onPressedPop('Offer picked up');
+          },
           Colors.green,
         ),
         _buildButton(
           'Still valid',
-          () => _offerRepository.setOrAdd(
-            offer.id!,
-            offer.copyWith(
-              state: OfferState.free,
-            ),
-          ),
+          () {
+            _offerRepository.setOrAdd(
+              offer.id!,
+              offer.copyWith(
+                state: OfferState.free,
+              ),
+            );
+            onPressedPop('Offer still valid');
+          },
           Colors.orange,
         ),
         _buildButton(
           'Cancel reservation',
-          () => _offerRepository.setOrAdd(
-            offer.id!,
-            offer.copyWith(
-              state: OfferState.canceled,
-            ),
-          ),
+          () {
+            _offerRepository.setOrAdd(
+              offer.id!,
+              offer.copyWith(
+                state: OfferState.canceled,
+              ),
+            );
+            onPressedPop('Reservation canceled');
+          },
           Colors.red,
         ),
       ],
     );
   }
 
-  Widget _buildNotRecyclatorButtons() {
+  Widget _buildNotRecyclatorButtons(void Function(String) onPressedPop) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _buildButton(
           'Picked up',
-          () => _offerRepository.setOrAdd(
-            offer.id!,
-            offer.copyWith(state: OfferState.done),
-          ),
+          () {
+            _offerRepository.setOrAdd(
+              offer.id!,
+              offer.copyWith(state: OfferState.done),
+            );
+            onPressedPop('Offer picked up');
+          },
           Colors.orange,
         ),
         _buildButton(
           'Reserve',
-          () => _offerRepository.setOrAdd(
-            offer.id!,
-            offer.copyWith(state: OfferState.reserved),
-          ),
+          () {
+            _offerRepository.setOrAdd(
+              offer.id!,
+              offer.copyWith(state: OfferState.reserved),
+            );
+            onPressedPop('Offer reserved');
+          },
           Colors.green,
         ),
       ],
     );
   }
 
-  Widget _buildRecyclatorButtons() {
+  Widget _buildRecyclatorButtons(void Function(String) onPressedPop) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _buildButton(
           'Confirm pickup',
-          () => _offerRepository.setOrAdd(
-            offer.id!,
-            offer.copyWith(
-              state: OfferState.unconfirmed,
-              recycleDate: DateTime.now(),
-            ),
-          ),
+          () {
+            _offerRepository.setOrAdd(
+              offer.id!,
+              offer.copyWith(
+                state: OfferState.unconfirmed,
+                recycleDate: DateTime.now(),
+              ),
+            );
+            onPressedPop('Pickup confirmed');
+          },
           Colors.green,
         ),
         _buildButton(
@@ -105,6 +124,7 @@ class OfferDetailPage extends StatelessWidget {
                 recyclatorId: '',
               ),
             );
+            onPressedPop('Reservation canceled');
           },
           Colors.red,
         ),
@@ -112,16 +132,20 @@ class OfferDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCorrectButton() {
+  Widget _buildCorrectButton(void Function(String) onPressedPop) {
+    if (offer.state.isFinished) {
+      return SizedBox();
+    }
+
     final userId = _userService.currentUserId;
     if (offer.authorId == userId) {
-      return _buildCreatorButtons();
+      return _buildCreatorButtons(onPressedPop);
     }
     if (offer.recyclatorId == userId) {
-      return _buildRecyclatorButtons();
+      return _buildRecyclatorButtons(onPressedPop);
     }
     if (offer.recyclatorId == null) {
-      return _buildNotRecyclatorButtons();
+      return _buildNotRecyclatorButtons(onPressedPop);
     }
     return SizedBox();
   }
@@ -137,7 +161,11 @@ class OfferDetailPage extends StatelessWidget {
   }
 
   int _getNumberOfBottles(ItemType type) {
-    return offer.items.where((Item item) => item.type == type).firstOrNull?.count ?? 0;
+    return offer.items
+            .where((Item item) => item.type == type)
+            .firstOrNull
+            ?.count ??
+        0;
   }
 
   @override
@@ -172,7 +200,7 @@ class OfferDetailPage extends StatelessWidget {
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
                 children: [
-                  _buildCard(Icons.home, '${offer.addressId}'),
+                  _buildCard(Icons.home, '${offer.addressId}'), // TODO: Show address
                   _buildCard(
                     Icons.calendar_month,
                     'Offer date: ${DateFormat('dd/MM/yyyy').format(offer.offerDate)}\nRecycle date: ${offer.recycleDate != null ? DateFormat('dd/MM/yyyy').format(offer.recycleDate!) : "N/A"}',
@@ -188,7 +216,12 @@ class OfferDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            _buildCorrectButton(),
+            _buildCorrectButton((message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+              Navigator.of(context).pop();
+            }),
           ],
         ),
       ),
