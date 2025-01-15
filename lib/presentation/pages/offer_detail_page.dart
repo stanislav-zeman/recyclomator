@@ -22,7 +22,7 @@ class OfferDetailPage extends StatelessWidget {
   final FirestoreRepository<Offer> _offerRepository =
       GetIt.I<FirestoreRepository<Offer>>();
 
-  static const double buttonWidth = 100.0;
+  static const double buttonWidth = 120.0;
   static const double buttonHeight = 50.0;
 
   Widget _buildCreatorButtons(void Function(String) onPressedPop) {
@@ -232,7 +232,7 @@ class OfferDetailPage extends StatelessWidget {
               'Open Map',
               () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
+                  MaterialPageRoute<void>(
                     builder: (context) => OfferOnMap(
                       addressId: offer.addressId,
                     ),
