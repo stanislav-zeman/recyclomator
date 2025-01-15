@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lock_orientation_screen/lock_orientation_screen.dart';
+
 import 'auth/auth_gate.dart';
 import 'theme/theme_provider.dart';
 
@@ -7,12 +9,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Recyclomator',
-      home: AuthGate(),
-      theme: ThemeProvider.lightTheme,
-      darkTheme: ThemeProvider.darkTheme,
-      debugShowCheckedModeBanner: false,
+    return LockOrientation(
+      child: MaterialApp(
+        title: 'Recyclomator',
+        home: AuthGate(),
+        theme: ThemeProvider.lightTheme,
+        darkTheme: ThemeProvider.darkTheme,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
