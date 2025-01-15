@@ -55,7 +55,7 @@ class ItemButton extends StatelessWidget {
                           countNotifier.value++;
                         },
                         icon: Icon(Icons.add),
-                        color: Colors.green,
+                        color: Theme.of(context).primaryColor,
                         iconSize: 32,
                       ),
                     ],

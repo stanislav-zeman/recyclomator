@@ -43,6 +43,7 @@ class StatisticsPage extends StatelessWidget {
                   _buildText(
                     'Money saved: ${_calculateMoneyGivenAway(glassBottles, plasticBottles).toStringAsFixed(2)} K\u010D',
                   ),
+                  _buildImage(),
                 ],
               ),
             ),
@@ -74,4 +75,13 @@ class StatisticsPage extends StatelessWidget {
       ),
     );
   }
+}
+Widget _buildImage() {
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Image.asset(
+      'assets/images/turtle.png',
+      fit: BoxFit.cover,
+    ),
+  );
 }

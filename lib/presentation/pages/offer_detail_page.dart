@@ -190,7 +190,11 @@ class OfferDetailPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: offer.state == OfferState.done
+                  ? Colors.green
+                  : offer.state == OfferState.canceled
+                    ? Colors.red
+                    : Colors.orange,
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: Text(
