@@ -124,7 +124,8 @@ class OfferController {
         if (offer.state.isFinished) {
           continue;
         }
-        final address = await _addressRepository.getDocument(offer.addressId); // TODO: Should use some address controller function
+        final address = await _addressRepository.getDocument(offer
+            .addressId); // TODO: Should use some address controller function
         if (address == null || address.lat == null || address.lng == null) {
           continue;
         }

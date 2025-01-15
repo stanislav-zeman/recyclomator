@@ -130,7 +130,8 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
               children: [
                 if (filter)
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(5),
