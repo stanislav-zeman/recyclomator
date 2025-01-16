@@ -103,7 +103,8 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
               children: [
                 if (filter)
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(5),
@@ -148,7 +149,8 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
 
       final marker = Marker(
         markerId: MarkerId(address.name),
-        position: LatLng(address.place.location.latitude, address.place.location.longitude),
+        position: LatLng(
+            address.place.location.latitude, address.place.location.longitude),
         infoWindow: InfoWindow(
           title: address.place.formattedAddress,
           snippet:
@@ -166,6 +168,10 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
   }
 
   int _getNumberOfBottles(ItemType type, Offer offer) {
-    return offer.items.where((Item item) => item.type == type).firstOrNull?.count ?? 0;
+    return offer.items
+            .where((Item item) => item.type == type)
+            .firstOrNull
+            ?.count ??
+        0;
   }
 }

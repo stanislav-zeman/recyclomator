@@ -49,7 +49,8 @@ class ProfilePage extends StatelessWidget {
             padding: const EdgeInsets.all(32.0),
             child: Column(
               children: [
-                _buildText(context, 'Username: ${user.displayName ?? "Not set"}'),
+                _buildText(
+                    context, 'Username: ${user.displayName ?? "Not set"}'),
                 _buildText(context, 'Email: ${user.email}'),
               ],
             ),

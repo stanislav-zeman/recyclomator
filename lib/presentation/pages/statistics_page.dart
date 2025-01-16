@@ -62,7 +62,8 @@ class StatisticsPage extends StatelessWidget {
   }
 
   double _calculateCO2Saved(int glass, int plastic) {
-    return (glass * co2SavedPerGlassBottle) + (plastic * co2SavedPerPlasticBottle);
+    return (glass * co2SavedPerGlassBottle) +
+        (plastic * co2SavedPerPlasticBottle);
   }
 
   double _calculateMoneyGivenAway(int glass, int plastic) {

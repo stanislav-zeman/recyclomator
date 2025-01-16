@@ -126,7 +126,8 @@ class AddressesPage extends StatelessWidget {
                           (ac) =>
                               ac.types.contains(AddressComponentType.route) ||
                               ac.types.contains(
-                                AddressComponentType.highLevelAdministrativeArea,
+                                AddressComponentType
+                                    .highLevelAdministrativeArea,
                               ) ||
                               ac.types.contains(
                                 AddressComponentType.country,

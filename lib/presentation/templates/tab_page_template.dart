@@ -3,7 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:recyclomator/domain/value_objects/offer_type.dart';
 import 'package:recyclomator/infrastructure/services/state_service.dart';
 import 'package:recyclomator/presentation/widgets/common/future_widget.dart';
-import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer.dart' as navigation;
+import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer.dart'
+    as navigation;
 
 class TabPageTemplate extends StatelessWidget {
   TabPageTemplate({

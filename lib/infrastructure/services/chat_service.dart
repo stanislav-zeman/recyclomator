@@ -23,8 +23,7 @@ class ChatService {
           (List<Message> messages) => messages
               .where((Message message) => message.offerId == offerId)
               .toList()
-              ..sort((a, b) => a.timestamp.compareTo(b.timestamp)),
+            ..sort((a, b) => a.timestamp.compareTo(b.timestamp)),
         );
   }
-
 }

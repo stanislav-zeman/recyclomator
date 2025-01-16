@@ -63,6 +63,11 @@ class OfferList extends StatelessWidget {
   }
 
   int _getNumberOfBottles(ItemType type, int index) {
-    return offers[index].items.where((Item x) => x.type == type).firstOrNull?.count ?? 0;
+    return offers[index]
+            .items
+            .where((Item x) => x.type == type)
+            .firstOrNull
+            ?.count ??
+        0;
   }
 }

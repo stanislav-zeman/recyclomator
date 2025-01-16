@@ -65,7 +65,10 @@ class ChatWidget extends StatelessWidget {
               final text = controller.text;
               if (text.isNotEmpty) {
                 _chatService.sendMessage(
-                    offer.id!, _userService.currentUserId, text,);
+                  offer.id!,
+                  _userService.currentUserId,
+                  text,
+                );
                 controller.clear();
               }
             },

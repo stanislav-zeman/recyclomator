@@ -22,24 +22,31 @@ class OfferController {
 
   late final Stream<bool> filterMarkers = _filterMarkers.stream;
 
-  Stream<List<Offer>> get historyOffersStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.userId == _userService.currentUserId && offer.state.isFinished,
-            )
-            .toList(),
-      );
+  Stream<List<Offer>> get historyOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.userId == _userService.currentUserId &&
+                      offer.state.isFinished,
+                )
+                .toList(),
+          );
 
-  Stream<List<Offer>> get historyRecycleStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.recyclatorId == _userService.currentUserId && offer.state.isFinished,
-            )
-            .toList(),
-      );
+  Stream<List<Offer>> get historyRecycleStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.recyclatorId == _userService.currentUserId &&
+                      offer.state.isFinished,
+                )
+                .toList(),
+          );
 
   Stream<List<Tuple2<Offer, Address>>> get offersMarkersStream {
-    return Rx.combineLatest2(_offerRepository.observeDocuments(), filterMarkers, (offers, filter) {
+    return Rx.combineLatest2(_offerRepository.observeDocuments(), filterMarkers,
+        (offers, filter) {
       return offers.where((offer) {
         if (filter) {
           return offer.recyclatorId == _userService.currentUserId;
@@ -62,23 +69,29 @@ class OfferController {
     });
   }
 
-  Stream<List<Offer>> get providedOffersStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.userId == _userService.currentUserId && !offer.state.isFinished,
-            )
-            .toList()
-          ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
-      );
+  Stream<List<Offer>> get providedOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.userId == _userService.currentUserId &&
+                      !offer.state.isFinished,
+                )
+                .toList()
+              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
+          );
 
-  Stream<List<Offer>> get takenOffersStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.recyclatorId == _userService.currentUserId && !offer.state.isFinished,
-            )
-            .toList()
-          ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
-      );
+  Stream<List<Offer>> get takenOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.recyclatorId == _userService.currentUserId &&
+                      !offer.state.isFinished,
+                )
+                .toList()
+              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
+          );
 
   Offer addOffer(int glassCount, int plasticCount, String addressId) {
     final offer = Offer(

@@ -108,7 +108,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   DropdownButton(
-                    items: addresses.map<DropdownMenuItem<Address>>((Address address) {
+                    items: addresses
+                        .map<DropdownMenuItem<Address>>((Address address) {
                       return DropdownMenuItem<Address>(
                         value: address,
                         child: Text(address.name),
@@ -147,7 +148,8 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
               _buildButton(
                 'Submit offer',
                 () {
-                  if ((_glassCount.value == 0 && _plasticCount.value == 0) || _selectedAddress == null) {
+                  if ((_glassCount.value == 0 && _plasticCount.value == 0) ||
+                      _selectedAddress == null) {
                     return;
                   }
 

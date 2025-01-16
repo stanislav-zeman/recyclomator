@@ -11,7 +11,8 @@ class PlacesSuggestionsResponse {
     required this.places,
   });
 
-  factory PlacesSuggestionsResponse.fromJson(Map<String, dynamic> json) => _$PlacesSuggestionsResponseFromJson(json);
+  factory PlacesSuggestionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$PlacesSuggestionsResponseFromJson(json);
 
   final List<Place> places;
 

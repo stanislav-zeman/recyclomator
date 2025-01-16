@@ -46,7 +46,8 @@ class NavigationDrawer extends StatelessWidget {
   Widget _buildDrawerTile(BuildContext context, String text, Widget page) {
     return ListTile(
       title: Text(text),
-      onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page)),
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute<void>(builder: (_) => page)),
     );
   }
 }

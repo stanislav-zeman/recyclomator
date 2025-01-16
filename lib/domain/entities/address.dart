@@ -14,7 +14,8 @@ class Address {
     required this.place,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 
   final String? id;
   final String userId;
@@ -24,7 +25,8 @@ class Address {
   Map<String, dynamic> toJson() => _$AddressToJson(this);
 
   @override
-  bool operator ==(Object other) => other is Address && other.runtimeType == runtimeType && other.id == id;
+  bool operator ==(Object other) =>
+      other is Address && other.runtimeType == runtimeType && other.id == id;
 
   @override
   int get hashCode => id.hashCode;

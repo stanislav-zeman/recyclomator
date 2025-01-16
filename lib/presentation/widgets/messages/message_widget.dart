@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:recyclomator/domain/entities/message.dart';
 

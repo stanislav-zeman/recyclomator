@@ -11,7 +11,8 @@ class OfferOnMap extends StatelessWidget {
 
   final String addressId;
 
-  final FirestoreRepository<Address> _addressRepository = GetIt.I<FirestoreRepository<Address>>();
+  final FirestoreRepository<Address> _addressRepository =
+      GetIt.I<FirestoreRepository<Address>>();
 
   @override
   Widget build(BuildContext context) {

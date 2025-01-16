@@ -11,9 +11,10 @@ class Message {
     required this.text,
     DateTime? timestamp,
   }) : timestamp = timestamp ?? DateTime.now();
-  
-  factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
-  
+
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      _$MessageFromJson(json);
+
   final String id;
   final String offerId;
   final String senderId;

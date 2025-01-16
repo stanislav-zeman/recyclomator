@@ -12,7 +12,8 @@ class AddressComponent {
     required this.types,
   });
 
-  factory AddressComponent.fromJson(Map<String, dynamic> json) => _$AddressComponentFromJson(json);
+  factory AddressComponent.fromJson(Map<String, dynamic> json) =>
+      _$AddressComponentFromJson(json);
 
   final String shortText;
   final String longText;

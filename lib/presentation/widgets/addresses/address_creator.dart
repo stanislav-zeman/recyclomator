@@ -46,7 +46,8 @@ class _AddressCreatorState extends State<AddressCreator> {
                   PlaceSearch(
                     onSelectPlace: _onSelectPlace,
                   ),
-                  if (_selectedPlace != null) Text(_selectedPlace!.formattedAddress),
+                  if (_selectedPlace != null)
+                    Text(_selectedPlace!.formattedAddress),
                 ],
               ),
             ),
