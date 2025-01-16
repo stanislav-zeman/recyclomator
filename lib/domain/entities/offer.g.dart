@@ -8,31 +8,24 @@ part of 'offer.dart';
 
 Offer _$OfferFromJson(Map<String, dynamic> json) => Offer(
       id: json['id'] as String?,
-      authorId: json['authorId'] as String,
+      userId: json['userId'] as String,
       recyclatorId: json['recyclatorId'] as String?,
       addressId: json['addressId'] as String,
-      items: (json['items'] as List<dynamic>)
-          .map((e) => Item.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      items: (json['items'] as List<dynamic>).map((e) => Item.fromJson(e as Map<String, dynamic>)).toList(),
       state: $enumDecode(_$OfferStateEnumMap, json['state']),
-      offerDate: json['offerDate'] == null
-          ? null
-          : DateTime.parse(json['offerDate'] as String),
-      recycleDate: json['recycleDate'] == null
-          ? null
-          : DateTime.parse(json['recycleDate'] as String),
+      offerDate: json['offerDate'] == null ? null : DateTime.parse(json['offerDate'] as String),
+      recycleDate: json['recycleDate'] == null ? null : DateTime.parse(json['recycleDate'] as String),
     );
 
 Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
       if (instance.id case final value?) 'id': value,
-      'authorId': instance.authorId,
+      'userId': instance.userId,
       if (instance.recyclatorId case final value?) 'recyclatorId': value,
       'addressId': instance.addressId,
       'items': instance.items.map((e) => e.toJson()).toList(),
       'state': _$OfferStateEnumMap[instance.state]!,
       'offerDate': instance.offerDate.toIso8601String(),
-      if (instance.recycleDate?.toIso8601String() case final value?)
-        'recycleDate': value,
+      if (instance.recycleDate?.toIso8601String() case final value?) 'recycleDate': value,
     };
 
 const _$OfferStateEnumMap = {

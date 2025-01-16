@@ -19,8 +19,7 @@ class OfferDetailPage extends StatelessWidget {
 
   final UserService _userService = GetIt.I<UserService>();
 
-  final FirestoreRepository<Offer> _offerRepository =
-      GetIt.I<FirestoreRepository<Offer>>();
+  final FirestoreRepository<Offer> _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
 
   static const double buttonWidth = 120.0;
   static const double buttonHeight = 50.0;
@@ -142,15 +141,18 @@ class OfferDetailPage extends StatelessWidget {
     }
 
     final userId = _userService.currentUserId;
-    if (offer.authorId == userId) {
+    if (offer.userId == userId) {
       return _buildCreatorButtons(onPressedPop);
     }
+
     if (offer.recyclatorId == userId) {
       return _buildRecyclatorButtons(onPressedPop);
     }
+
     if (offer.recyclatorId == null) {
       return _buildNotRecyclatorButtons(onPressedPop);
     }
+
     return SizedBox();
   }
 
@@ -172,11 +174,7 @@ class OfferDetailPage extends StatelessWidget {
   }
 
   int _getNumberOfBottles(ItemType type) {
-    return offer.items
-            .where((Item item) => item.type == type)
-            .firstOrNull
-            ?.count ??
-        0;
+    return offer.items.where((Item item) => item.type == type).firstOrNull?.count ?? 0;
   }
 
   @override
@@ -191,10 +189,10 @@ class OfferDetailPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                 color: offer.state == OfferState.done
-                  ? Colors.green
-                  : offer.state == OfferState.canceled
-                    ? Colors.red
-                    : Colors.orange,
+                    ? Colors.green
+                    : offer.state == OfferState.canceled
+                        ? Colors.red
+                        : Colors.orange,
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: Text(
@@ -215,8 +213,7 @@ class OfferDetailPage extends StatelessWidget {
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
                 children: [
-                  _buildCard(
-                      Icons.home, '${offer.addressId}'), // TODO: Show address
+                  _buildCard(Icons.home, '${offer.addressId}'), // TODO: Show address
                   _buildCard(
                     Icons.calendar_month,
                     'Offer date: ${DateFormat('dd/MM/yyyy').format(offer.offerDate)}\nRecycle date: ${offer.recycleDate != null ? DateFormat('dd/MM/yyyy').format(offer.recycleDate!) : "N/A"}',

@@ -8,7 +8,7 @@ part 'offer.g.dart';
 class Offer {
   Offer({
     this.id,
-    required this.authorId,
+    required this.userId,
     required this.recyclatorId,
     required this.addressId,
     required this.items,
@@ -20,7 +20,7 @@ class Offer {
   factory Offer.fromJson(Map<String, dynamic> json) => _$OfferFromJson(json);
 
   final String? id;
-  final String authorId;
+  final String userId;
   final String? recyclatorId;
   final String addressId;
   final List<Item> items;
@@ -32,7 +32,7 @@ class Offer {
 
   Offer copyWith({
     String? id,
-    String? authorId,
+    String? userId,
     String? recyclatorId,
     String? addressId,
     List<Item>? items,
@@ -42,7 +42,7 @@ class Offer {
   }) {
     return Offer(
       id: id ?? this.id,
-      authorId: authorId ?? this.authorId,
+      userId: userId ?? this.userId,
       recyclatorId: recyclatorId?.isEmpty ?? true ? null : recyclatorId,
       addressId: addressId ?? this.addressId,
       items: items ?? this.items,

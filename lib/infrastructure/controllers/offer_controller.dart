@@ -21,56 +21,44 @@ class OfferController {
   final FirestoreRepository<Address> _addressRepository;
   final UserService _userService;
 
-  Stream<List<Offer>> get historyOffersStream =>
-      _offerRepository.observeDocuments().map(
-            (List<Offer> offers) => offers
-                .where(
-                  (Offer offer) =>
-                      offer.authorId == _userService.currentUserId &&
-                      offer.state.isFinished,
-                )
-                .toList(),
-          );
+  Stream<List<Offer>> get historyOffersStream => _offerRepository.observeDocuments().map(
+        (List<Offer> offers) => offers
+            .where(
+              (Offer offer) => offer.userId == _userService.currentUserId && offer.state.isFinished,
+            )
+            .toList(),
+      );
 
-  Stream<List<Offer>> get historyRecycleStream =>
-      _offerRepository.observeDocuments().map(
-            (List<Offer> offers) => offers
-                .where(
-                  (Offer offer) =>
-                      offer.recyclatorId == _userService.currentUserId &&
-                      offer.state.isFinished,
-                )
-                .toList(),
-          );
+  Stream<List<Offer>> get historyRecycleStream => _offerRepository.observeDocuments().map(
+        (List<Offer> offers) => offers
+            .where(
+              (Offer offer) => offer.recyclatorId == _userService.currentUserId && offer.state.isFinished,
+            )
+            .toList(),
+      );
 
-  Stream<List<Offer>> get takenOffersStream =>
-      _offerRepository.observeDocuments().map(
-            (List<Offer> offers) => offers
-                .where(
-                  (Offer offer) =>
-                      offer.recyclatorId == _userService.currentUserId &&
-                      !offer.state.isFinished,
-                )
-                .toList()
-              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
-          );
+  Stream<List<Offer>> get takenOffersStream => _offerRepository.observeDocuments().map(
+        (List<Offer> offers) => offers
+            .where(
+              (Offer offer) => offer.recyclatorId == _userService.currentUserId && !offer.state.isFinished,
+            )
+            .toList()
+          ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
+      );
 
-  Stream<List<Offer>> get providedOffersStream =>
-      _offerRepository.observeDocuments().map(
-            (List<Offer> offers) => offers
-                .where(
-                  (Offer offer) =>
-                      offer.authorId == _userService.currentUserId &&
-                      !offer.state.isFinished,
-                )
-                .toList()
-              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
-          );
+  Stream<List<Offer>> get providedOffersStream => _offerRepository.observeDocuments().map(
+        (List<Offer> offers) => offers
+            .where(
+              (Offer offer) => offer.userId == _userService.currentUserId && !offer.state.isFinished,
+            )
+            .toList()
+          ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
+      );
 
   Future<int> getNumberOfGlassBottles() async {
     final List<Offer> offers = await _offerRepository.observeDocuments().first;
     return offers
-        .where((offer) => offer.authorId == _userService.currentUserId)
+        .where((offer) => offer.userId == _userService.currentUserId)
         .expand((offer) => offer.items)
         .where((item) => item.type == ItemType.glass)
         .fold<int>(0, (sum, item) => sum + item.count);
@@ -79,7 +67,7 @@ class OfferController {
   Future<int> getNumberOfPlasticBottles() async {
     final List<Offer> offers = await _offerRepository.observeDocuments().first;
     return offers
-        .where((offer) => offer.authorId == _userService.currentUserId)
+        .where((offer) => offer.userId == _userService.currentUserId)
         .expand((offer) => offer.items)
         .where((item) => item.type == ItemType.pet)
         .fold<int>(0, (int sum, item) => sum + item.count);
@@ -87,7 +75,7 @@ class OfferController {
 
   Offer addOffer(int glassCount, int plasticCount) {
     final offer = Offer(
-      authorId: _userService.currentUserId,
+      userId: _userService.currentUserId,
       recyclatorId: null,
       addressId: 'xHYjhsySulEyFqGsgf4a', // TODO: Add selected address
       items: <Item>[
@@ -110,8 +98,7 @@ class OfferController {
   }
 
   Stream<List<Tuple2<Offer, Address>>> get offersMarkersStream {
-    return Rx.combineLatest2(_offerRepository.observeDocuments(), filterMarkers,
-        (offers, filter) {
+    return Rx.combineLatest2(_offerRepository.observeDocuments(), filterMarkers, (offers, filter) {
       return offers.where((offer) {
         if (filter) {
           return offer.recyclatorId == _userService.currentUserId;
@@ -124,8 +111,8 @@ class OfferController {
         if (offer.state.isFinished) {
           continue;
         }
-        final address = await _addressRepository.getDocument(offer
-            .addressId); // TODO: Should use some address controller function
+        final address =
+            await _addressRepository.getDocument(offer.addressId); // TODO: Should use some address controller function
         if (address == null || address.lat == null || address.lng == null) {
           continue;
         }
