@@ -20,6 +20,7 @@ Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'formattedAddress': instance.formattedAddress,
-      'addressComponents': instance.addressComponents.map((e) => e.toJson()).toList(),
+      'addressComponents':
+          instance.addressComponents.map((e) => e.toJson()).toList(),
       'location': instance.location.toJson(),
     };

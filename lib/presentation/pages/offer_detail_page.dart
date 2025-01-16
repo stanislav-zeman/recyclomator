@@ -12,6 +12,7 @@ import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/infrastructure/services/user_service.dart';
 import 'package:recyclomator/presentation/templates/page_template.dart';
 import 'package:recyclomator/presentation/widgets/common/future_widget.dart';
+import 'package:recyclomator/presentation/widgets/messages/chat_widget.dart';
 import 'package:recyclomator/presentation/widgets/offers/offer_on_map.dart';
 
 class OfferDetailPage extends StatelessWidget {
@@ -23,8 +24,11 @@ class OfferDetailPage extends StatelessWidget {
   final Offer offer;
 
   final UserService _userService = GetIt.I<UserService>();
-  final FirestoreRepository<Offer> _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
-  final FirestoreRepository<Address> _addressRepository = GetIt.I<FirestoreRepository<Address>>();
+
+  final FirestoreRepository<Offer> _offerRepository =
+      GetIt.I<FirestoreRepository<Offer>>();
+  final FirestoreRepository<Address> _addressRepository =
+      GetIt.I<FirestoreRepository<Address>>();
 
   @override
   Widget build(BuildContext context) {
@@ -216,9 +220,11 @@ class OfferDetailPage extends StatelessWidget {
                         : address.place.addressComponents
                             .where(
                               (ac) =>
-                                  ac.types.contains(AddressComponentType.route) ||
+                                  ac.types
+                                      .contains(AddressComponentType.route) ||
                                   ac.types.contains(
-                                    AddressComponentType.highLevelAdministrativeArea,
+                                    AddressComponentType
+                                        .highLevelAdministrativeArea,
                                   ) ||
                                   ac.types.contains(
                                     AddressComponentType.country,
@@ -250,18 +256,38 @@ class OfferDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            _buildButton(
-              'Open Map',
-              () {
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (context) => OfferOnMap(
-                      addressId: offer.addressId,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildButton(
+                  'Open Map',
+                  () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => OfferOnMap(
+                          addressId: offer.addressId,
+                        ),
+                      ),
+                    );
+                  },
+                  Colors.blue,
+                ),
+                if (offer.recyclatorId == _userService.currentUserId ||
+                    offer.userId == _userService.currentUserId)
+                  _buildButton(
+                    'Chat',
+                    () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => ChatWidget(
+                            offer: offer,
+                          ),
+                        ),
+                      );
+                    },
+                    Colors.blue,
                   ),
-                );
-              },
-              Colors.blue,
+              ],
             ),
             SizedBox(
               height: 10,

@@ -11,10 +11,16 @@ Offer _$OfferFromJson(Map<String, dynamic> json) => Offer(
       userId: json['userId'] as String,
       recyclatorId: json['recyclatorId'] as String?,
       addressId: json['addressId'] as String,
-      items: (json['items'] as List<dynamic>).map((e) => Item.fromJson(e as Map<String, dynamic>)).toList(),
+      items: (json['items'] as List<dynamic>)
+          .map((e) => Item.fromJson(e as Map<String, dynamic>))
+          .toList(),
       state: $enumDecode(_$OfferStateEnumMap, json['state']),
-      offerDate: json['offerDate'] == null ? null : DateTime.parse(json['offerDate'] as String),
-      recycleDate: json['recycleDate'] == null ? null : DateTime.parse(json['recycleDate'] as String),
+      offerDate: json['offerDate'] == null
+          ? null
+          : DateTime.parse(json['offerDate'] as String),
+      recycleDate: json['recycleDate'] == null
+          ? null
+          : DateTime.parse(json['recycleDate'] as String),
     );
 
 Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
@@ -25,7 +31,8 @@ Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
       'items': instance.items.map((e) => e.toJson()).toList(),
       'state': _$OfferStateEnumMap[instance.state]!,
       'offerDate': instance.offerDate.toIso8601String(),
-      if (instance.recycleDate?.toIso8601String() case final value?) 'recycleDate': value,
+      if (instance.recycleDate?.toIso8601String() case final value?)
+        'recycleDate': value,
     };
 
 const _$OfferStateEnumMap = {

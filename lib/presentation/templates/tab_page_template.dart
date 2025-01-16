@@ -32,7 +32,8 @@ class TabPageTemplate extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
-              onTap: (int value) => _stateService.saveState(OfferType.values[value]),
+              onTap: (int value) =>
+                  _stateService.saveState(OfferType.values[value]),
               tabs: <Widget>[
                 Tab(icon: Icon(leftIcon, color: Colors.white)),
                 Tab(icon: Icon(rightIcon, color: Colors.white)),
