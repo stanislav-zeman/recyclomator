@@ -56,7 +56,10 @@ class AddressesPage extends StatelessWidget {
           "Existing addresses",
         ),
         Padding(
-          padding: EdgeInsets.all(32.0),
+          padding: EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 32.0,
+          ),
           child: _buildAddressList(
             context,
             addresses,
@@ -78,21 +81,24 @@ class AddressesPage extends StatelessWidget {
       );
     }
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: addresses.length,
-      itemBuilder: (
-        BuildContext context,
-        int index,
-      ) {
-        final Address address = addresses[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: _buildAddressItem(
-            address,
-          ),
-        );
-      },
+    return SizedBox(
+      height: 180,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: addresses.length,
+        itemBuilder: (
+          BuildContext context,
+          int index,
+        ) {
+          final Address address = addresses[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: _buildAddressItem(
+              address,
+            ),
+          );
+        },
+      ),
     );
   }
 
