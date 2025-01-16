@@ -9,7 +9,9 @@ import 'package:recyclomator/infrastructure/services/models/places_suggestions_r
 class PlacesService {
   static const String _token = "AIzaSyB9iHgKBCKo5iHttDPO_ZcB6GXPabX-CFQ";
 
-  Future<List<Place>> getPlaceSuggestions(String input) async {
+  Future<List<Place>> getPlaceSuggestions(
+    String input,
+  ) async {
     final Uri uri = Uri.https(
       "places.googleapis.com",
       "v1/places:searchText",
@@ -31,10 +33,17 @@ class PlacesService {
     );
 
     if (response.statusCode == 200) {
-      final placesResponse = PlacesSuggestionsResponse.fromJson((jsonDecode(response.body) as Map).cast());
+      final placesResponse = PlacesSuggestionsResponse.fromJson(
+        (jsonDecode(
+          response.body,
+        ) as Map)
+            .cast(),
+      );
       return placesResponse.places;
     } else {
-      throw Exception('Failed to load places');
+      throw Exception(
+        'Failed to load places',
+      );
     }
   }
 }

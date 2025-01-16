@@ -7,7 +7,13 @@ import '../widgets/common/future_widget.dart';
 import '../widgets/navigation/navigation_drawer.dart' as navigation;
 
 class TabPageTemplate extends StatelessWidget {
-  TabPageTemplate({super.key, required this.title, required this.children, this.showSideMenu = false, required this.leftIcon, required this.rightIcon});
+  TabPageTemplate(
+      {super.key,
+      required this.title,
+      required this.children,
+      this.showSideMenu = false,
+      required this.leftIcon,
+      required this.rightIcon});
 
   final Widget title;
   final List<Widget> children;

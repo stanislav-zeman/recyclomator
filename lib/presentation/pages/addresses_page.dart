@@ -18,55 +18,87 @@ class AddressesPage extends StatelessWidget {
       title: Text('Addresses'),
       child: StreamWidget(
         stream: _addressController.userAddresses,
-        onData: (addresses) => _buildAddressPage(context, addresses),
+        onData: (addresses) => _buildAddressPage(
+          context,
+          addresses,
+        ),
       ),
     );
   }
 
-  Widget _buildAddressPage(BuildContext context, List<Address> addresses) {
+  Widget _buildAddressPage(
+    BuildContext context,
+    List<Address> addresses,
+  ) {
     return Wrap(
       spacing: 20,
       runSpacing: 20,
       children: <Widget>[
         SizedBox(height: 20),
-        _buildExistingAddresses(context, addresses),
+        _buildExistingAddresses(
+          context,
+          addresses,
+        ),
         Divider(),
         AddressCreator(),
       ],
     );
   }
 
-  Widget _buildExistingAddresses(BuildContext context, List<Address> addresses) {
+  Widget _buildExistingAddresses(
+    BuildContext context,
+    List<Address> addresses,
+  ) {
     return Column(
       children: [
-        _buildTitle(context, "Existing addresses"),
+        _buildTitle(
+          context,
+          "Existing addresses",
+        ),
         Padding(
           padding: EdgeInsets.all(32.0),
-          child: _buildAddressList(context, addresses),
+          child: _buildAddressList(
+            context,
+            addresses,
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildAddressList(BuildContext context, List<Address> addresses) {
+  Widget _buildAddressList(
+    BuildContext context,
+    List<Address> addresses,
+  ) {
     if (addresses.isEmpty) {
-      return Center(child: Text('You do not have any addresses'));
+      return Center(
+        child: Text(
+          'You do not have any addresses',
+        ),
+      );
     }
 
     return ListView.builder(
       shrinkWrap: true,
       itemCount: addresses.length,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (
+        BuildContext context,
+        int index,
+      ) {
         final Address address = addresses[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: _buildAddressItem(address),
+          child: _buildAddressItem(
+            address,
+          ),
         );
       },
     );
   }
 
-  Widget _buildAddressItem(Address address) {
+  Widget _buildAddressItem(
+    Address address,
+  ) {
     return Wrap(
       spacing: 5,
       children: [
@@ -76,7 +108,9 @@ class AddressesPage extends StatelessWidget {
               children: [
                 Text(
                   address.name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(
                   width: 200,
@@ -85,11 +119,19 @@ class AddressesPage extends StatelessWidget {
                         .where(
                           (ac) =>
                               ac.types.contains(AddressComponentType.route) ||
-                              ac.types.contains(AddressComponentType.highLevelAdministrativeArea) ||
-                              ac.types.contains(AddressComponentType.country) ||
-                              ac.types.contains(AddressComponentType.streetNumber),
+                              ac.types.contains(
+                                AddressComponentType.highLevelAdministrativeArea,
+                              ) ||
+                              ac.types.contains(
+                                AddressComponentType.country,
+                              ) ||
+                              ac.types.contains(
+                                AddressComponentType.streetNumber,
+                              ),
                         )
-                        .map((ac) => ac.shortText)
+                        .map(
+                          (ac) => ac.shortText,
+                        )
                         .join(" "),
                   ),
                 ),
@@ -98,7 +140,9 @@ class AddressesPage extends StatelessWidget {
             Spacer(),
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () => _addressController.removeAddress(address.id!),
+              onPressed: () => _addressController.removeAddress(
+                address.id!,
+              ),
             ),
           ],
         ),
@@ -106,7 +150,13 @@ class AddressesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTitle(BuildContext context, String text) {
-    return Text(text, style: Theme.of(context).textTheme.titleLarge);
+  Widget _buildTitle(
+    BuildContext context,
+    String text,
+  ) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.titleLarge,
+    );
   }
 }

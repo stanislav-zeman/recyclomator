@@ -215,17 +215,17 @@ class OfferDetailPage extends StatelessWidget {
                 children: [
                   _buildCard(context, Icons.home, '${offer.addressId}'), // TODO: Show address
                   _buildCard(
-                    context, 
+                    context,
                     Icons.calendar_month,
                     'Offer date: ${DateFormat('dd/MM/yyyy').format(offer.offerDate)}\nRecycle date: ${offer.recycleDate != null ? DateFormat('dd/MM/yyyy').format(offer.recycleDate!) : "N/A"}',
                   ),
                   _buildCard(
-                    context, 
+                    context,
                     FontAwesomeIcons.beerMugEmpty,
                     'Amount: ${_getNumberOfBottles(ItemType.glass)}',
                   ),
                   _buildCard(
-                    context, 
+                    context,
                     FontAwesomeIcons.bottleWater,
                     'Amount: ${_getNumberOfBottles(ItemType.pet)}',
                   ),

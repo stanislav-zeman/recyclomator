@@ -32,7 +32,10 @@ class SlidingPanelOffersWidget extends StatelessWidget {
             ),
           ),
         ),
-        panelBuilder: (sc) => OfferList(offers: snapshot, scrollController: sc,),
+        panelBuilder: (sc) => OfferList(
+          offers: snapshot,
+          scrollController: sc,
+        ),
       ),
     );
   }
