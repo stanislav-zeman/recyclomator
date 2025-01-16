@@ -74,6 +74,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
       );
     }
 
+    _selectedAddress = addresses[0];
     return Stack(
       children: [
         Padding(
@@ -102,7 +103,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                     hint: Center(
                       child: Text("Set address"),
                     ),
-                    value: _selectedAddress ?? addresses[0],
+                    value: _selectedAddress,
                   ),
                 ],
               ),
