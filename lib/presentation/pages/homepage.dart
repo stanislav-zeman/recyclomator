@@ -12,6 +12,8 @@ class Homepage extends StatelessWidget {
     return TabPageTemplate(
       title: Text('Recyclomator'),
       showSideMenu: true,
+      leftIcon: Icons.local_offer,
+      rightIcon: Icons.map,
       children: const <Widget>[
         NewOfferWidget(),
         DisplayOffersWidget(),

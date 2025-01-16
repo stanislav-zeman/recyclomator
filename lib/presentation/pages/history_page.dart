@@ -15,6 +15,8 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabPageTemplate(
       title: Text('History'),
+      leftIcon: Icons.local_offer,
+      rightIcon: Icons.recycling,
       children: <Widget>[
         StreamWidget<List<Offer>>(
           stream: _historyController.historyOffersStream,

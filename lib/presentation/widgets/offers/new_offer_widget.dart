@@ -3,9 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:recyclomator/presentation/pages/offer_detail_page.dart';
 
-import '../../../domain/entities/address.dart';
 import '../../../infrastructure/controllers/offer_controller.dart';
-import '../../../infrastructure/repositories/firestore.dart';
 import '../../pages/addresses_page.dart';
 import '../common/sliding_panel_offers_widget.dart';
 import 'item_button.dart';

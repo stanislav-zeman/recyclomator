@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:recyclomator/domain/entities/address.dart';
 import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
 import 'package:recyclomator/presentation/templates/page_template.dart';
-import 'package:recyclomator/presentation/widgets/addresses/address_creator.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
 import 'package:recyclomator/presentation/widgets/places/place_search.dart';
 

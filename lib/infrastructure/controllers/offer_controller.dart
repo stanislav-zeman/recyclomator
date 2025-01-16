@@ -22,39 +22,51 @@ class OfferController {
   final FirestoreRepository<Address> _addressRepository;
   final UserService _userService;
 
-  Stream<List<Offer>> get historyOffersStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.userId == _userService.currentUserId && offer.state.isFinished,
-            )
-            .toList(),
-      );
+  Stream<List<Offer>> get historyOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.userId == _userService.currentUserId &&
+                      offer.state.isFinished,
+                )
+                .toList(),
+          );
 
-  Stream<List<Offer>> get historyRecycleStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.recyclatorId == _userService.currentUserId && offer.state.isFinished,
-            )
-            .toList(),
-      );
+  Stream<List<Offer>> get historyRecycleStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.recyclatorId == _userService.currentUserId &&
+                      offer.state.isFinished,
+                )
+                .toList(),
+          );
 
-  Stream<List<Offer>> get takenOffersStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.recyclatorId == _userService.currentUserId && !offer.state.isFinished,
-            )
-            .toList()
-          ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
-      );
+  Stream<List<Offer>> get takenOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.recyclatorId == _userService.currentUserId &&
+                      !offer.state.isFinished,
+                )
+                .toList()
+              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
+          );
 
-  Stream<List<Offer>> get providedOffersStream => _offerRepository.observeDocuments().map(
-        (List<Offer> offers) => offers
-            .where(
-              (Offer offer) => offer.userId == _userService.currentUserId && !offer.state.isFinished,
-            )
-            .toList()
-          ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
-      );
+  Stream<List<Offer>> get providedOffersStream =>
+      _offerRepository.observeDocuments().map(
+            (List<Offer> offers) => offers
+                .where(
+                  (Offer offer) =>
+                      offer.userId == _userService.currentUserId &&
+                      !offer.state.isFinished,
+                )
+                .toList()
+              ..sort((a, b) => b.offerDate.compareTo(a.offerDate)),
+          );
 
   Future<int> getNumberOfGlassBottles() async {
     final List<Offer> offers = await _offerRepository.observeDocuments().first;
@@ -99,7 +111,8 @@ class OfferController {
   }
 
   Stream<List<Tuple2<Offer, Address>>> get offersMarkersStream {
-    return Rx.combineLatest2(_offerRepository.observeDocuments(), filterMarkers, (offers, filter) {
+    return Rx.combineLatest2(_offerRepository.observeDocuments(), filterMarkers,
+        (offers, filter) {
       return offers.where((offer) {
         if (filter) {
           return offer.recyclatorId == _userService.currentUserId;
@@ -112,8 +125,8 @@ class OfferController {
         if (offer.state.isFinished) {
           continue;
         }
-        final address =
-            await _addressRepository.getDocument(offer.addressId); // TODO: Should use some address controller function
+        final address = await _addressRepository.getDocument(offer
+            .addressId); // TODO: Should use some address controller function
         if (address == null || address.lat == null || address.lng == null) {
           continue;
         }
@@ -127,20 +140,4 @@ class OfferController {
     _filterMarkers.close();
   }
 
-  Future<OfferType> loadState() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? offerState = prefs.getString('offer_state');
-    if (offerState == null) {
-      return OfferType.offered;
-    }
-    return OfferType.values.firstWhere(
-      (OfferType type) => type.name == offerState,
-      orElse: () => OfferType.offered,
-    );
-  }
-
-  Future<void> saveState(OfferType offered) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('offer_state', offered.name);
-  }
 }

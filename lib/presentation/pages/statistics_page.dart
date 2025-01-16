@@ -73,7 +73,7 @@ class StatisticsPage extends StatelessWidget {
       fit: BoxFit.scaleDown,
       child: Text(
         text,
-        style: TextTheme.of(context).bodyLarge,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }

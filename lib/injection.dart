@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
 import 'package:recyclomator/infrastructure/services/places_service.dart';
+import 'package:recyclomator/infrastructure/services/state_service.dart';
 
 import 'domain/entities/address.dart';
 import 'domain/entities/offer.dart';
@@ -45,6 +46,7 @@ class Injection {
   static void _registerServices() {
     _get.registerSingleton(UserService());
     _get.registerSingleton(PlacesService());
+    _get.registerSingleton(StateService());
   }
 
   static void _registerControllers() {
