@@ -1,76 +1,77 @@
-image: ghcr.io/cirruslabs/flutter:3.24.3
+---
+image: ghcr.io/cirruslabs/flutter:latest
 
 default:
-  before_script:
-    - export PUB_CACHE=".pub-cache"
-    - export PATH="$PATH:$HOME/$PUB_CACHE/bin"
+    before_script:
+        - export PUB_CACHE=".pub-cache"
+        - export PATH="$PATH:$HOME/$PUB_CACHE/bin"
 
 .upload-cache:
-  cache:
-    when: 'on_success'
-    paths:
-      - .pub-cache/bin/
-      - .pub-cache/global_packages/
-      - .pub-cache/hosted/
-      - .dart_tool/
-      - .packages
+    cache:
+        when: 'on_success'
+        paths:
+            - .pub-cache/bin/
+            - .pub-cache/global_packages/
+            - .pub-cache/hosted/
+            - .dart_tool/
+            - .packages
 
 .download-cache:
-  cache:
-    paths:
-      - .dart_tool/
-      - .packages
-    policy: pull
+    cache:
+        paths:
+            - .dart_tool/
+            - .packages
+        policy: pull
 
 install-dependencies:
-  stage: .pre
-  extends:
-    - .upload-cache
-  tags:
-    - shared-fi
-  script:
-    - flutter pub get --no-precompile
+    stage: .pre
+    extends:
+        - .upload-cache
+    tags:
+        - shared-fi
+    script:
+        - flutter pub get --no-precompile
 
 build:
-  stage: build
-  needs:
-    - install-dependencies
-  tags:
-    - shared-fi
-  extends:
-    - .upload-cache
-  script:
-    - flutter pub get --precompile
+    stage: build
+    needs:
+        - install-dependencies
+    tags:
+        - shared-fi
+    extends:
+        - .upload-cache
+    script:
+        - flutter pub get --precompile
 
 test:
-  stage: test
-  needs:
-    - build
-  extends:
-    - .download-cache
-  tags:
-    - shared-fi
-  script:
-    - flutter test --timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded
+    stage: test
+    needs:
+        - build
+    extends:
+        - .download-cache
+    tags:
+        - shared-fi
+    script:
+        - flutter test --timeout 30s --concurrency=6 --test-randomize-ordering-seed=random --reporter=expanded
 
 lint:
-  stage: test
-  needs:
-    - install-dependencies
-  extends:
-    - .download-cache
-  tags:
-    - shared-fi
-  script:
-    - flutter analyze .
+    stage: test
+    needs:
+        - install-dependencies
+    extends:
+        - .download-cache
+    tags:
+        - shared-fi
+    script:
+        - flutter analyze .
 
 format:
-  stage: test
-  needs:
-    - install-dependencies
-  extends:
-    - .download-cache
-  tags:
-    - shared-fi
-  script:
-    - dart format --set-exit-if-changed bin/ lib/ test/
+    stage: test
+    needs:
+        - install-dependencies
+    extends:
+        - .download-cache
+    tags:
+        - shared-fi
+    script:
+        - dart format --set-exit-if-changed bin/ lib/ test/
