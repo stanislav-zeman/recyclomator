@@ -93,7 +93,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
       );
     }
 
-    _selectedAddress = addresses[0];
+    _selectedAddress ??= addresses[0];
     return Stack(
       children: [
         Padding(
