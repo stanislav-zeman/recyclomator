@@ -25,7 +25,7 @@ class _AddressCreatorState extends State<AddressCreator> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text('Create new address'),
+        _buildTitle(context, 'Create new address'),
         Form(
           key: _formKey,
           child: Padding(
@@ -111,5 +111,9 @@ class _AddressCreatorState extends State<AddressCreator> {
     _cityController.dispose();
     _zipCodeController.dispose();
     super.dispose();
+  }
+
+  Widget _buildTitle(BuildContext context, String text) {
+    return Text(text, style: Theme.of(context).textTheme.titleLarge);
   }
 }

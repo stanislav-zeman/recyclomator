@@ -44,7 +44,7 @@ class ProfilePage extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          Text('Your data', style: Theme.of(context).textTheme.titleLarge),
+          _buildTitle(context, 'Your data'),
           Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(
@@ -57,6 +57,10 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildTitle(BuildContext context, String text) {
+    return Text(text, style: Theme.of(context).textTheme.titleLarge);
   }
 
   Widget _buildText(BuildContext context, String text) {
