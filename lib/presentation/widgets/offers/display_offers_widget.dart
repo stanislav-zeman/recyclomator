@@ -150,7 +150,9 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
       final marker = Marker(
         markerId: MarkerId(address.name),
         position: LatLng(
-            address.place.location.latitude, address.place.location.longitude),
+          address.place.location.latitude,
+          address.place.location.longitude,
+        ),
         infoWindow: InfoWindow(
           title: address.place.formattedAddress,
           snippet:

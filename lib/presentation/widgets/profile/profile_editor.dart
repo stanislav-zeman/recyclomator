@@ -60,6 +60,7 @@ class _ProfileEditorState extends State<ProfileEditor> {
               }
 
               if (_emailController.text != "") {
+                // ignore: deprecated_member_use
                 user.updateEmail(_emailController.text);
               }
 

@@ -29,7 +29,7 @@ Map<String, dynamic> _$OfferToJson(Offer instance) => <String, dynamic>{
       if (instance.recyclatorId case final value?) 'recyclatorId': value,
       'addressId': instance.addressId,
       'items': instance.items.map((e) => e.toJson()).toList(),
-      'state': _$OfferStateEnumMap[instance.state]!,
+      'state': _$OfferStateEnumMap[instance.state],
       'offerDate': instance.offerDate.toIso8601String(),
       if (instance.recycleDate?.toIso8601String() case final value?)
         'recycleDate': value,

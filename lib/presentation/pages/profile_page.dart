@@ -50,7 +50,9 @@ class ProfilePage extends StatelessWidget {
             child: Column(
               children: [
                 _buildText(
-                    context, 'Username: ${user.displayName ?? "Not set"}'),
+                  context,
+                  'Username: ${user.displayName ?? "Not set"}',
+                ),
                 _buildText(context, 'Email: ${user.email}'),
               ],
             ),
