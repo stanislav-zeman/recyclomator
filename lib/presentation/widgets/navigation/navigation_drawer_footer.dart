@@ -6,13 +6,11 @@ class NavigationDrawerFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: ElevatedButton(
-          onPressed: () => fauthui.FirebaseUIAuth.signOut(),
-          child: Text('Sign out'),
-        ),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ElevatedButton(
+        onPressed: () => fauthui.FirebaseUIAuth.signOut(),
+        child: Text('Sign out'),
       ),
     );
   }
