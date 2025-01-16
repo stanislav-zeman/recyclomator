@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
 
 import 'domain/entities/address.dart';
 import 'domain/entities/offer.dart';
@@ -12,15 +13,8 @@ final GetIt _get = GetIt.instance;
 class Injection {
   static void initialize() {
     _registerRepositories();
-
-    _get.registerSingleton(UserService());
-    _get.registerSingleton(
-      OfferController(
-        _get<FirestoreRepository<Offer>>(),
-        _get<UserService>(),
-        _get<FirestoreRepository<Address>>(),
-      ),
-    );
+    _registerServices();
+    _registerControllers();
   }
 
   static void _registerRepositories() {
@@ -43,6 +37,26 @@ class Injection {
         'users',
         fromJson: User.fromJson,
         toJson: (User user) => user.toJson(),
+      ),
+    );
+  }
+
+  static void _registerServices() {
+    _get.registerSingleton(UserService());
+  }
+
+  static void _registerControllers() {
+    _get.registerSingleton(
+      OfferController(
+        _get<FirestoreRepository<Offer>>(),
+        _get<UserService>(),
+        _get<FirestoreRepository<Address>>(),
+      ),
+    );
+    _get.registerSingleton(
+      AddressController(
+        _get<UserService>(),
+        _get<FirestoreRepository<Address>>(),
       ),
     );
   }

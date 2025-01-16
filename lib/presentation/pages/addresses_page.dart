@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/address.dart';
-import '../../infrastructure/repositories/firestore.dart';
-import '../templates/page_template.dart';
-import '../widgets/addresses/address_creator.dart';
-import '../widgets/common/stream_widget.dart';
+import 'package:get_it/get_it.dart';
+import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
+import 'package:recyclomator/presentation/templates/page_template.dart';
+import 'package:recyclomator/presentation/widgets/addresses/address_creator.dart';
+import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
 
 class AddressesPage extends StatelessWidget {
-  const AddressesPage({super.key, required this.addressRepository});
+  AddressesPage({super.key});
 
-  final FirestoreRepository<Address> addressRepository;
+  final AddressController _addressController = GetIt.I<AddressController>();
 
   @override
   Widget build(BuildContext context) {
     return PageTemplate(
       title: Text('Addresses'),
       child: StreamWidget(
-        stream: addressRepository.observeDocuments(),
+        stream: _addressController.userAddresses,
         onData: _buildAddressPage,
       ),
     );
   }
 
-  Widget _buildAddressPage(List<Address> addresses) {
+  Widget _buildAddressItem(Address address) {
     return Wrap(
-      spacing: 20,
-      runSpacing: 20,
+      spacing: 5,
       children: <Widget>[
-        SizedBox(height: 20),
-        _buildAddressList(addresses),
-        Divider(),
-        AddressCreator(
-          addressRepository: addressRepository,
+        Text(
+          address.name,
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 20),
+        SizedBox(width: 4),
+        Text(address.street),
+        Text(address.houseNo),
+        Text(address.city),
+        Text(address.zipCode),
+        Text(address.country),
+        SizedBox(width: 16),
+        ElevatedButton(
+          onPressed: () => _addressController.removeAddress(address.id),
+          child: Text('Delete'),
+        ),
       ],
     );
   }
@@ -62,25 +70,16 @@ class AddressesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAddressItem(Address address) {
+  Widget _buildAddressPage(List<Address> addresses) {
     return Wrap(
-      spacing: 5,
+      spacing: 20,
+      runSpacing: 20,
       children: <Widget>[
-        Text(
-          address.name,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(width: 4),
-        Text(address.street),
-        Text(address.houseNo),
-        Text(address.city),
-        Text(address.zipCode),
-        Text(address.country),
-        SizedBox(width: 16),
-        ElevatedButton(
-          onPressed: () => addressRepository.delete(address.id),
-          child: Text('Delete'),
-        ),
+        SizedBox(height: 20),
+        _buildAddressList(addresses),
+        Divider(),
+        AddressCreator(),
+        SizedBox(height: 20),
       ],
     );
   }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../domain/entities/address.dart';
-import '../../../infrastructure/repositories/firestore.dart';
+import 'package:get_it/get_it.dart';
+import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
 
 class AddressCreator extends StatefulWidget {
-  const AddressCreator({super.key, required this.addressRepository});
+  AddressCreator({super.key});
 
-  final FirestoreRepository<Address> addressRepository;
+  final AddressController _addressController = GetIt.I<AddressController>();
 
   @override
   State<AddressCreator> createState() => _AddressCreatorState();
@@ -77,7 +78,7 @@ class _AddressCreatorState extends State<AddressCreator> {
                 lat: 12,
                 lng: 12,
               );
-              widget.addressRepository.add(address);
+              widget._addressController.addAddress(address);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Address $name created')),
               );

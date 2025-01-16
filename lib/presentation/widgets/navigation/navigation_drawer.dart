@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import '../../../domain/entities/address.dart';
-import '../../../infrastructure/repositories/firestore.dart';
-import '../../pages/addresses_page.dart';
-import '../../pages/history_page.dart';
-import '../../pages/profile_page.dart';
-import '../../pages/statistics_page.dart';
+import 'package:recyclomator/presentation/pages/addresses_page.dart';
+import 'package:recyclomator/presentation/pages/history_page.dart';
+import 'package:recyclomator/presentation/pages/profile_page.dart';
+import 'package:recyclomator/presentation/pages/statistics_page.dart';
 import 'navigation_drawer_footer.dart';
 import 'navigation_drawer_header.dart';
 
@@ -27,9 +24,7 @@ class NavigationDrawer extends StatelessWidget {
           _buildDrawerTile(
             context,
             'Addresses',
-            AddressesPage(
-              addressRepository: GetIt.I<FirestoreRepository<Address>>(),
-            ),
+            AddressesPage(),
           ),
           _buildDrawerTile(
             context,

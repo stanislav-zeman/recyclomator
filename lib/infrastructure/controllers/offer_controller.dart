@@ -17,6 +17,7 @@ class OfferController {
     this._userService,
     this._addressRepository,
   );
+
   final FirestoreRepository<Offer> _offerRepository;
   final FirestoreRepository<Address> _addressRepository;
   final UserService _userService;

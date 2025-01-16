@@ -51,10 +51,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                   _buildButton('Change address', () {
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (_) => AddressesPage(
-                          addressRepository:
-                              GetIt.I<FirestoreRepository<Address>>(),
-                        ),
+                        builder: (_) => AddressesPage(),
                       ),
                     );
                   }),
