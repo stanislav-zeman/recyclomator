@@ -5,6 +5,7 @@ import 'package:recyclomator/infrastructure/controllers/address_controller.dart'
 import 'package:recyclomator/presentation/templates/page_template.dart';
 import 'package:recyclomator/presentation/widgets/addresses/address_creator.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
+import 'package:recyclomator/presentation/widgets/places/place_search.dart';
 
 class AddressesPage extends StatelessWidget {
   AddressesPage({super.key});
@@ -30,7 +31,8 @@ class AddressesPage extends StatelessWidget {
         SizedBox(height: 20),
         _buildExistingAddresses(context, addresses),
         Divider(),
-        AddressCreator(),
+        PlaceSearch(),
+        // AddressCreator(),
         SizedBox(height: 20),
       ],
     );
