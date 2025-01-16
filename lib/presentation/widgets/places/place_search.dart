@@ -4,9 +4,10 @@ import 'package:recyclomator/domain/entities/place.dart';
 import 'package:recyclomator/infrastructure/services/places_service.dart';
 
 class PlaceSearch extends StatefulWidget {
-  PlaceSearch({super.key});
+  PlaceSearch({super.key, required this.onSelectPlace});
 
   final PlacesService _placesService = GetIt.I<PlacesService>();
+  final ValueSetter<Place> onSelectPlace;
 
   @override
   State<PlaceSearch> createState() => _PlaceSearchState();
@@ -18,38 +19,43 @@ class _PlaceSearchState extends State<PlaceSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: 'Seek your location here',
-                focusColor: Colors.white,
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                prefixIcon: Icon(Icons.map),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.cancel),
-                  onPressed: () => setState(() => _controller.clear()),
-                ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Align(
+          alignment: Alignment.topCenter,
+          child: TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: 'Search for place',
+              focusColor: Colors.white,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              prefixIcon: Icon(Icons.map),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.cancel),
+                onPressed: () => setState(() => _controller.clear()),
               ),
             ),
           ),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+        ),
+        SizedBox(
+          height: 80,
+          child: ListView.builder(
             shrinkWrap: true,
             itemCount: _places.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(_places[index].formattedAddress),
+                title: TextButton(
+                  child: Text(_places[index].formattedAddress),
+                  onPressed: () {
+                    widget.onSelectPlace(_places[index]);
+                  },
+                ),
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

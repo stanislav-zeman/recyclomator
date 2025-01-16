@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/domain/entities/place.dart';
 import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
+import 'package:recyclomator/infrastructure/services/user_service.dart';
+import 'package:recyclomator/presentation/widgets/places/place_search.dart';
 
 class AddressCreator extends StatefulWidget {
   AddressCreator({super.key});
 
   final AddressController _addressController = GetIt.I<AddressController>();
+  final UserService _userService = GetIt.I<UserService>();
 
   @override
   State<AddressCreator> createState() => _AddressCreatorState();
@@ -15,68 +19,61 @@ class AddressCreator extends StatefulWidget {
 class _AddressCreatorState extends State<AddressCreator> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _streetController = TextEditingController();
-  final TextEditingController _houseNoController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _zipCodeController = TextEditingController();
+  Place? _selectedPlace;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         _buildTitle(context, 'Create new address'),
-        Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Wrap(
-              spacing: 20,
-              runSpacing: 20,
-              children: <Widget>[
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(hintText: 'Name'),
-                ),
-                TextFormField(
-                  controller: _streetController,
-                  decoration: InputDecoration(hintText: 'Street'),
-                ),
-                TextFormField(
-                  controller: _houseNoController,
-                  decoration: InputDecoration(hintText: 'House No'),
-                ),
-                TextFormField(
-                  controller: _countryController,
-                  decoration: InputDecoration(hintText: 'Country'),
-                ),
-                TextFormField(
-                  controller: _cityController,
-                  decoration: InputDecoration(hintText: 'City'),
-                ),
-                TextFormField(
-                  controller: _zipCodeController,
-                  decoration: InputDecoration(hintText: 'Zip Code'),
-                ),
-              ],
+        SizedBox(
+          height: 300,
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                children: <Widget>[
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                      prefixIcon: Icon(Icons.text_snippet),
+                    ),
+                  ),
+                  PlaceSearch(
+                    onSelectPlace: _onSelectPlace,
+                  ),
+                  if (_selectedPlace != null) Text(_selectedPlace!.formattedAddress),
+                ],
+              ),
             ),
           ),
         ),
         ElevatedButton(
           onPressed: () {
+            if (_selectedPlace == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('No place selected')),
+              );
+              return;
+            }
+
+            final String name = _nameController.text;
+            if (name == "") {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Address name not set')),
+              );
+              return;
+            }
+
             if (_formKey.currentState!.validate()) {
-              final String name = _nameController.text;
               final Address address = Address(
-                id: 'xd',
-                userId: 'xy',
+                userId: widget._userService.currentUserId,
                 name: name,
-                street: _streetController.text,
-                houseNo: _houseNoController.text,
-                city: _cityController.text,
-                country: _countryController.text,
-                zipCode: _zipCodeController.text,
-                lat: 12,
-                lng: 12,
+                place: _selectedPlace!,
               );
               widget._addressController.addAddress(address);
               ScaffoldMessenger.of(context).showSnackBar(
@@ -84,11 +81,6 @@ class _AddressCreatorState extends State<AddressCreator> {
               );
 
               _nameController.clear();
-              _streetController.clear();
-              _houseNoController.clear();
-              _countryController.clear();
-              _cityController.clear();
-              _zipCodeController.clear();
               return;
             }
 
@@ -102,14 +94,15 @@ class _AddressCreatorState extends State<AddressCreator> {
     );
   }
 
+  void _onSelectPlace(Place place) {
+    setState(() {
+      _selectedPlace = place;
+    });
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
-    _streetController.dispose();
-    _houseNoController.dispose();
-    _countryController.dispose();
-    _cityController.dispose();
-    _zipCodeController.dispose();
     super.dispose();
   }
 

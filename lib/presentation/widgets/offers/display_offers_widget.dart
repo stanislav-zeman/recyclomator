@@ -33,9 +33,9 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
 
       final marker = Marker(
         markerId: MarkerId(address.name),
-        position: LatLng(address.lat!, address.lng!),
+        position: LatLng(address.place.location.latitude, address.place.location.longitude),
         infoWindow: InfoWindow(
-          title: '${address.street} ${address.houseNo}',
+          title: address.place.formattedAddress,
           snippet:
               'Glass: ${_getNumberOfBottles(ItemType.glass, offer)} Plastic: ${_getNumberOfBottles(ItemType.pet, offer)}',
           onTap: () => Navigator.of(context).push(
@@ -51,10 +51,7 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
   }
 
   int _getNumberOfBottles(ItemType type, Offer offer) {
-    return offer.items
-            .where((Item item) => item.type == type)
-            .firstOrNull
-            ?.count ?? 0;
+    return offer.items.where((Item item) => item.type == type).firstOrNull?.count ?? 0;
   }
 
   @override
@@ -136,8 +133,7 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
               children: [
                 if (filter)
                   Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(5),

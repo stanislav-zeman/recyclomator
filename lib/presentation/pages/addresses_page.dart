@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/domain/value_objects/address_component_type.dart';
 import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
 import 'package:recyclomator/presentation/templates/page_template.dart';
+import 'package:recyclomator/presentation/widgets/addresses/address_creator.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
-import 'package:recyclomator/presentation/widgets/places/place_search.dart';
 
 class AddressesPage extends StatelessWidget {
   AddressesPage({super.key});
@@ -30,9 +31,7 @@ class AddressesPage extends StatelessWidget {
         SizedBox(height: 20),
         _buildExistingAddresses(context, addresses),
         Divider(),
-        PlaceSearch(),
-        // AddressCreator(),
-        SizedBox(height: 20),
+        AddressCreator(),
       ],
     );
   }
@@ -56,7 +55,6 @@ class AddressesPage extends StatelessWidget {
 
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
       itemCount: addresses.length,
       itemBuilder: (BuildContext context, int index) {
         final Address address = addresses[index];
@@ -80,14 +78,27 @@ class AddressesPage extends StatelessWidget {
                   address.name,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text("${address.street} ${address.houseNo}"),
-                Text("${address.city} ${address.zipCode} ${address.country}"),
+                SizedBox(
+                  width: 200,
+                  child: Text(
+                    address.place.addressComponents
+                        .where(
+                          (ac) =>
+                              ac.types.contains(AddressComponentType.route) ||
+                              ac.types.contains(AddressComponentType.highLevelAdministrativeArea) ||
+                              ac.types.contains(AddressComponentType.country) ||
+                              ac.types.contains(AddressComponentType.streetNumber),
+                        )
+                        .map((ac) => ac.shortText)
+                        .join(" "),
+                  ),
+                ),
               ],
             ),
             Spacer(),
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () => _addressController.removeAddress(address.id),
+              onPressed: () => _addressController.removeAddress(address.id!),
             ),
           ],
         ),

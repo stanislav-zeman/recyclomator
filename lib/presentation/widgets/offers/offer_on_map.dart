@@ -11,8 +11,7 @@ class OfferOnMap extends StatelessWidget {
 
   final String addressId;
 
-  final FirestoreRepository<Address> _addressRepository =
-      GetIt.I<FirestoreRepository<Address>>();
+  final FirestoreRepository<Address> _addressRepository = GetIt.I<FirestoreRepository<Address>>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +21,26 @@ class OfferOnMap extends StatelessWidget {
       child: FutureWidget(
         future: address,
         onData: (address) {
-          if (address == null || address.lat == null || address.lng == null) {
+          if (address == null) {
             return Center(child: Text('Address not found'));
           }
+
           return GoogleMap(
             onMapCreated: (controller) {},
             initialCameraPosition: CameraPosition(
               target: LatLng(
-                address.lat!,
-                address.lng!,
+                address.place.location.latitude,
+                address.place.location.longitude,
               ),
               zoom: 16.0,
             ),
             markers: {
               Marker(
-                markerId: MarkerId(address.id),
-                position: LatLng(address.lat!, address.lng!),
+                markerId: MarkerId(address.id!),
+                position: LatLng(
+                  address.place.location.latitude,
+                  address.place.location.longitude,
+                ),
               ),
             },
           );
