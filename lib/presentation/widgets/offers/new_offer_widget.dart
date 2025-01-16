@@ -46,14 +46,29 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
       return Center(
         child: Column(
           children: [
-            Text("First add an address to create offers"),
-            _buildButton('Change address', () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => AddressesPage(),
-                ),
-              );
-            }),
+            Spacer(),
+            Text(
+              "Add an address to create offers",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                textStyle: TextStyle(fontSize: 18),
+              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => AddressesPage(),
+                  ),
+                );
+              },
+              child: Text("Create address"),
+            ),
+            Spacer(),
           ],
         ),
       );
