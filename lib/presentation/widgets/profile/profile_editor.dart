@@ -24,7 +24,7 @@ class _ProfileEditorState extends State<ProfileEditor> {
 
     return Column(
       children: <Widget>[
-        Text('Edit profile'),
+        Text('Edit profile', style: Theme.of(context).textTheme.titleLarge),
         Form(
           key: _formKey,
           child: Padding(

@@ -20,19 +20,19 @@ class ProfilePage extends StatelessWidget {
             );
           }
 
-          return _buildProfilePage(user);
+          return _buildProfilePage(context, user);
         },
       ),
     );
   }
 
-  Widget _buildProfilePage(User user) {
+  Widget _buildProfilePage(BuildContext context, User user) {
     return Wrap(
       spacing: 20,
       runSpacing: 20,
       children: <Widget>[
         SizedBox(height: 20),
-        _buildUserMetadata(user),
+        _buildUserMetadata(context, user),
         Divider(),
         ProfileEditor(user: user),
         SizedBox(height: 20),
@@ -40,17 +40,26 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildUserMetadata(User user) {
+  Widget _buildUserMetadata(BuildContext context, User user) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          children: <Widget>[
-            Text('Username: ${user.displayName ?? "Not set"}'),
-            Text('Email: ${user.email}'),
-          ],
-        ),
+      child: Column(
+        children: <Widget>[
+          Text('Your data', style: Theme.of(context).textTheme.titleLarge),
+          Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              children: [
+                _buildText(context, 'Username: ${user.displayName ?? "Not set"}'),
+                _buildText(context, 'Email: ${user.email}'),
+              ],
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildText(BuildContext context, String text) {
+    return Text(text, style: Theme.of(context).textTheme.bodyMedium);
   }
 }
