@@ -20,6 +20,7 @@ class DisplayOffersWidget extends StatefulWidget {
 }
 
 class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
+  static const double buttonWidth = 150.0;
   final LatLng _center = const LatLng(49.1951, 16.6068);
   final OfferController _offerController = GetIt.I<OfferController>();
   bool _isFilterMenuOpen = false;
@@ -53,8 +54,7 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
     return offer.items
             .where((Item item) => item.type == type)
             .firstOrNull
-            ?.count ??
-        0;
+            ?.count ?? 0;
   }
 
   @override
@@ -90,7 +90,7 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
         children: [
           AnimatedPositioned(
             duration: Duration(milliseconds: 300),
-            right: _isFilterMenuOpen ? 0 : -150,
+            right: _isFilterMenuOpen ? 0 : -170,
             top: 70,
             child: AnimatedContainer(
               duration: Duration(milliseconds: 300),
@@ -103,20 +103,26 @@ class _DisplayOffersWidgetState extends State<DisplayOffersWidget> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _offerController.setFilterMarkers(false);
-                      },
-                      child: Text("All Offers"),
+                    child: SizedBox(
+                      width: buttonWidth,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _offerController.setFilterMarkers(false);
+                        },
+                        child: Text("All Offers"),
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _offerController.setFilterMarkers(true);
-                      },
-                      child: Text("Reserved Offers"),
+                    child: SizedBox(
+                      width: buttonWidth,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _offerController.setFilterMarkers(true);
+                        },
+                        child: Text("Reserved Offers"),
+                      ),
                     ),
                   ),
                 ],

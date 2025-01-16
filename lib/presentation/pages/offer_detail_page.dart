@@ -213,16 +213,19 @@ class OfferDetailPage extends StatelessWidget {
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
                 children: [
-                  _buildCard(Icons.home, '${offer.addressId}'), // TODO: Show address
+                  _buildCard(context, Icons.home, '${offer.addressId}'), // TODO: Show address
                   _buildCard(
+                    context, 
                     Icons.calendar_month,
                     'Offer date: ${DateFormat('dd/MM/yyyy').format(offer.offerDate)}\nRecycle date: ${offer.recycleDate != null ? DateFormat('dd/MM/yyyy').format(offer.recycleDate!) : "N/A"}',
                   ),
                   _buildCard(
+                    context, 
                     FontAwesomeIcons.beerMugEmpty,
                     'Amount: ${_getNumberOfBottles(ItemType.glass)}',
                   ),
                   _buildCard(
+                    context, 
                     FontAwesomeIcons.bottleWater,
                     'Amount: ${_getNumberOfBottles(ItemType.pet)}',
                   ),
@@ -257,7 +260,7 @@ class OfferDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(IconData icon, String label) {
+  Widget _buildCard(BuildContext context, IconData icon, String label) {
     return Card(
       elevation: 4.0,
       shape: RoundedRectangleBorder(
@@ -275,10 +278,7 @@ class OfferDetailPage extends StatelessWidget {
             SizedBox(height: 10.0),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ],
         ),

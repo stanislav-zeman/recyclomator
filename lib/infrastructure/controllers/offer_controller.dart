@@ -1,5 +1,4 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../domain/entities/address.dart';
@@ -7,7 +6,6 @@ import '../../domain/entities/offer.dart';
 import '../../domain/value_objects/item.dart';
 import '../../domain/value_objects/item_type.dart';
 import '../../domain/value_objects/offer_state.dart';
-import '../../domain/value_objects/offer_type.dart';
 import '../repositories/firestore.dart';
 import '../services/user_service.dart';
 
