@@ -14,6 +14,7 @@ class NavigationDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           NavigationDrawerHeader(),
           _buildDrawerTile(
