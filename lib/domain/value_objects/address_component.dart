@@ -1,10 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'address_component.g.dart';
 
+@immutable
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class AddressComponent {
-  AddressComponent({
+  const AddressComponent({
     required this.shortText,
     required this.longText,
     required this.types,

@@ -1,3 +1,6 @@
+import 'package:flutter/widgets.dart';
+
+@immutable
 class AddressComponentType {
   static const route = "route";
   static const streetNumber = "street_number";

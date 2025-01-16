@@ -1,9 +1,11 @@
+import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:recyclomator/domain/value_objects/address_component.dart';
 import 'package:recyclomator/domain/value_objects/location.dart';
 
 part 'place.g.dart';
 
+@immutable
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Place {
   const Place({

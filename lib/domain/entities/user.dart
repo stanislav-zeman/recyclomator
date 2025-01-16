@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
+@immutable
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class User {
   const User({

@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../value_objects/item.dart';
 import '../value_objects/offer_state.dart';
 
 part 'offer.g.dart';
 
+@immutable
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Offer {
   Offer({
