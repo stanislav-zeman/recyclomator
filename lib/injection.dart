@@ -21,8 +21,8 @@ class Injection {
   static void _registerControllers() {
     _get.registerSingleton(
       OfferController(
-        _get<FirestoreRepository<Offer>>(),
         _get<UserService>(),
+        _get<FirestoreRepository<Offer>>(),
         _get<FirestoreRepository<Address>>(),
       ),
     );
