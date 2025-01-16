@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:recyclomator/domain/entities/offer.dart';
+import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
+import 'package:recyclomator/presentation/widgets/offers/offer_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-import '../../../domain/entities/offer.dart';
-import '../offers/offer_list.dart';
-import 'stream_widget.dart';
 
 class SlidingPanelOffersWidget extends StatelessWidget {
   const SlidingPanelOffersWidget({super.key, required this.stream});

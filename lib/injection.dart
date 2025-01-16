@@ -1,14 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/domain/entities/offer.dart';
+import 'package:recyclomator/domain/entities/user.dart';
 import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
+import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
+import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/infrastructure/services/places_service.dart';
 import 'package:recyclomator/infrastructure/services/state_service.dart';
-
-import 'domain/entities/address.dart';
-import 'domain/entities/offer.dart';
-import 'domain/entities/user.dart';
-import 'infrastructure/controllers/offer_controller.dart';
-import 'infrastructure/repositories/firestore.dart';
-import 'infrastructure/services/user_service.dart';
+import 'package:recyclomator/infrastructure/services/user_service.dart';
 
 final GetIt _get = GetIt.instance;
 
@@ -17,6 +16,22 @@ class Injection {
     _registerRepositories();
     _registerServices();
     _registerControllers();
+  }
+
+  static void _registerControllers() {
+    _get.registerSingleton(
+      OfferController(
+        _get<FirestoreRepository<Offer>>(),
+        _get<UserService>(),
+        _get<FirestoreRepository<Address>>(),
+      ),
+    );
+    _get.registerSingleton(
+      AddressController(
+        _get<UserService>(),
+        _get<FirestoreRepository<Address>>(),
+      ),
+    );
   }
 
   static void _registerRepositories() {
@@ -47,21 +62,5 @@ class Injection {
     _get.registerSingleton(UserService());
     _get.registerSingleton(PlacesService());
     _get.registerSingleton(StateService());
-  }
-
-  static void _registerControllers() {
-    _get.registerSingleton(
-      OfferController(
-        _get<FirestoreRepository<Offer>>(),
-        _get<UserService>(),
-        _get<FirestoreRepository<Address>>(),
-      ),
-    );
-    _get.registerSingleton(
-      AddressController(
-        _get<UserService>(),
-        _get<FirestoreRepository<Address>>(),
-      ),
-    );
   }
 }

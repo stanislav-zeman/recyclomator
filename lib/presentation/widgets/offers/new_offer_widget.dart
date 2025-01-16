@@ -3,13 +3,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:recyclomator/domain/entities/address.dart';
 import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
+import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
+import 'package:recyclomator/presentation/pages/addresses_page.dart';
 import 'package:recyclomator/presentation/pages/offer_detail_page.dart';
+import 'package:recyclomator/presentation/widgets/common/sliding_panel_offers_widget.dart';
 import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
-
-import '../../../infrastructure/controllers/offer_controller.dart';
-import '../../pages/addresses_page.dart';
-import '../common/sliding_panel_offers_widget.dart';
-import 'item_button.dart';
+import 'package:recyclomator/presentation/widgets/offers/item_button.dart';
 
 class NewOfferWidget extends StatefulWidget {
   NewOfferWidget({super.key});
@@ -27,17 +26,37 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   Address? _selectedAddress;
 
   @override
+  Widget build(BuildContext context) {
+    return StreamWidget(
+      stream: widget._addressController.userAddresses,
+      onData: (addresses) => _buildStack(context, addresses),
+    );
+  }
+
+  @override
   void dispose() {
     _glassCount.dispose();
     _plasticCount.dispose();
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamWidget(
-      stream: widget._addressController.userAddresses,
-      onData: (addresses) => _buildStack(context, addresses),
+  Widget _buildButton(String text, VoidCallback call) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                textStyle: TextStyle(fontSize: 18),
+              ),
+              onPressed: call,
+              child: Text(text),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -153,26 +172,6 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
         ),
         SlidingPanelOffersWidget(
           stream: _offerController.providedOffersStream,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildButton(String text, VoidCallback call) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                textStyle: TextStyle(fontSize: 18),
-              ),
-              onPressed: call,
-              child: Text(text),
-            ),
-          ),
         ),
       ],
     );

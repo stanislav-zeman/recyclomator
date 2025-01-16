@@ -14,8 +14,12 @@ class AuthGate extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SignInScreen(
-            headerBuilder: (context, constraints, _) =>
-                Center(child: Text("Recyclomator", style: Theme.of(context).textTheme.titleLarge)),
+            headerBuilder: (context, constraints, _) => Center(
+              child: Text(
+                "Recyclomator",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
             providers: [
               EmailAuthProvider(),
             ],

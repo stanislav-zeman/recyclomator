@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../templates/page_template.dart';
-import '../widgets/profile/profile_editor.dart';
+import 'package:recyclomator/presentation/templates/page_template.dart';
+import 'package:recyclomator/presentation/widgets/profile/profile_editor.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:recyclomator/domain/entities/address.dart';
 import 'package:recyclomator/infrastructure/repositories/firestore.dart';
 import 'package:recyclomator/presentation/templates/page_template.dart';
 import 'package:recyclomator/presentation/widgets/common/future_widget.dart';
-import '../../../domain/entities/address.dart';
 
 class OfferOnMap extends StatelessWidget {
   OfferOnMap({super.key, required this.addressId});

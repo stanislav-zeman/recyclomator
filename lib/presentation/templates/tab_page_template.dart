@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:recyclomator/domain/value_objects/offer_type.dart';
 import 'package:recyclomator/infrastructure/services/state_service.dart';
-
-import '../../domain/value_objects/offer_type.dart';
-import '../widgets/common/future_widget.dart';
-import '../widgets/navigation/navigation_drawer.dart' as navigation;
+import 'package:recyclomator/presentation/widgets/common/future_widget.dart';
+import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer.dart' as navigation;
 
 class TabPageTemplate extends StatelessWidget {
-  TabPageTemplate(
-      {super.key,
-      required this.title,
-      required this.children,
-      this.showSideMenu = false,
-      required this.leftIcon,
-      required this.rightIcon});
+  TabPageTemplate({
+    super.key,
+    required this.title,
+    required this.children,
+    this.showSideMenu = false,
+    required this.leftIcon,
+    required this.rightIcon,
+  });
 
   final Widget title;
   final List<Widget> children;
   final bool showSideMenu;
   final IconData leftIcon;
   final IconData rightIcon;
-
   final StateService _stateService = GetIt.I<StateService>();
 
   @override

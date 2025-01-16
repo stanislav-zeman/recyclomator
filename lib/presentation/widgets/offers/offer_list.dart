@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-
-import '../../../domain/entities/offer.dart';
-import '../../../domain/value_objects/item.dart';
-import '../../../domain/value_objects/item_type.dart';
-import '../../pages/offer_detail_page.dart';
+import 'package:recyclomator/domain/entities/offer.dart';
+import 'package:recyclomator/domain/value_objects/item.dart';
+import 'package:recyclomator/domain/value_objects/item_type.dart';
+import 'package:recyclomator/presentation/pages/offer_detail_page.dart';
 
 class OfferList extends StatelessWidget {
   const OfferList({super.key, required this.offers, this.scrollController});
 
   final List<Offer> offers;
+
   final ScrollController? scrollController;
 
   @override

@@ -3,8 +3,8 @@ import 'package:recyclomator/presentation/pages/addresses_page.dart';
 import 'package:recyclomator/presentation/pages/history_page.dart';
 import 'package:recyclomator/presentation/pages/profile_page.dart';
 import 'package:recyclomator/presentation/pages/statistics_page.dart';
-import 'navigation_drawer_footer.dart';
-import 'navigation_drawer_header.dart';
+import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer_footer.dart';
+import 'package:recyclomator/presentation/widgets/navigation/navigation_drawer_header.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({super.key});

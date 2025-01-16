@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../utils/firestore_documents.dart';
+import 'package:recyclomator/infrastructure/utils/firestore_documents.dart';
 
 class FirestoreRepository<T> {
   FirestoreRepository(

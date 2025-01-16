@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../value_objects/item.dart';
-import '../value_objects/offer_state.dart';
+import 'package:recyclomator/domain/value_objects/item.dart';
+import 'package:recyclomator/domain/value_objects/offer_state.dart';
 
 part 'offer.g.dart';
 

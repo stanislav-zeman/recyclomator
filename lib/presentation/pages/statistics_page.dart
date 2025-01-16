@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import '../../infrastructure/controllers/offer_controller.dart';
-import '../templates/page_template.dart';
+import 'package:recyclomator/infrastructure/controllers/offer_controller.dart';
+import 'package:recyclomator/presentation/templates/page_template.dart';
 
 class StatisticsPage extends StatelessWidget {
   StatisticsPage({super.key});
+
   static const int bottlesPerTurtle = 50; // 1 turtle saved per 50 bottles
   static const double co2SavedPerGlassBottle = 0.2; // kg co2 saved
   static const double co2SavedPerPlasticBottle = 0.1; // kg co2 saved
