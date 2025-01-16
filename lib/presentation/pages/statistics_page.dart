@@ -35,13 +35,16 @@ class StatisticsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _buildText(
+                    context,
                     'Turtles saved: ${_calculateTurtlesSaved(glassBottles, plasticBottles)}',
                   ),
                   _buildText(
+                    context,
                     'CO2: ${_calculateCO2Saved(glassBottles, plasticBottles).toStringAsFixed(2)}kg',
                   ),
                   _buildText(
-                    'Money saved: ${_calculateMoneyGivenAway(glassBottles, plasticBottles).toStringAsFixed(2)} K\u010D',
+                    context,
+                    'Money saved: ${_calculateMoneyGivenAway(glassBottles, plasticBottles).toStringAsFixed(2)} Kč',
                   ),
                   _buildImage(),
                 ],
@@ -58,24 +61,23 @@ class StatisticsPage extends StatelessWidget {
   }
 
   double _calculateCO2Saved(int glass, int plastic) {
-    return (glass * co2SavedPerGlassBottle) +
-        (plastic * co2SavedPerPlasticBottle);
+    return (glass * co2SavedPerGlassBottle) + (plastic * co2SavedPerPlasticBottle);
   }
 
   double _calculateMoneyGivenAway(int glass, int plastic) {
     return (glass + plastic) * rewardPerBottle;
   }
 
-  Widget _buildText(String text) {
+  Widget _buildText(BuildContext context, String text) {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(
         text,
-        style: TextStyle(fontSize: 32),
+        style: TextTheme.of(context).bodyLarge,
       ),
     );
   }
-  
+
   Widget _buildImage() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
