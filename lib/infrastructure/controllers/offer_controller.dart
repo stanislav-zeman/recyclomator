@@ -72,11 +72,11 @@ class OfferController {
         .fold<int>(0, (int sum, item) => sum + item.count);
   }
 
-  Offer addOffer(int glassCount, int plasticCount) {
+  Offer addOffer(int glassCount, int plasticCount, String addressId) {
     final offer = Offer(
       userId: _userService.currentUserId,
       recyclatorId: null,
-      addressId: 'xHYjhsySulEyFqGsgf4a', // TODO: Add selected address
+      addressId: addressId,
       items: <Item>[
         Item(type: ItemType.glass, count: glassCount),
         Item(type: ItemType.pet, count: plasticCount),
@@ -110,8 +110,7 @@ class OfferController {
         if (offer.state.isFinished) {
           continue;
         }
-        final address =
-            await _addressRepository.getDocument(offer.addressId); // TODO: Should use some address controller function
+        final address = await _addressRepository.getDocument(offer.addressId);
         if (address == null) {
           continue;
         }

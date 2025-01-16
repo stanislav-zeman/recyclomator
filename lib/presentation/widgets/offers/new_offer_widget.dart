@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/infrastructure/controllers/address_controller.dart';
 import 'package:recyclomator/presentation/pages/offer_detail_page.dart';
+import 'package:recyclomator/presentation/widgets/common/stream_widget.dart';
 
 import '../../../infrastructure/controllers/offer_controller.dart';
 import '../../pages/addresses_page.dart';
@@ -9,7 +12,9 @@ import '../common/sliding_panel_offers_widget.dart';
 import 'item_button.dart';
 
 class NewOfferWidget extends StatefulWidget {
-  const NewOfferWidget({super.key});
+  NewOfferWidget({super.key});
+
+  final AddressController _addressController = GetIt.I<AddressController>();
 
   @override
   State<NewOfferWidget> createState() => _NewOfferWidgetState();
@@ -19,6 +24,7 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
   final OfferController _offerController = GetIt.I<OfferController>();
   final ValueNotifier<int> _glassCount = ValueNotifier<int>(0);
   final ValueNotifier<int> _plasticCount = ValueNotifier<int>(0);
+  Address? _selectedAddress;
 
   @override
   void dispose() {
@@ -29,6 +35,30 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
 
   @override
   Widget build(BuildContext context) {
+    return StreamWidget(
+      stream: widget._addressController.userAddresses,
+      onData: (addresses) => _buildStack(context, addresses),
+    );
+  }
+
+  Widget _buildStack(BuildContext context, List<Address> addresses) {
+    if (addresses.isEmpty) {
+      Center(
+        child: Column(
+          children: [
+            Text("First add an address to crete offers"),
+            _buildButton('Change address', () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => AddressesPage(),
+                ),
+              );
+            }),
+          ],
+        ),
+      );
+    }
+
     return Stack(
       children: [
         Padding(
@@ -40,19 +70,25 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
                 children: <Widget>[
                   Text(
                     'Address:',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  Text('address data'), // TODO: Add current address data
-                  _buildButton('Change address', () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => AddressesPage(),
-                      ),
-                    );
-                  }),
+                  DropdownButton(
+                    items: addresses.map<DropdownMenuItem<Address>>((Address address) {
+                      return DropdownMenuItem<Address>(
+                        value: address,
+                        child: Text(address.name),
+                      );
+                    }).toList(),
+                    onChanged: (address) {
+                      setState(() {
+                        _selectedAddress = address;
+                      });
+                    },
+                    hint: Center(
+                      child: Text("Set address"),
+                    ),
+                    value: _selectedAddress ?? addresses[0],
+                  ),
                 ],
               ),
               Expanded(
@@ -76,13 +112,16 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
               _buildButton(
                 'Submit offer',
                 () {
-                  if (_glassCount.value == 0 && _plasticCount.value == 0) {
+                  if ((_glassCount.value == 0 && _plasticCount.value == 0) || _selectedAddress == null) {
                     return;
                   }
+
                   final offer = _offerController.addOffer(
                     _glassCount.value,
                     _plasticCount.value,
+                    _selectedAddress!.id!,
                   );
+
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => OfferDetailPage(offer: offer),

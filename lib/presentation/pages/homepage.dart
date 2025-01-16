@@ -14,7 +14,7 @@ class Homepage extends StatelessWidget {
       showSideMenu: true,
       leftIcon: Icons.local_offer,
       rightIcon: Icons.map,
-      children: const <Widget>[
+      children: <Widget>[
         NewOfferWidget(),
         DisplayOffersWidget(),
       ],

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:recyclomator/domain/entities/address.dart';
+import 'package:recyclomator/domain/value_objects/address_component_type.dart';
+import 'package:recyclomator/presentation/widgets/common/future_widget.dart';
 import 'package:recyclomator/presentation/widgets/offers/offer_on_map.dart';
 
 import '../../domain/entities/offer.dart';
@@ -20,6 +23,7 @@ class OfferDetailPage extends StatelessWidget {
   final UserService _userService = GetIt.I<UserService>();
 
   final FirestoreRepository<Offer> _offerRepository = GetIt.I<FirestoreRepository<Offer>>();
+  final FirestoreRepository<Address> _addressRepository = GetIt.I<FirestoreRepository<Address>>();
 
   static const double buttonWidth = 120.0;
   static const double buttonHeight = 50.0;
@@ -179,6 +183,13 @@ class OfferDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return FutureWidget(
+      future: _addressRepository.getDocument(offer.addressId),
+      onData: (address) => _buildOfferDetail(context, address),
+    );
+  }
+
+  Widget _buildOfferDetail(BuildContext context, Address? address) {
     return PageTemplate(
       title: Text('Offer'),
       child: Padding(
@@ -213,7 +224,30 @@ class OfferDetailPage extends StatelessWidget {
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
                 children: [
-                  _buildCard(context, Icons.home, '${offer.addressId}'), // TODO: Show address
+                  _buildCard(
+                    context,
+                    Icons.home,
+                    address == null
+                        ? offer.addressId
+                        : address.place.addressComponents
+                            .where(
+                              (ac) =>
+                                  ac.types.contains(AddressComponentType.route) ||
+                                  ac.types.contains(
+                                    AddressComponentType.highLevelAdministrativeArea,
+                                  ) ||
+                                  ac.types.contains(
+                                    AddressComponentType.country,
+                                  ) ||
+                                  ac.types.contains(
+                                    AddressComponentType.streetNumber,
+                                  ),
+                            )
+                            .map(
+                              (ac) => ac.shortText,
+                            )
+                            .join(" "),
+                  ),
                   _buildCard(
                     context,
                     Icons.calendar_month,
