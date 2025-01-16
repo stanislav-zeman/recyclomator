@@ -43,10 +43,10 @@ class _NewOfferWidgetState extends State<NewOfferWidget> {
 
   Widget _buildStack(BuildContext context, List<Address> addresses) {
     if (addresses.isEmpty) {
-      Center(
+      return Center(
         child: Column(
           children: [
-            Text("First add an address to crete offers"),
+            Text("First add an address to create offers"),
             _buildButton('Change address', () {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
