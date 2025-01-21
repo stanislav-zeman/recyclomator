@@ -124,6 +124,7 @@ class OfferDetailPage extends StatelessWidget {
               offer.id!,
               offer.copyWith(
                 state: OfferState.free,
+                recyclatorId: "",
               ),
             );
             onPressedPop('Offer still valid');
@@ -137,6 +138,7 @@ class OfferDetailPage extends StatelessWidget {
               offer.id!,
               offer.copyWith(
                 state: OfferState.canceled,
+                recyclatorId: "",
               ),
             );
             onPressedPop('Reservation canceled');
@@ -167,7 +169,10 @@ class OfferDetailPage extends StatelessWidget {
           () {
             _offerRepository.setOrAdd(
               offer.id!,
-              offer.copyWith(state: OfferState.reserved),
+              offer.copyWith(
+                state: OfferState.reserved,
+                recyclatorId: _userService.currentUserId,
+              ),
             );
             onPressedPop('Offer reserved');
           },
