@@ -141,7 +141,7 @@ class OfferDetailPage extends StatelessWidget {
                 recyclatorId: "",
               ),
             );
-            onPressedPop('Reservation canceled');
+            onPressedPop('Offer canceled');
           },
           Colors.red,
         ),
