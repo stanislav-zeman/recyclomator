@@ -44,6 +44,7 @@ class TabPageTemplate extends StatelessWidget {
           ),
           endDrawer: showSideMenu ? navigation.NavigationDrawer() : null,
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(), // Disable swipe
             children: children,
           ),
         ),
