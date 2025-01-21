@@ -261,48 +261,50 @@ class OfferDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildButton(
-                  'Open Map',
-                  () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (context) => OfferOnMap(
-                          addressId: offer.addressId,
-                        ),
-                      ),
-                    );
-                  },
-                  Colors.blue,
-                ),
-                if (offer.recyclatorId == _userService.currentUserId ||
-                    offer.userId == _userService.currentUserId)
+            if (offer.id != null) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
                   _buildButton(
-                    'Chat',
+                    'Open Map',
                     () {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
-                          builder: (context) => ChatWidget(
-                            offer: offer,
+                          builder: (context) => OfferOnMap(
+                            addressId: offer.addressId,
                           ),
                         ),
                       );
                     },
                     Colors.blue,
                   ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            _buildCorrectButton((message) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message)),
-              );
-              Navigator.of(context).pop();
-            }),
+                  if (offer.recyclatorId == _userService.currentUserId ||
+                      offer.userId == _userService.currentUserId)
+                    _buildButton(
+                      'Chat',
+                      () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) => ChatWidget(
+                              offer: offer,
+                            ),
+                          ),
+                        );
+                      },
+                      Colors.blue,
+                    ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              _buildCorrectButton((message) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(message)),
+                );
+                Navigator.of(context).pop();
+              }),
+            ],
           ],
         ),
       ),
