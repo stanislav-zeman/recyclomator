@@ -22,9 +22,7 @@ class OfferDetailPage extends StatelessWidget {
   static const double buttonHeight = 50.0;
 
   final Offer offer;
-
   final UserService _userService = GetIt.I<UserService>();
-
   final FirestoreRepository<Offer> _offerRepository =
       GetIt.I<FirestoreRepository<Offer>>();
   final FirestoreRepository<Address> _addressRepository =
@@ -107,17 +105,6 @@ class OfferDetailPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _buildButton(
-          'Picked up',
-          () {
-            _offerRepository.setOrAdd(
-              offer.id!,
-              offer.copyWith(state: OfferState.done),
-            );
-            onPressedPop('Offer picked up');
-          },
-          Colors.green,
-        ),
-        _buildButton(
           'Still valid',
           () {
             _offerRepository.setOrAdd(
@@ -132,7 +119,7 @@ class OfferDetailPage extends StatelessWidget {
           Colors.orange,
         ),
         _buildButton(
-          'Cancel reservation',
+          'Cancel',
           () {
             _offerRepository.setOrAdd(
               offer.id!,
@@ -154,7 +141,7 @@ class OfferDetailPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _buildButton(
-          'Picked up',
+          'No longer valid',
           () {
             _offerRepository.setOrAdd(
               offer.id!,
@@ -316,19 +303,33 @@ class OfferDetailPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _buildButton(
-          'Confirm pickup',
+          'Pick up',
           () {
             _offerRepository.setOrAdd(
               offer.id!,
               offer.copyWith(
-                state: OfferState.unconfirmed,
-                recycleDate: DateTime.now(),
+                state: OfferState.done,
+                recyclatorId: _userService.currentUserId,
               ),
             );
-            onPressedPop('Pickup confirmed');
+            onPressedPop('Offer picked up');
           },
           Colors.green,
         ),
+        // _buildButton(
+        //   'Confirm pickup',
+        //   () {
+        //     _offerRepository.setOrAdd(
+        //       offer.id!,
+        //       offer.copyWith(
+        //         state: OfferState.unconfirmed,
+        //         recycleDate: DateTime.now(),
+        //       ),
+        //     );
+        //     onPressedPop('Pickup confirmed');
+        //   },
+        //   Colors.green,
+        // ),
         _buildButton(
           'Cancel',
           () {
